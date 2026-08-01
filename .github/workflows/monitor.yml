@@ -1,0 +1,26 @@
+name: Kospi Portfolio Twice-Daily Monitor
+
+on:
+  schedule:
+    # 월~금 오전 10:00 KST (UTC 01:00)
+    - cron: '0 1 * * 1-5'
+    # 월~금 오후 02:00 KST (UTC 05:00)
+    - cron: '0 5 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  check-portfolio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install yfinance requests pandas
+      - name: Run Monitoring Script
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python monitor.py
