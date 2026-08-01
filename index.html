@@ -243,15 +243,15 @@
       font-weight: 700;
     }
 
-    /* Table Styling */
-    .table-container { overflow-x: auto; }
+    /* Table & Mobile Stock Cards Hybrid Styling */
+    .desktop-table-container { display: block; overflow-x: auto; }
+    .mobile-stock-cards { display: none; flex-direction: column; gap: 0.85rem; }
 
     table {
       width: 100%;
       border-collapse: collapse;
       text-align: left;
       font-size: 0.9rem;
-      min-width: 600px;
     }
 
     th {
@@ -285,6 +285,49 @@
     .target-weight-badge {
       color: var(--accent-green);
       font-weight: 700;
+    }
+
+    /* Mobile Stock Card Single Layout */
+    .m-stock-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .m-stock-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .m-stock-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .m-stock-mid {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+    }
+
+    .m-stock-val {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .m-stock-sub-info {
+      font-size: 0.78rem;
+      color: var(--text-sub);
     }
 
     /* ACTION GUIDE CARD */
@@ -356,8 +399,10 @@
       font-weight: bold;
     }
 
-    /* MOBILE RESPONSIVE OPTIMIZATIONS */
-    @media (max-width: 868px) {
+    /* MOBILE RESPONSIVE OPTIMIZATIONS (TABLE VS CARDS) */
+    @media (max-width: 768px) {
+      .desktop-table-container { display: none; }
+      .mobile-stock-cards { display: flex; }
       .grid-details { grid-template-columns: 1fr; }
       body { padding: 1.25rem 0.75rem; }
       .header-title h1 { font-size: 1.5rem; }
@@ -480,13 +525,15 @@
       </div>
     </div>
 
-    <!-- Table Card -->
+    <!-- Table & Mobile Cards Combined Panel Card -->
     <div class="panel-card">
       <div class="panel-header">
         <span>실시간 보유 종목 시세 및 목표 비중 비교</span>
         <span style="font-size: 0.8rem; color: var(--text-sub);" id="tableCount">7개 종목</span>
       </div>
-      <div class="table-container">
+
+      <!-- 1. Desktop Table View -->
+      <div class="desktop-table-container">
         <table>
           <thead>
             <tr>
@@ -503,6 +550,11 @@
             <tr><td colspan="7" style="text-align: center; color: var(--text-sub);">실시간 시세를 불러오는 중입니다...</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <!-- 2. Mobile Responsive Stock Cards View -->
+      <div class="mobile-stock-cards" id="mobileStockCards">
+        <!-- Rendered dynamically for mobile -->
       </div>
     </div>
 
@@ -731,7 +783,7 @@
       if (activeEl) activeEl.classList.add('active');
       document.getElementById('activeLevelLabel').innerText = `${targetObj.lvl} (목표 ${targetObj.ratio}%)`;
 
-      // 4. Update Table with TARGET WEIGHT COLUMN
+      // 4. Update Table (Desktop) & Cards (Mobile)
       const semiTargetEach = (targetObj.ratio / 2).toFixed(2);
 
       const items = [
@@ -744,10 +796,16 @@
         { name: '파두', group: 'other', shares: stateData.fadu_shares, price: prices.fadu, val: faduVal, targetWeightStr: `0.00% (매도)` }
       ];
 
+      // Desktop Table Body
       let tbody = '';
+      // Mobile Stock Cards HTML
+      let mCardsHtml = '';
+
       items.forEach(it => {
         const ratio = (it.val / totalPortfolioVal * 100).toFixed(2);
         const tag = it.group === 'semi' ? '<span class="tag-semi">반도체</span>' : '<span class="tag-other">기타자산</span>';
+        
+        // Table row
         tbody += `<tr>
           <td><strong>${it.name}</strong></td>
           <td>${tag}</td>
@@ -757,8 +815,34 @@
           <td><strong>${ratio}%</strong></td>
           <td><span class="target-weight-badge">${it.targetWeightStr}</span></td>
         </tr>`;
+
+        // Mobile Card HTML (Optimized for Smartphone)
+        mCardsHtml += `
+          <div class="m-stock-card">
+            <div class="m-stock-top">
+              <span class="m-stock-name">${it.name}</span>
+              ${tag}
+            </div>
+            <div class="m-stock-mid">
+              <div>
+                <div style="font-size:0.75rem; color:var(--text-sub);">실시간 비중</div>
+                <div style="font-size:1.1rem; font-weight:800; color:#fff;">${ratio}%</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:0.75rem; color:var(--text-sub);">목표 비중 🎯</div>
+                <div style="font-size:1.1rem; font-weight:800; color:var(--accent-green);">${it.targetWeightStr}</div>
+              </div>
+            </div>
+            <div class="m-stock-sub-info" style="display:flex; justify-content:space-between; align-items:center;">
+              <span>보유: ${it.shares.toLocaleString()}주 (${it.price.toLocaleString()}원)</span>
+              <span class="m-stock-val">${it.val.toLocaleString()} 원</span>
+            </div>
+          </div>
+        `;
       });
+
       document.getElementById('stockTableBody').innerHTML = tbody;
+      document.getElementById('mobileStockCards').innerHTML = mCardsHtml;
 
       // 5. Update Detailed Donut Chart
       updateDetailedDonutChart([
