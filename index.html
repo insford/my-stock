@@ -836,36 +836,36 @@
         }
 
 
-      // 3. Highlight Active Level
-      document.querySelectorAll('.level-item').forEach(el => el.classList.remove('active'));
-      const activeEl = document.getElementById(`lvl-${targetObj.lvl}`);
-      if (activeEl) activeEl.classList.add('active');
-      document.getElementById('activeLevelLabel').innerText = `${targetObj.lvl} (목표 ${targetObj.ratio}%)`;
+        // 3. Highlight Active Level
+        document.querySelectorAll('.level-item').forEach(el => el.classList.remove('active'));
+        const activeEl = document.getElementById(`lvl-${targetObj.lvl}`);
+        if (activeEl) activeEl.classList.add('active');
+        document.getElementById('activeLevelLabel').innerText = `${targetObj.lvl} (목표 ${targetObj.ratio}%)`;
 
-      // 4. Update Table (Desktop) & Cards (Mobile)
-      const semiTargetEach = (targetObj.ratio / 2).toFixed(2);
+        // 4. Update Table (Desktop) & Cards (Mobile)
+        const semiTargetEach = (targetObj.ratio / 2).toFixed(2);
 
-      const items = [
-        { name: 'SK하이닉스', group: 'semi', shares: stateData.hynix_shares, price: prices.hynix, val: hynixVal, targetWeightStr: `${semiTargetEach}%` },
-        { name: '삼성전자', group: 'semi', shares: stateData.samsung_shares, price: prices.samsung, val: samsungVal, targetWeightStr: `${semiTargetEach}%` },
-        { name: 'TIGER SOFR금리액티브', group: 'other', shares: stateData.sofr_shares, price: prices.sofr, val: sofrVal, targetWeightStr: `${(otherTargetTotalPct * 0.35).toFixed(2)}%` },
-        { name: 'KODEX 미국10년국채선물', group: 'other', shares: stateData.us10b_shares, price: prices.us10b, val: us10bVal, targetWeightStr: `${(otherTargetTotalPct * 0.25).toFixed(2)}%` },
-        { name: 'KODEX 골드선물(H)', group: 'other', shares: stateData.gold_shares, price: prices.gold, val: goldVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
-        { name: 'KODEX 미국S&P500선물(H)', group: 'other', shares: stateData.snp500_shares, price: prices.snp500, val: snp500Val, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
-        { name: '파두', group: 'other', shares: stateData.fadu_shares, price: prices.fadu, val: faduVal, targetWeightStr: `0.00% (매도)` }
-      ];
+        const items = [
+          { name: 'SK하이닉스', group: 'semi', shares: stateData.hynix_shares, price: prices.hynix, val: hynixVal, targetWeightStr: `${semiTargetEach}%` },
+          { name: '삼성전자', group: 'semi', shares: stateData.samsung_shares, price: prices.samsung, val: samsungVal, targetWeightStr: `${semiTargetEach}%` },
+          { name: 'TIGER SOFR금리액티브', group: 'other', shares: stateData.sofr_shares, price: prices.sofr, val: sofrVal, targetWeightStr: `${(otherTargetTotalPct * 0.35).toFixed(2)}%` },
+          { name: 'KODEX 미국10년국채선물', group: 'other', shares: stateData.us10b_shares, price: prices.us10b, val: us10bVal, targetWeightStr: `${(otherTargetTotalPct * 0.25).toFixed(2)}%` },
+          { name: 'KODEX 골드선물(H)', group: 'other', shares: stateData.gold_shares, price: prices.gold, val: goldVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
+          { name: 'KODEX 미국S&P500선물(H)', group: 'other', shares: stateData.snp500_shares, price: prices.snp500, val: snp500Val, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
+          { name: '파두', group: 'other', shares: stateData.fadu_shares, price: prices.fadu, val: faduVal, targetWeightStr: `0.00% (매도)` }
+        ];
 
-      // Desktop Table Body
-      let tbody = '';
-      // Mobile Stock Cards HTML
-      let mCardsHtml = '';
+        // Desktop Table Body
+        let tbody = '';
+        // Mobile Stock Cards HTML
+        let mCardsHtml = '';
 
-      items.forEach(it => {
-        const ratio = (it.val / totalPortfolioVal * 100).toFixed(2);
-        const tag = it.group === 'semi' ? '<span class="tag-semi">반도체</span>' : '<span class="tag-other">기타자산</span>';
+        items.forEach(it => {
+          const ratio = (it.val / totalPortfolioVal * 100).toFixed(2);
+          const tag = it.group === 'semi' ? '<span class="tag-semi">반도체</span>' : '<span class="tag-other">기타자산</span>';
 
-        // Table row
-        tbody += `<tr>
+          // Table row
+          tbody += `<tr>
           <td><strong>${it.name}</strong></td>
           <td>${tag}</td>
           <td>${it.shares.toLocaleString()} 주</td>
@@ -875,8 +875,8 @@
           <td><span class="target-weight-badge">${it.targetWeightStr}</span></td>
         </tr>`;
 
-        // Mobile Card HTML (Optimized for Smartphone)
-        mCardsHtml += `
+          // Mobile Card HTML (Optimized for Smartphone)
+          mCardsHtml += `
           <div class="m-stock-card">
             <div class="m-stock-top">
               <span class="m-stock-name">${it.name}</span>
@@ -898,27 +898,27 @@
             </div>
           </div>
         `;
-      });
+        });
 
-      document.getElementById('stockTableBody').innerHTML = tbody;
-      document.getElementById('mobileStockCards').innerHTML = mCardsHtml;
+        document.getElementById('stockTableBody').innerHTML = tbody;
+        document.getElementById('mobileStockCards').innerHTML = mCardsHtml;
 
-      // 5. Update Detailed Donut Chart
-      updateDetailedDonutChart([
-        { label: `SK하이닉스 (${(hynixVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: hynixVal, color: '#f97316' },
-        { label: `삼성전자 (${(samsungVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: samsungVal, color: '#fb923c' },
-        { label: `TIGER SOFR (${(sofrVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: sofrVal, color: '#0284c7' },
-        { label: `KODEX 골드 (${(goldVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: goldVal, color: '#38bdf8' },
-        { label: `KODEX 국채10년 (${(us10bVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: us10bVal, color: '#7dd3fc' },
-        { label: `KODEX S&P500 (${(snp500Val / totalPortfolioVal * 100).toFixed(1)}%)`, val: snp500Val, color: '#a5f3fc' },
-        { label: `파두 (${(faduVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: faduVal, color: '#f43f5e' }
-      ]);
+        // 5. Update Detailed Donut Chart
+        updateDetailedDonutChart([
+          { label: `SK하이닉스 (${(hynixVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: hynixVal, color: '#f97316' },
+          { label: `삼성전자 (${(samsungVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: samsungVal, color: '#fb923c' },
+          { label: `TIGER SOFR (${(sofrVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: sofrVal, color: '#0284c7' },
+          { label: `KODEX 골드 (${(goldVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: goldVal, color: '#38bdf8' },
+          { label: `KODEX 국채10년 (${(us10bVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: us10bVal, color: '#7dd3fc' },
+          { label: `KODEX S&P500 (${(snp500Val / totalPortfolioVal * 100).toFixed(1)}%)`, val: snp500Val, color: '#a5f3fc' },
+          { label: `파두 (${(faduVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: faduVal, color: '#f43f5e' }
+        ]);
 
-      if (lastUpdatedTimeStr) {
-        document.getElementById('lastUpdatedTime').innerText = `${lastUpdatedTimeStr} (KST, live_market.js 연동)`;
-      } else {
-        document.getElementById('lastUpdatedTime').innerText = "기본 시세 사용 중";
-      }
+        if (lastUpdatedTimeStr) {
+          document.getElementById('lastUpdatedTime').innerText = `${lastUpdatedTimeStr} (KST, live_market.js 연동)`;
+        } else {
+          document.getElementById('lastUpdatedTime').innerText = "기본 시세 사용 중";
+        }
       } catch (err) {
         console.error("Dashboard update error:", err);
         const list = document.getElementById('actionStepList');
