@@ -848,11 +848,11 @@
         const items = [
           { name: 'SK하이닉스', group: 'semi', shares: stateData.hynix_shares, price: prices.hynix, val: hynixVal, targetWeightStr: `${semiTargetEach}%` },
           { name: '삼성전자', group: 'semi', shares: stateData.samsung_shares, price: prices.samsung, val: samsungVal, targetWeightStr: `${semiTargetEach}%` },
-          { name: 'TIGER SOFR금리액티브', group: 'other', shares: stateData.sofr_shares, price: prices.sofr, val: sofrVal, targetWeightStr: `${(otherTargetTotalPct * 0.35).toFixed(2)}%` },
-          { name: 'KODEX 미국10년국채선물', group: 'other', shares: stateData.us10b_shares, price: prices.us10b, val: us10bVal, targetWeightStr: `${(otherTargetTotalPct * 0.25).toFixed(2)}%` },
           { name: 'KODEX 골드선물(H)', group: 'other', shares: stateData.gold_shares, price: prices.gold, val: goldVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
           { name: 'KODEX 미국S&P500선물(H)', group: 'other', shares: stateData.snp500_shares, price: prices.snp500, val: snp500Val, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
-          { name: '파두', group: 'other', shares: stateData.fadu_shares, price: prices.fadu, val: faduVal, targetWeightStr: `0.00% (매도)` }
+          { name: 'KODEX 미국10년국채선물', group: 'other', shares: stateData.us10b_shares, price: prices.us10b, val: us10bVal, targetWeightStr: `${(otherTargetTotalPct * 0.25).toFixed(2)}%` },
+          { name: '파두', group: 'other', shares: stateData.fadu_shares, price: prices.fadu, val: faduVal, targetWeightStr: `0.00% (매도)` },
+          { name: 'TIGER SOFR금리액티브', group: 'other', shares: stateData.sofr_shares, price: prices.sofr, val: sofrVal, targetWeightStr: `${(otherTargetTotalPct * 0.35).toFixed(2)}%` }
         ];
 
         // Desktop Table Body
@@ -903,8 +903,8 @@
         document.getElementById('stockTableBody').innerHTML = tbody;
         document.getElementById('mobileStockCards').innerHTML = mCardsHtml;
 
-        // 5. Update Detailed Donut Chart
-        updateDetailedDonutChart([
+        // 5. Update Detailed Donut Chart (Sorted by evaluation value / weight descending)
+        const chartItems = [
           { label: `SK하이닉스 (${(hynixVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: hynixVal, color: '#f97316' },
           { label: `삼성전자 (${(samsungVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: samsungVal, color: '#fb923c' },
           { label: `TIGER SOFR (${(sofrVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: sofrVal, color: '#0284c7' },
@@ -912,7 +912,9 @@
           { label: `KODEX 국채10년 (${(us10bVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: us10bVal, color: '#7dd3fc' },
           { label: `KODEX S&P500 (${(snp500Val / totalPortfolioVal * 100).toFixed(1)}%)`, val: snp500Val, color: '#a5f3fc' },
           { label: `파두 (${(faduVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: faduVal, color: '#f43f5e' }
-        ]);
+        ].sort((a, b) => b.val - a.val);
+
+        updateDetailedDonutChart(chartItems);
 
         if (lastUpdatedTimeStr) {
           document.getElementById('lastUpdatedTime').innerText = `${lastUpdatedTimeStr} (live_market.js 연동)`;
