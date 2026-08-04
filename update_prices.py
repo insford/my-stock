@@ -60,7 +60,8 @@ for key, code, yahoo_symbol, itype in items:
     if price is not None:
         prices[key] = price
 
-now_str = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+kst = datetime.timezone(datetime.timedelta(hours=9))
+now_str = datetime.datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S")
 out_data = {
     "last_updated": now_str,
     "prices": prices
