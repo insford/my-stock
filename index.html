@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Outfit:wght@500;700;800&display=swap"
+    rel="stylesheet">
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -33,7 +36,7 @@
 
     body {
       background-color: var(--bg-dark);
-      background-image: 
+      background-image:
         radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
       color: var(--text-main);
@@ -129,7 +132,9 @@
       transition: all 0.2s;
     }
 
-    .btn-refresh:hover { background: rgba(56, 189, 248, 0.4); }
+    .btn-refresh:hover {
+      background: rgba(56, 189, 248, 0.4);
+    }
 
     /* Grid Layout */
     .grid-metrics {
@@ -149,7 +154,9 @@
       transition: transform 0.2s;
     }
 
-    .metric-card:hover { transform: translateY(-2px); }
+    .metric-card:hover {
+      transform: translateY(-2px);
+    }
 
     .metric-label {
       font-size: 0.85rem;
@@ -244,8 +251,16 @@
     }
 
     /* Table & Mobile Stock Cards Hybrid Styling */
-    .desktop-table-container { display: block; overflow-x: auto; }
-    .mobile-stock-cards { display: none; flex-direction: column; gap: 0.85rem; }
+    .desktop-table-container {
+      display: block;
+      overflow-x: auto;
+    }
+
+    .mobile-stock-cards {
+      display: none;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
 
     table {
       width: 100%;
@@ -401,24 +416,68 @@
 
     /* MOBILE RESPONSIVE OPTIMIZATIONS (TABLE VS CARDS) */
     @media (max-width: 768px) {
-      .desktop-table-container { display: none; }
-      .mobile-stock-cards { display: flex; }
-      .grid-details { grid-template-columns: 1fr; }
-      body { padding: 1.25rem 0.75rem; }
-      .header-title h1 { font-size: 1.5rem; }
-      .metric-value { font-size: 1.5rem; }
-      .panel-card { padding: 1.2rem; }
-      .action-guide-card { padding: 1.25rem; }
+      .desktop-table-container {
+        display: none;
+      }
+
+      .mobile-stock-cards {
+        display: flex;
+      }
+
+      .grid-details {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        padding: 1.25rem 0.75rem;
+      }
+
+      .header-title h1 {
+        font-size: 1.5rem;
+      }
+
+      .metric-value {
+        font-size: 1.5rem;
+      }
+
+      .panel-card {
+        padding: 1.2rem;
+      }
+
+      .action-guide-card {
+        padding: 1.25rem;
+      }
     }
 
     @media (max-width: 480px) {
-      .header-title h1 { font-size: 1.3rem; }
-      .grid-metrics { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-      .metric-card { padding: 1rem; }
-      .metric-value { font-size: 1.35rem; }
-      .metric-label { font-size: 0.78rem; }
-      .metric-sub { font-size: 0.75rem; }
-      .chart-container { height: 290px; }
+      .header-title h1 {
+        font-size: 1.3rem;
+      }
+
+      .grid-metrics {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+      }
+
+      .metric-card {
+        padding: 1rem;
+      }
+
+      .metric-value {
+        font-size: 1.35rem;
+      }
+
+      .metric-label {
+        font-size: 0.78rem;
+      }
+
+      .metric-sub {
+        font-size: 0.75rem;
+      }
+
+      .chart-container {
+        height: 290px;
+      }
     }
 
     footer {
@@ -429,6 +488,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <header>
@@ -444,9 +504,8 @@
 
     <div class="refresh-bar">
       <div>
-        ⚡ Live Market Data: <span id="lastUpdatedTime">조회 중...</span>
+        📊 Market Data Last Updated: <span id="lastUpdatedTime">조회 중...</span>
       </div>
-      <button class="btn-refresh" onclick="fetchLiveMarketData()">🔄 실시간 새로고침</button>
     </div>
 
     <!-- Metrics Cards -->
@@ -495,7 +554,7 @@
         <div class="level-list" id="levelList">
           <div class="level-item" id="lvl-L6">
             <span>L6 (8,500 이상) - 상단 과열</span>
-            <span class="level-badge">목표 35%</span>
+            <span class="level-badge">목표 32.5%</span>
           </div>
           <div class="level-item" id="lvl-L5">
             <span>L5 (8,000 ~ 8,500) - 과열 진입</span>
@@ -503,23 +562,23 @@
           </div>
           <div class="level-item" id="lvl-L4">
             <span>L4 (7,500 ~ 8,000) - 상단 적정</span>
-            <span class="level-badge">목표 45%</span>
+            <span class="level-badge">목표 47.5%</span>
           </div>
           <div class="level-item" id="lvl-L3">
             <span>L3 (7,000 ~ 7,500) - 중립 구간</span>
-            <span class="level-badge">목표 50%</span>
+            <span class="level-badge">목표 55%</span>
           </div>
           <div class="level-item" id="lvl-L2">
             <span>L2 (6,500 ~ 7,000) - 하단 밴드</span>
-            <span class="level-badge">목표 55%</span>
+            <span class="level-badge">목표 62.5%</span>
           </div>
           <div class="level-item" id="lvl-L1">
             <span>L1 (6,000 ~ 6,500) - 저평가</span>
-            <span class="level-badge">목표 60%</span>
+            <span class="level-badge">목표 70%</span>
           </div>
           <div class="level-item" id="lvl-L0">
             <span>L0 (6,000 미만) - 공포 바닥</span>
-            <span class="level-badge">목표 65%</span>
+            <span class="level-badge">목표 77.5%</span>
           </div>
         </div>
       </div>
@@ -547,7 +606,9 @@
             </tr>
           </thead>
           <tbody id="stockTableBody">
-            <tr><td colspan="7" style="text-align: center; color: var(--text-sub);">실시간 시세를 불러오는 중입니다...</td></tr>
+            <tr>
+              <td colspan="7" style="text-align: center; color: var(--text-sub);">실시간 시세를 불러오는 중입니다...</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -568,7 +629,9 @@
       </p>
 
       <div class="action-step-list" id="actionStepList">
-        <!-- Dynamic Content -->
+        <div class="action-step-box" style="grid-column: 1 / -1; text-align: center; color: var(--text-sub);">
+          ⏳ 시세 및 잔고 데이터를 기반으로 매매 가이드를 계산 중입니다...
+        </div>
       </div>
     </div>
 
@@ -577,6 +640,8 @@
     </footer>
   </div>
 
+  <script src="guide/data/portfolio_state.js"></script>
+  <script src="guide/data/live_market.js"></script>
   <script>
     let myChart = null;
 
@@ -591,191 +656,185 @@
       fadu_shares: 36
     };
 
-    async function loadPortfolioState() {
-      try {
-        const res = await fetch('주식투자가이드/data/portfolio_state.json');
-        if (res.ok) {
-          const json = await res.json();
-          if (json.holdings) {
-            stateData.samsung_shares = json.holdings.samsung_shares || 656;
-            stateData.hynix_shares = json.holdings.hynix_shares || 106;
-            stateData.other_assets_krw = json.holdings.other_assets_krw || 48153315;
-          }
+    function loadPortfolioState() {
+      const json = window.PORTFOLIO_STATE_DATA || null;
+      if (json) {
+        if (json.holdings) {
+          stateData.samsung_shares = json.holdings.samsung_shares || 656;
+          stateData.hynix_shares = json.holdings.hynix_shares || 106;
+          stateData.other_assets_krw = json.holdings.other_assets_krw || 48153315;
         }
-      } catch (e) {
-        console.log("Using default state");
+        if (json.other_assets_detail) {
+          stateData.gold_shares = json.other_assets_detail.kodex_gold_shares || 552;
+          stateData.us10b_shares = json.other_assets_detail.kodex_us10b_shares || 995;
+          stateData.sofr_shares = json.other_assets_detail.tiger_sofr_shares || 196;
+          stateData.snp500_shares = json.other_assets_detail.kodex_snp500_shares || 286;
+          stateData.fadu_shares = json.other_assets_detail.fadu_shares || 36;
+        }
       }
     }
 
     function getTargetRatio(kospi) {
-      if (kospi >= 8500) return { ratio: 35, lvl: "L6" };
-      if (kospi >= 8000) return { ratio: 40, lvl: "L5" };
-      if (kospi >= 7500) return { ratio: 45, lvl: "L4" };
-      if (kospi >= 7000) return { ratio: 50, lvl: "L3" };
-      if (kospi >= 6500) return { ratio: 55, lvl: "L2" };
-      if (kospi >= 6000) return { ratio: 60, lvl: "L1" };
-      return { ratio: 65, lvl: "L0" };
+      if (kospi >= 8500) return { ratio: 32.5, lvl: "L6" };
+      if (kospi >= 8000) return { ratio: 40.0, lvl: "L5" };
+      if (kospi >= 7500) return { ratio: 47.5, lvl: "L4" };
+      if (kospi >= 7000) return { ratio: 55.0, lvl: "L3" };
+      if (kospi >= 6500) return { ratio: 62.5, lvl: "L2" };
+      if (kospi >= 6000) return { ratio: 70.0, lvl: "L1" };
+      return { ratio: 77.5, lvl: "L0" };
     }
 
-    // Naver Stock API Live Fetcher
-    async function fetchLiveMarketData() {
-      document.getElementById('lastUpdatedTime').innerText = "네이버 시세 업데이트 중...";
-      await loadPortfolioState();
+    // 저장 시세 데이터 파일 로드 (live_market.js)
+    function loadLiveMarketData() {
+      if (window.LIVE_MARKET_DATA && window.LIVE_MARKET_DATA.prices) {
+        return {
+          prices: window.LIVE_MARKET_DATA.prices,
+          lastUpdated: window.LIVE_MARKET_DATA.last_updated
+        };
+      }
+      return null;
+    }
 
-      let prices = {
-        kospi: 6595.0,
-        hynix: 1718000,
-        samsung: 259000,
-        gold: 22960,
-        us10b: 11945,
-        sofr: 61660,
-        snp500: 32260,
-        fadu: 63400
+    // Market Data Loader
+    function fetchLiveMarketData() {
+      document.getElementById('lastUpdatedTime').innerText = "시세 데이터 로딩 중...";
+      loadPortfolioState();
+
+      const localData = loadLiveMarketData();
+
+      let defaultPrices = {
+        kospi: 6358.95,
+        samsung: 242000,
+        hynix: 1609000,
+        gold: 22830,
+        us10b: 11955,
+        sofr: 19180,
+        snp500: 32875,
+        fadu: 61900
       };
 
-      try {
-        // 1. KOSPI Index from Naver Stock API
-        const resK = await fetch('https://m.stock.naver.com/api/index/KOSPI/basic').catch(()=>null);
-        if (resK && resK.ok) {
-          const jsonK = await resK.json();
-          if (jsonK && jsonK.nowValue) {
-            prices.kospi = parseFloat(jsonK.nowValue.replace(/,/g, ''));
-          }
-        }
+      let prices = { ...defaultPrices };
+      let lastUpdatedTimeStr = "";
 
-        // 2. Samsung Electronics from Naver Stock API
-        const resSam = await fetch('https://m.stock.naver.com/api/stock/005930/basic').catch(()=>null);
-        if (resSam && resSam.ok) {
-          const jsonSam = await resSam.json();
-          if (jsonSam && jsonSam.nowPrice) {
-            prices.samsung = parseInt(jsonSam.nowPrice.replace(/,/g, ''));
-          }
-        }
-
-        // 3. SK Hynix from Naver Stock API
-        const resHynix = await fetch('https://m.stock.naver.com/api/stock/000660/basic').catch(()=>null);
-        if (resHynix && resHynix.ok) {
-          const jsonHynix = await resHynix.json();
-          if (jsonHynix && jsonHynix.nowPrice) {
-            prices.hynix = parseInt(jsonHynix.nowPrice.replace(/,/g, ''));
-          }
-        }
-      } catch (err) {
-        console.log("Naver API Fetch Backup", err);
+      if (localData && localData.prices) {
+        prices = { ...prices, ...localData.prices };
+        lastUpdatedTimeStr = localData.lastUpdated || "";
       }
 
-      updateDashboard(prices);
+      updateDashboard(prices, lastUpdatedTimeStr);
     }
 
-    function updateDashboard(prices) {
-      const samsungVal = prices.samsung * stateData.samsung_shares;
-      const hynixVal = prices.hynix * stateData.hynix_shares;
-      const semiTotalVal = samsungVal + hynixVal;
+    function updateDashboard(prices, lastUpdatedTimeStr = "") {
+      try {
+        const samsungVal = (prices.samsung || 0) * (stateData.samsung_shares || 0);
+        const hynixVal = (prices.hynix || 0) * (stateData.hynix_shares || 0);
+        const semiTotalVal = samsungVal + hynixVal;
 
-      const goldVal = prices.gold * stateData.gold_shares;
-      const us10bVal = prices.us10b * stateData.us10b_shares;
-      const sofrVal = prices.sofr * stateData.sofr_shares;
-      const snp500Val = prices.snp500 * stateData.snp500_shares;
-      const faduVal = prices.fadu * stateData.fadu_shares;
+        const goldVal = (prices.gold || 0) * (stateData.gold_shares || 0);
+        const us10bVal = (prices.us10b || 0) * (stateData.us10b_shares || 0);
+        const sofrVal = (prices.sofr || 0) * (stateData.sofr_shares || 0);
+        const snp500Val = (prices.snp500 || 0) * (stateData.snp500_shares || 0);
+        const faduVal = (prices.fadu || 0) * (stateData.fadu_shares || 0);
 
-      const otherTotalVal = goldVal + us10bVal + sofrVal + snp500Val + faduVal;
-      const totalPortfolioVal = semiTotalVal + otherTotalVal;
+        const otherTotalVal = goldVal + us10bVal + sofrVal + snp500Val + faduVal;
+        const totalPortfolioVal = semiTotalVal + otherTotalVal;
 
-      const semiRatio = (semiTotalVal / totalPortfolioVal) * 100;
-      const targetObj = getTargetRatio(prices.kospi);
-      const gap = semiRatio - targetObj.ratio;
-      const absGap = Math.abs(gap);
+        const semiRatio = totalPortfolioVal > 0 ? (semiTotalVal / totalPortfolioVal) * 100 : 0;
+        const targetObj = getTargetRatio(prices.kospi || 6358.95);
+        const gap = semiRatio - targetObj.ratio;
+        const absGap = Math.abs(gap);
 
-      const otherTargetTotalPct = 100.0 - targetObj.ratio;
+        const otherTargetTotalPct = 100.0 - targetObj.ratio;
 
-      // 1. Update Metrics
-      document.getElementById('valTotal').innerText = (totalPortfolioVal / 100000000).toFixed(2) + " 억 원";
-      document.getElementById('valSub').innerText = `${totalPortfolioVal.toLocaleString()} 원`;
+        // 1. Update Metrics
+        document.getElementById('valTotal').innerText = (totalPortfolioVal / 100000000).toFixed(2) + " 억 원";
+        document.getElementById('valSub').innerText = `${totalPortfolioVal.toLocaleString()} 원`;
 
-      document.getElementById('valKospi').innerText = `${prices.kospi.toLocaleString(undefined, {minimumFractionDigits:1, maximumFractionDigits:1})} pt`;
-      document.getElementById('valKospiSub').innerText = `${targetObj.lvl} 구간 적용 중`;
+        document.getElementById('valKospi').innerText = `${(prices.kospi || 0).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} pt`;
+        document.getElementById('valKospiSub').innerText = `${targetObj.lvl} 구간 적용 중`;
 
-      document.getElementById('valSemiRatio').innerText = `${semiRatio.toFixed(2)} %`;
-      document.getElementById('valSemiSub').innerText = `하이닉스 ${(hynixVal/totalPortfolioVal*100).toFixed(1)}% + 삼전 ${(samsungVal/totalPortfolioVal*100).toFixed(1)}%`;
+        document.getElementById('valSemiRatio').innerText = `${semiRatio.toFixed(2)} %`;
+        document.getElementById('valSemiSub').innerText = `하이닉스 ${(totalPortfolioVal > 0 ? hynixVal / totalPortfolioVal * 100 : 0).toFixed(1)}% + 삼전 ${(totalPortfolioVal > 0 ? samsungVal / totalPortfolioVal * 100 : 0).toFixed(1)}%`;
 
-      document.getElementById('valTargetRatio').innerText = `${targetObj.ratio}.00 %`;
-      document.getElementById('valTargetSub').innerText = `격차: ${gap > 0 ? '+' : ''}${gap.toFixed(1)}%p (${absGap >= 8.0 ? '🚨 이탈 경보' : '🟢 정상'})`;
+        document.getElementById('valTargetRatio').innerText = `${targetObj.ratio.toFixed(2)} %`;
+        document.getElementById('valTargetSub').innerText = `격차: ${gap > 0 ? '+' : ''}${gap.toFixed(1)}%p (${absGap >= 8.0 ? '🚨 이탈 경보' : '🟢 정상'})`;
 
-      // 2. Status Badge & Action Guide
-      const badge = document.getElementById('statusBadge');
-      const badgeText = document.getElementById('statusText');
-      const card = document.getElementById('actionGuideCard');
-      const title = document.getElementById('actionGuideTitle');
-      const desc = document.getElementById('actionGuideDesc');
-      const list = document.getElementById('actionStepList');
+        // 2. Status Badge & Action Guide
+        const badge = document.getElementById('statusBadge');
+        const badgeText = document.getElementById('statusText');
+        const card = document.getElementById('actionGuideCard');
+        const title = document.getElementById('actionGuideTitle');
+        const desc = document.getElementById('actionGuideDesc');
+        const list = document.getElementById('actionStepList');
 
-      if (absGap >= 8.0) {
-        badge.className = "status-badge alert";
-        badgeText.innerText = `🚨 리밸런싱 필요 (격차 ${gap.toFixed(1)}%p >= 8%p)`;
+        if (absGap >= 8.0) {
+          badge.className = "status-badge alert";
+          badgeText.innerText = `🚨 리밸런싱 필요 (격차 ${gap.toFixed(1)}%p >= 8%p)`;
 
-        card.className = "action-guide-card";
-        title.innerHTML = `<span>🚨 실시간 리밸런싱 매매 가이드 (격차 ${gap.toFixed(1)}%p 발생)</span>`;
-        desc.innerText = `KOSPI ${prices.kospi.toFixed(1)}pt (${targetObj.lvl}) 기준으로 목표 반도체 비중은 ${targetObj.ratio}% 입니다. 비중을 맞추기 위한 추천 매매 주문량입니다.`;
+          card.className = "action-guide-card";
+          title.innerHTML = `<span>🚨 실시간 리밸런싱 매매 가이드 (격차 ${gap.toFixed(1)}%p 발생)</span>`;
+          desc.innerText = `KOSPI ${(prices.kospi || 0).toFixed(1)}pt (${targetObj.lvl}) 기준으로 목표 반도체 비중은 ${targetObj.ratio}% 입니다. 비중을 맞추기 위한 추천 매매 주문량입니다.`;
 
-        const tradeAmountTotal = Math.round(Math.abs(gap / 100 * totalPortfolioVal));
-        const tradeSamAmount = Math.round(tradeAmountTotal * 0.5);
-        const tradeHynixAmount = Math.round(tradeAmountTotal * 0.5);
-        const tradeSamShares = Math.round(tradeSamAmount / prices.samsung);
-        const tradeHynixShares = Math.round(tradeHynixAmount / prices.hynix);
+          const tradeAmountTotal = Math.round(Math.abs(gap / 100 * totalPortfolioVal));
+          const tradeSamAmount = Math.round(tradeAmountTotal * 0.5);
+          const tradeHynixAmount = Math.round(tradeAmountTotal * 0.5);
+          const tradeSamShares = prices.samsung > 0 ? Math.round(tradeSamAmount / prices.samsung) : 0;
+          const tradeHynixShares = prices.hynix > 0 ? Math.round(tradeHynixAmount / prices.hynix) : 0;
 
-        if (gap > 0) {
-          list.innerHTML = `
-            <div class="action-step-box">
-              <h4 style="color: var(--accent-orange);">1. 반도체 주식 분할 매도 (-${(tradeAmountTotal/10000).toFixed(0)}만 원)</h4>
-              <ul>
-                <li><strong>삼성전자</strong>: 약 <strong>${tradeSamShares} 주</strong> 매도 (약 ${(tradeSamAmount/10000).toFixed(0)}만 원)</li>
-                <li><strong>SK하이닉스</strong>: 약 <strong>${tradeHynixShares} 주</strong> 매도 (약 ${(tradeHynixAmount/10000).toFixed(0)}만 원)</li>
-              </ul>
-            </div>
-            <div class="action-step-box">
-              <h4 style="color: var(--accent-blue);">2. 기타 자산 분할 매수 (+${(tradeAmountTotal/10000).toFixed(0)}만 원)</h4>
-              <ul>
-                <li><strong>TIGER SOFR (현금 35%)</strong>: 약 ${(tradeAmountTotal*0.35/10000).toFixed(0)}만 원 매수</li>
-                <li><strong>KODEX 10년국채 (채권 25%)</strong>: 약 ${(tradeAmountTotal*0.25/10000).toFixed(0)}만 원 매수</li>
-                <li><strong>KODEX 골드 / S&P500 (각 20%)</strong>: 각 약 ${(tradeAmountTotal*0.20/10000).toFixed(0)}만 원 매수</li>
-              </ul>
-            </div>
-          `;
+          if (gap > 0) {
+            list.innerHTML = `
+              <div class="action-step-box">
+                <h4 style="color: var(--accent-orange);">1. 반도체 주식 분할 매도 (-${(tradeAmountTotal / 10000).toFixed(0)}만 원)</h4>
+                <ul>
+                  <li><strong>삼성전자</strong>: 약 <strong>${tradeSamShares.toLocaleString()} 주</strong> 매도 (약 ${(tradeSamAmount / 10000).toFixed(0)}만 원)</li>
+                  <li><strong>SK하이닉스</strong>: 약 <strong>${tradeHynixShares.toLocaleString()} 주</strong> 매도 (약 ${(tradeHynixAmount / 10000).toFixed(0)}만 원)</li>
+                </ul>
+              </div>
+              <div class="action-step-box">
+                <h4 style="color: var(--accent-blue);">2. 기타 자산 분할 매수 (+${(tradeAmountTotal / 10000).toFixed(0)}만 원)</h4>
+                <ul>
+                  <li><strong>TIGER SOFR (현금 35%)</strong>: 약 ${(tradeAmountTotal * 0.35 / 10000).toFixed(0)}만 원 매수</li>
+                  <li><strong>KODEX 10년국채 (채권 25%)</strong>: 약 ${(tradeAmountTotal * 0.25 / 10000).toFixed(0)}만 원 매수</li>
+                  <li><strong>KODEX 골드 / S&P500 (각 20%)</strong>: 각 약 ${(tradeAmountTotal * 0.20 / 10000).toFixed(0)}만 원 매수</li>
+                </ul>
+              </div>
+            `;
+          } else {
+            list.innerHTML = `
+              <div class="action-step-box">
+                <h4 style="color: var(--accent-green);">1. 반도체 주식 저가 매수 (+${(tradeAmountTotal / 10000).toFixed(0)}만 원)</h4>
+                <ul>
+                  <li><strong>삼성전자</strong>: 약 <strong>${tradeSamShares.toLocaleString()} 주</strong> 매수 (약 ${(tradeSamAmount / 10000).toFixed(0)}만 원)</li>
+                  <li><strong>SK하이닉스</strong>: 약 <strong>${tradeHynixShares.toLocaleString()} 주</strong> 매수 (약 ${(tradeHynixAmount / 10000).toFixed(0)}만 원)</li>
+                </ul>
+              </div>
+              <div class="action-step-box">
+                <h4 style="color: var(--accent-purple);">2. 기타 자산 일부 매도 (실탄 집행)</h4>
+                <ul>
+                  <li><strong>SOFR 현금성 자산</strong>에서 매수 금액 최우선 집행</li>
+                </ul>
+              </div>
+            `;
+          }
         } else {
+          badge.className = "status-badge";
+          badgeText.innerText = `🟢 정상 상태 (격차 ${gap.toFixed(1)}%p < 8%p)`;
+
+          card.className = "action-guide-card normal";
+          title.innerHTML = `<span>🟢 포트폴리오 유지가이드 (정상 범위)</span>`;
+          desc.innerText = `현재 반도체 비중(${semiRatio.toFixed(1)}%)과 KOSPI ${(prices.kospi || 0).toFixed(1)}pt 레벨 목표 비중(${targetObj.ratio}%)의 격차가 ${gap > 0 ? '+' : ''}${gap.toFixed(1)}%p로 이탈 기준(±8.0%p) 미만입니다.`;
+
           list.innerHTML = `
-            <div class="action-step-box">
-              <h4 style="color: var(--accent-green);">1. 반도체 주식 저가 매수 (+${(tradeAmountTotal/10000).toFixed(0)}만 원)</h4>
+            <div class="action-step-box" style="grid-column: 1 / -1;">
+              <h4 style="color: #4ade80;">✅ 오늘은 매매 없이 편안하게 관망하시면 됩니다.</h4>
               <ul>
-                <li><strong>삼성전자</strong>: 약 <strong>${tradeSamShares} 주</strong> 매도 (약 ${(tradeSamAmount/10000).toFixed(0)}만 원)</li>
-                <li><strong>SK하이닉스</strong>: 약 <strong>${tradeHynixShares} 주</strong> 매도 (약 ${(tradeHynixAmount/10000).toFixed(0)}만 원)</li>
-              </ul>
-            </div>
-            <div class="action-step-box">
-              <h4 style="color: var(--accent-purple);">2. 기타 자산 일부 매도 (실탄 집행)</h4>
-              <ul>
-                <li><strong>SOFR 현금성 자산</strong>에서 매수 금액 최우선 집행</li>
+                <li>현재 계좌 상태가 박스권 리밸런싱 전략의 정상 범위 내에 있습니다.</li>
+                <li>스케줄러가 평일 10시 / 14시 마다 지수와 비중을 계속 추적 모니터링합니다.</li>
               </ul>
             </div>
           `;
         }
-      } else {
-        badge.className = "status-badge";
-        badgeText.innerText = `🟢 정상 상태 (격차 ${gap.toFixed(1)}%p < 8%p)`;
 
-        card.className = "action-guide-card normal";
-        title.innerHTML = `<span>🟢 포트폴리오 유지가이드 (정상 범위)</span>`;
-        desc.innerText = `현재 반도체 비중(${semiRatio.toFixed(1)}%)과 KOSPI ${prices.kospi.toFixed(1)}pt 레벨 목표 비중(${targetObj.ratio}%)의 격차가 ${gap > 0 ? '+' : ''}${gap.toFixed(1)}%p로 이탈 기준(±8.0%p) 미만입니다.`;
-
-        list.innerHTML = `
-          <div class="action-step-box" style="grid-column: 1 / -1;">
-            <h4 style="color: #4ade80;">✅ 오늘은 매매 없이 편안하게 관망하시면 됩니다.</h4>
-            <ul>
-              <li>현재 계좌 상태가 박스권 리밸런싱 전략의 정상 범위 내에 있습니다.</li>
-              <li>스케줄러가 평일 10시 / 14시 마다 지수와 비중을 계속 추적 모니터링합니다.</li>
-            </ul>
-          </div>
-        `;
-      }
 
       // 3. Highlight Active Level
       document.querySelectorAll('.level-item').forEach(el => el.classList.remove('active'));
@@ -804,7 +863,7 @@
       items.forEach(it => {
         const ratio = (it.val / totalPortfolioVal * 100).toFixed(2);
         const tag = it.group === 'semi' ? '<span class="tag-semi">반도체</span>' : '<span class="tag-other">기타자산</span>';
-        
+
         // Table row
         tbody += `<tr>
           <td><strong>${it.name}</strong></td>
@@ -846,18 +905,33 @@
 
       // 5. Update Detailed Donut Chart
       updateDetailedDonutChart([
-        { label: `SK하이닉스 (${(hynixVal/totalPortfolioVal*100).toFixed(1)}%)`, val: hynixVal, color: '#f97316' },
-        { label: `삼성전자 (${(samsungVal/totalPortfolioVal*100).toFixed(1)}%)`, val: samsungVal, color: '#fb923c' },
-        { label: `TIGER SOFR (${(sofrVal/totalPortfolioVal*100).toFixed(1)}%)`, val: sofrVal, color: '#0284c7' },
-        { label: `KODEX 골드 (${(goldVal/totalPortfolioVal*100).toFixed(1)}%)`, val: goldVal, color: '#38bdf8' },
-        { label: `KODEX 국채10년 (${(us10bVal/totalPortfolioVal*100).toFixed(1)}%)`, val: us10bVal, color: '#7dd3fc' },
-        { label: `KODEX S&P500 (${(snp500Val/totalPortfolioVal*100).toFixed(1)}%)`, val: snp500Val, color: '#a5f3fc' },
-        { label: `파두 (${(faduVal/totalPortfolioVal*100).toFixed(1)}%)`, val: faduVal, color: '#f43f5e' }
+        { label: `SK하이닉스 (${(hynixVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: hynixVal, color: '#f97316' },
+        { label: `삼성전자 (${(samsungVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: samsungVal, color: '#fb923c' },
+        { label: `TIGER SOFR (${(sofrVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: sofrVal, color: '#0284c7' },
+        { label: `KODEX 골드 (${(goldVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: goldVal, color: '#38bdf8' },
+        { label: `KODEX 국채10년 (${(us10bVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: us10bVal, color: '#7dd3fc' },
+        { label: `KODEX S&P500 (${(snp500Val / totalPortfolioVal * 100).toFixed(1)}%)`, val: snp500Val, color: '#a5f3fc' },
+        { label: `파두 (${(faduVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: faduVal, color: '#f43f5e' }
       ]);
 
-      const nowStr = new Date().toLocaleTimeString('ko-KR');
-      document.getElementById('lastUpdatedTime').innerText = `최종 갱신: ${nowStr}`;
+      if (lastUpdatedTimeStr) {
+        document.getElementById('lastUpdatedTime').innerText = `${lastUpdatedTimeStr} (live_market.js 연동)`;
+      } else {
+        document.getElementById('lastUpdatedTime').innerText = "기본 시세 사용 중";
+      }
+      } catch (err) {
+        console.error("Dashboard update error:", err);
+        const list = document.getElementById('actionStepList');
+        if (list) {
+          list.innerHTML = `
+            <div class="action-step-box" style="grid-column: 1 / -1; color: var(--accent-red);">
+              ⚠️ 가이드 산출 중 오류가 발생했습니다: ${err.message}
+            </div>
+          `;
+        }
+      }
     }
+
 
     function updateDetailedDonutChart(items) {
       const ctx = document.getElementById('portfolioChart').getContext('2d');
@@ -896,7 +970,7 @@
     }
 
     fetchLiveMarketData();
-    setInterval(fetchLiveMarketData, 60000);
   </script>
 </body>
+
 </html>

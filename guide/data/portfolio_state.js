@@ -1,4 +1,4 @@
-{
+window.PORTFOLIO_STATE_DATA = {
   "last_updated": "2026-07-31",
   "account_name": "국내주식 종합_주식 리밸런싱",
   "holdings": {
@@ -18,4 +18,4 @@
     "kospi_min_level": 6000,
     "kospi_max_level": 8500
   }
-}
+};

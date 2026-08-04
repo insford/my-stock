@@ -1,26 +1,36 @@
-name: Kospi Portfolio Twice-Daily Monitor
+name: Kospi Portfolio Real-Time Monitor & Market Price Update
 
 on:
   schedule:
-    # 월~금 오전 10:00 KST (UTC 01:00)
-    - cron: '0 1 * * 1-5'
-    # 월~금 오후 02:00 KST (UTC 05:00)
-    - cron: '0 5 * * 1-5'
+    # 프리마켓(08:00 KST) ~ 애프터마켓(20:00 KST) 동안 10분 마다 실행
+    # UTC 기준: 23:00 (전일) ~ 11:00 (당일) -> KST 기준 08:00 ~ 20:00
+    - cron: '*/10 23,0-11 * * *'
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   check-portfolio:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+
       - name: Install dependencies
         run: pip install yfinance requests pandas
-      - name: Run Monitoring Script
-        env:
-          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python monitor.py
+
+      - name: Run Market Price Updater
+        run: python update_prices.py
+
+      - name: Commit and Push Updated Prices
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Auto-update live_market.js market prices [skip ci]"
+          file_pattern: "guide/data/live_market.js"
