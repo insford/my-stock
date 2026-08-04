@@ -7,7 +7,7 @@ items = [
     ('kospi', 'KOSPI', '^KS11', 'index'),
     ('samsung', '005930', '005930.KS', 'stock'),
     ('hynix', '000660', '000660.KS', 'stock'),
-    ('sofr', '472150', '472150.KS', 'stock'),
+    ('sofr', '456610', '456610.KS', 'stock'),
     ('us10b', '308620', '308620.KS', 'stock'),
     ('gold', '132030', '132030.KS', 'stock'),
     ('snp500', '219480', '219480.KS', 'stock'),
