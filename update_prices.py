@@ -10,8 +10,7 @@ items = [
     ('sofr', '456610', '456610.KS', 'stock'),
     ('us10b', '308620', '308620.KS', 'stock'),
     ('gold', '132030', '132030.KS', 'stock'),
-    ('snp500', '219480', '219480.KS', 'stock'),
-    ('fadu', '440110', '440110.KS', 'stock')
+    ('snp500', '219480', '219480.KS', 'stock')
 ]
 
 def fetch_naver(code, itype):

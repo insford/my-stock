@@ -641,35 +641,36 @@
   </div>
 
   <script src="guide/data/portfolio_state.js"></script>
+  <script src="guide/data/portfolio_state_history_2026.js"></script>
   <script src="guide/data/live_market.js"></script>
   <script>
     let myChart = null;
 
     let stateData = {
-      samsung_shares: 656,
-      hynix_shares: 106,
-      other_assets_krw: 48153315,
+      samsung_shares: 606,
+      hynix_shares: 98,
+      other_assets_krw: 46519520,
+      deposit_krw: 32870337,
       gold_shares: 552,
       us10b_shares: 995,
       sofr_shares: 196,
-      snp500_shares: 286,
-      fadu_shares: 36
+      snp500_shares: 286
     };
 
     function loadPortfolioState() {
       const json = window.PORTFOLIO_STATE_DATA || null;
       if (json) {
         if (json.holdings) {
-          stateData.samsung_shares = json.holdings.samsung_shares || 656;
-          stateData.hynix_shares = json.holdings.hynix_shares || 106;
-          stateData.other_assets_krw = json.holdings.other_assets_krw || 48153315;
+          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 606;
+          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 98;
+          stateData.other_assets_krw = json.holdings.other_assets_krw || 0;
+          stateData.deposit_krw = json.holdings.deposit_krw || 0;
         }
         if (json.other_assets_detail) {
-          stateData.gold_shares = json.other_assets_detail.kodex_gold_shares || 552;
-          stateData.us10b_shares = json.other_assets_detail.kodex_us10b_shares || 995;
-          stateData.sofr_shares = json.other_assets_detail.tiger_sofr_shares || 196;
-          stateData.snp500_shares = json.other_assets_detail.kodex_snp500_shares || 286;
-          stateData.fadu_shares = json.other_assets_detail.fadu_shares || 36;
+          stateData.gold_shares = json.other_assets_detail.kodex_gold_shares !== undefined ? json.other_assets_detail.kodex_gold_shares : 552;
+          stateData.us10b_shares = json.other_assets_detail.kodex_us10b_shares !== undefined ? json.other_assets_detail.kodex_us10b_shares : 995;
+          stateData.sofr_shares = json.other_assets_detail.tiger_sofr_shares !== undefined ? json.other_assets_detail.tiger_sofr_shares : 196;
+          stateData.snp500_shares = json.other_assets_detail.kodex_snp500_shares !== undefined ? json.other_assets_detail.kodex_snp500_shares : 286;
         }
       }
     }
@@ -709,8 +710,7 @@
         gold: 22830,
         us10b: 11955,
         sofr: 61950,
-        snp500: 32875,
-        fadu: 61900
+        snp500: 32875
       };
 
       let prices = { ...defaultPrices };
@@ -734,9 +734,9 @@
         const us10bVal = (prices.us10b || 0) * (stateData.us10b_shares || 0);
         const sofrVal = (prices.sofr || 0) * (stateData.sofr_shares || 0);
         const snp500Val = (prices.snp500 || 0) * (stateData.snp500_shares || 0);
-        const faduVal = (prices.fadu || 0) * (stateData.fadu_shares || 0);
+        const depositVal = stateData.deposit_krw || 0;
 
-        const otherTotalVal = goldVal + us10bVal + sofrVal + snp500Val + faduVal;
+        const otherTotalVal = goldVal + us10bVal + sofrVal + snp500Val + depositVal;
         const totalPortfolioVal = semiTotalVal + otherTotalVal;
 
         const semiRatio = totalPortfolioVal > 0 ? (semiTotalVal / totalPortfolioVal) * 100 : 0;
@@ -851,9 +851,13 @@
           { name: 'KODEX 골드선물(H)', group: 'other', shares: stateData.gold_shares, price: prices.gold, val: goldVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
           { name: 'KODEX 미국S&P500선물(H)', group: 'other', shares: stateData.snp500_shares, price: prices.snp500, val: snp500Val, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
           { name: 'KODEX 미국10년국채선물', group: 'other', shares: stateData.us10b_shares, price: prices.us10b, val: us10bVal, targetWeightStr: `${(otherTargetTotalPct * 0.25).toFixed(2)}%` },
-          { name: '파두', group: 'other', shares: stateData.fadu_shares, price: prices.fadu, val: faduVal, targetWeightStr: `0.00% (매도)` },
-          { name: 'TIGER SOFR금리액티브', group: 'other', shares: stateData.sofr_shares, price: prices.sofr, val: sofrVal, targetWeightStr: `${(otherTargetTotalPct * 0.35).toFixed(2)}%` }
+          { name: 'TIGER SOFR금리액티브', group: 'other', shares: stateData.sofr_shares, price: prices.sofr, val: sofrVal, targetWeightStr: `${(otherTargetTotalPct * 0.35).toFixed(2)}%` },
+          { name: '예수금 (원화 현금)', group: 'other', shares: 1, price: depositVal, val: depositVal, targetWeightStr: `현금 실탄` }
         ];
+
+        if (stateData.fadu_shares > 0) {
+          items.push({ name: '파두', group: 'other', shares: stateData.fadu_shares, price: prices.fadu, val: faduVal, targetWeightStr: `0.00% (매도)` });
+        }
 
         // Desktop Table Body
         let tbody = '';
@@ -910,9 +914,15 @@
           { label: `TIGER SOFR (${(sofrVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: sofrVal, color: '#0284c7' },
           { label: `KODEX 골드 (${(goldVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: goldVal, color: '#38bdf8' },
           { label: `KODEX 국채10년 (${(us10bVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: us10bVal, color: '#7dd3fc' },
-          { label: `KODEX S&P500 (${(snp500Val / totalPortfolioVal * 100).toFixed(1)}%)`, val: snp500Val, color: '#a5f3fc' },
-          { label: `파두 (${(faduVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: faduVal, color: '#f43f5e' }
-        ].sort((a, b) => b.val - a.val);
+          { label: `KODEX S&P500 (${(snp500Val / totalPortfolioVal * 100).toFixed(1)}%)`, val: snp500Val, color: '#a5f3fc' }
+        ];
+        if (depositVal > 0) {
+          chartItems.push({ label: `예수금 (${(depositVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: depositVal, color: '#10b981' });
+        }
+        if (faduVal > 0) {
+          chartItems.push({ label: `파두 (${(faduVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: faduVal, color: '#f43f5e' });
+        }
+        chartItems.sort((a, b) => b.val - a.val);
 
         updateDetailedDonutChart(chartItems);
 
