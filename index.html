@@ -641,28 +641,29 @@
   </div>
 
   <script src="guide/data/portfolio_state.js"></script>
-  <script src="guide/data/portfolio_state_history_2026.js"></script>
+  <!-- <script src="guide/data/portfolio_state_history_2026.js"></script> -->
   <script src="guide/data/live_market.js"></script>
   <script>
     let myChart = null;
 
     let stateData = {
-      samsung_shares: 606,
-      hynix_shares: 98,
-      other_assets_krw: 46519520,
-      deposit_krw: 32870337,
+      samsung_shares: 651,
+      hynix_shares: 105,
+      other_assets_krw: 46725625,
+      deposit_krw: 11763166,
       gold_shares: 552,
       us10b_shares: 995,
       sofr_shares: 196,
-      snp500_shares: 286
+      snp500_shares: 286,
+      fadu_shares: 0
     };
 
     function loadPortfolioState() {
       const json = window.PORTFOLIO_STATE_DATA || null;
       if (json) {
         if (json.holdings) {
-          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 606;
-          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 98;
+          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 651;
+          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 105;
           stateData.other_assets_krw = json.holdings.other_assets_krw || 0;
           stateData.deposit_krw = json.holdings.deposit_krw || 0;
         }
@@ -671,6 +672,7 @@
           stateData.us10b_shares = json.other_assets_detail.kodex_us10b_shares !== undefined ? json.other_assets_detail.kodex_us10b_shares : 995;
           stateData.sofr_shares = json.other_assets_detail.tiger_sofr_shares !== undefined ? json.other_assets_detail.tiger_sofr_shares : 196;
           stateData.snp500_shares = json.other_assets_detail.kodex_snp500_shares !== undefined ? json.other_assets_detail.kodex_snp500_shares : 286;
+          stateData.fadu_shares = json.other_assets_detail.fadu_shares || 0;
         }
       }
     }
@@ -710,7 +712,8 @@
         gold: 22830,
         us10b: 11955,
         sofr: 61950,
-        snp500: 32875
+        snp500: 32875,
+        fadu: 0
       };
 
       let prices = { ...defaultPrices };
@@ -734,9 +737,10 @@
         const us10bVal = (prices.us10b || 0) * (stateData.us10b_shares || 0);
         const sofrVal = (prices.sofr || 0) * (stateData.sofr_shares || 0);
         const snp500Val = (prices.snp500 || 0) * (stateData.snp500_shares || 0);
+        const faduVal = (prices.fadu || 0) * (stateData.fadu_shares || 0);
         const depositVal = stateData.deposit_krw || 0;
 
-        const otherTotalVal = goldVal + us10bVal + sofrVal + snp500Val + depositVal;
+        const otherTotalVal = goldVal + us10bVal + sofrVal + snp500Val + faduVal + depositVal;
         const totalPortfolioVal = semiTotalVal + otherTotalVal;
 
         const semiRatio = totalPortfolioVal > 0 ? (semiTotalVal / totalPortfolioVal) * 100 : 0;
