@@ -647,10 +647,10 @@
     let myChart = null;
 
     let stateData = {
-      samsung_shares: 651,
-      hynix_shares: 105,
+      samsung_shares: 611,
+      hynix_shares: 98,
       other_assets_krw: 46725625,
-      deposit_krw: 11763166,
+      deposit_krw: 32565815,
       gold_shares: 552,
       us10b_shares: 995,
       sofr_shares: 196,
@@ -662,8 +662,8 @@
       const json = window.PORTFOLIO_STATE_DATA || null;
       if (json) {
         if (json.holdings) {
-          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 651;
-          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 105;
+          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 611;
+          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 98;
           stateData.other_assets_krw = json.holdings.other_assets_krw || 0;
           stateData.deposit_krw = json.holdings.deposit_krw || 0;
         }
