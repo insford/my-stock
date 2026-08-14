@@ -4,7 +4,7 @@ window.PORTFOLIO_STATE_DATA = {
   "holdings": {
     "samsung_shares": 576,
     "hynix_shares": 92,
-    "deposit_krw": 32565815,
+    "deposit_krw": 51550609,
     "other_assets_krw": 46725625
   },
   "other_assets_detail": {
