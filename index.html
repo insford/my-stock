@@ -932,8 +932,12 @@
       deposit_krw: 51550609,
       gold_shares: 552,
       us10b_shares: 995,
-      sofr_shares: 196,
-      snp500_shares: 286,
+      cd_shares: 0,
+      sofr_shares: 0,
+      us30b_shares: 0,
+      gold_shares: 0,
+      snp500_shares: 0,
+      us10b_shares: 0,
       fadu_shares: 0
     };
 
@@ -967,13 +971,15 @@
           stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 576;
           stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 92;
           stateData.other_assets_krw = json.holdings.other_assets_krw || 0;
-          stateData.deposit_krw = json.holdings.deposit_krw !== undefined ? json.holdings.deposit_krw : 51550609;
+          stateData.deposit_krw = json.holdings.deposit_krw !== undefined ? json.holdings.deposit_krw : 18732121;
         }
         if (json.other_assets_detail) {
-          stateData.gold_shares = json.other_assets_detail.kodex_gold_shares !== undefined ? json.other_assets_detail.kodex_gold_shares : 552;
-          stateData.us10b_shares = json.other_assets_detail.kodex_us10b_shares !== undefined ? json.other_assets_detail.kodex_us10b_shares : 995;
-          stateData.sofr_shares = json.other_assets_detail.tiger_sofr_shares !== undefined ? json.other_assets_detail.tiger_sofr_shares : 196;
-          stateData.snp500_shares = json.other_assets_detail.kodex_snp500_shares !== undefined ? json.other_assets_detail.kodex_snp500_shares : 286;
+          stateData.cd_shares = json.other_assets_detail.kodex_cd_shares || 0;
+          stateData.sofr_shares = json.other_assets_detail.tiger_sofr_shares || 0;
+          stateData.us30b_shares = json.other_assets_detail.ace_us30b_shares || 0;
+          stateData.gold_shares = json.other_assets_detail.ace_gold_shares !== undefined ? json.other_assets_detail.ace_gold_shares : (json.other_assets_detail.kodex_gold_shares || 0);
+          stateData.snp500_shares = json.other_assets_detail.tiger_snp500_shares !== undefined ? json.other_assets_detail.tiger_snp500_shares : (json.other_assets_detail.kodex_snp500_shares || 0);
+          stateData.us10b_shares = json.other_assets_detail.kodex_us10b_shares || 0;
           stateData.fadu_shares = json.other_assets_detail.fadu_shares || 0;
         }
       }
@@ -989,7 +995,6 @@
       return { ratio: 77.5, lvl: "L0" };
     }
 
-    // 저장 시세 데이터 파일 로드 (live_market.js)
     function loadLiveMarketData() {
       if (window.LIVE_MARKET_DATA && window.LIVE_MARKET_DATA.prices) {
         return {
@@ -1000,21 +1005,20 @@
       return null;
     }
 
-    // Market Data Loader
     function fetchLiveMarketData() {
-      document.getElementById('lastUpdatedTime').innerText = "시세 데이터 로딩 중...";
       loadPortfolioState();
-
       const localData = loadLiveMarketData();
 
       let defaultPrices = {
-        kospi: 6813.34,
-        samsung: 263000,
-        hynix: 1572000,
-        gold: 24600,
-        us10b: 11880,
-        sofr: 61525,
-        snp500: 33425,
+        kospi: 6910.24,
+        samsung: 270000,
+        hynix: 1643000,
+        cd: 1074947,
+        sofr: 61275,
+        us30b: 7175,
+        gold: 27525,
+        snp500: 27345,
+        us10b: 11870,
         fadu: 0
       };
 
@@ -1036,24 +1040,25 @@
         const hynixVal = (prices.hynix || 0) * (stateData.hynix_shares || 0);
         const semiTotalVal = samsungVal + hynixVal;
 
-        const goldVal = (prices.gold || 0) * (stateData.gold_shares || 0);
-        const us10bVal = (prices.us10b || 0) * (stateData.us10b_shares || 0);
+        const cdVal = (prices.cd || 0) * (stateData.cd_shares || 0);
         const sofrVal = (prices.sofr || 0) * (stateData.sofr_shares || 0);
+        const us30bVal = (prices.us30b || 0) * (stateData.us30b_shares || 0);
+        const goldVal = (prices.gold || 0) * (stateData.gold_shares || 0);
         const snp500Val = (prices.snp500 || 0) * (stateData.snp500_shares || 0);
+        const us10bVal = (prices.us10b || 0) * (stateData.us10b_shares || 0);
         const faduVal = (prices.fadu || 0) * (stateData.fadu_shares || 0);
         const depositVal = stateData.deposit_krw || 0;
 
-        const otherTotalVal = goldVal + us10bVal + sofrVal + snp500Val + faduVal + depositVal;
+        const otherTotalVal = cdVal + sofrVal + us30bVal + goldVal + snp500Val + us10bVal + faduVal + depositVal;
         const totalPortfolioVal = semiTotalVal + otherTotalVal;
 
         const semiRatio = totalPortfolioVal > 0 ? (semiTotalVal / totalPortfolioVal) * 100 : 0;
-        const targetObj = getTargetRatio(prices.kospi || 6358.95);
+        const targetObj = getTargetRatio(prices.kospi || 6910.24);
         const gap = semiRatio - targetObj.ratio;
         const absGap = Math.abs(gap);
-
         const otherTargetTotalPct = 100.0 - targetObj.ratio;
 
-        // 1. Update Metrics
+        // 1. Update Top Metrics
         document.getElementById('valTotal').innerText = (totalPortfolioVal / 100000000).toFixed(2) + " 억 원";
         document.getElementById('valSub').innerText = `${totalPortfolioVal.toLocaleString()} 원`;
 
@@ -1078,156 +1083,119 @@
           badge.className = "status-badge alert";
           badgeText.innerText = `🚨 리밸런싱 필요 (격차 ${gap.toFixed(1)}%p >= 8%p)`;
 
-          card.className = "action-guide-card";
-          title.innerHTML = `<span>🚨 실시간 리밸런싱 매매 가이드 (격차 ${gap.toFixed(1)}%p 발생)</span>`;
-          desc.innerText = `KOSPI ${(prices.kospi || 0).toFixed(1)}pt (${targetObj.lvl}) 기준으로 목표 반도체 비중은 ${targetObj.ratio}% 입니다. 비중을 맞추기 위한 추천 매매 주문량입니다.`;
-
-          const tradeAmountTotal = Math.round(Math.abs(gap / 100 * totalPortfolioVal));
-          const tradeSamAmount = Math.round(tradeAmountTotal * 0.5);
-          const tradeHynixAmount = Math.round(tradeAmountTotal * 0.5);
-          const tradeSamShares = prices.samsung > 0 ? Math.round(tradeSamAmount / prices.samsung) : 0;
-          const tradeHynixShares = prices.hynix > 0 ? Math.round(tradeHynixAmount / prices.hynix) : 0;
-
+          card.style.borderColor = "rgba(239, 68, 68, 0.4)";
+          title.innerHTML = `🚨 매매 조건 완화 룰(±8%p) 트리거 도달! (${gap > 0 ? '축소 매도' : '저가 매수'} 구간)`;
           if (gap > 0) {
+            const reduceAmount = totalPortfolioVal * (gap / 100);
+            desc.innerHTML = `반도체 비중(<strong>${semiRatio.toFixed(1)}%</strong>)이 목표(<strong>${targetObj.ratio.toFixed(1)}%</strong>) 대비 <strong>${gap.toFixed(1)}%p 초과</strong>했습니다. 약 <strong>${(reduceAmount / 100000000).toFixed(2)}억 원</strong> 분할 매도하여 안전/실탄 자산으로 전환하세요.`;
             list.innerHTML = `
-              <div class="action-step-box">
-                <h4 style="color: var(--accent-orange);">1. 반도체 주식 분할 매도 (-${(tradeAmountTotal / 10000).toFixed(0)}만 원)</h4>
-                <ul>
-                  <li><strong>삼성전자</strong>: 약 <strong>${tradeSamShares.toLocaleString()} 주</strong> 매도 (약 ${(tradeSamAmount / 10000).toFixed(0)}만 원)</li>
-                  <li><strong>SK하이닉스</strong>: 약 <strong>${tradeHynixShares.toLocaleString()} 주</strong> 매도 (약 ${(tradeHynixAmount / 10000).toFixed(0)}만 원)</li>
-                </ul>
-              </div>
-              <div class="action-step-box">
-                <h4 style="color: var(--accent-blue);">2. 기타 자산 분할 매수 (+${(tradeAmountTotal / 10000).toFixed(0)}만 원)</h4>
-                <ul>
-                  <li><strong>TIGER SOFR (현금 35%)</strong>: 약 ${(tradeAmountTotal * 0.35 / 10000).toFixed(0)}만 원 매수</li>
-                  <li><strong>KODEX 10년국채 (채권 25%)</strong>: 약 ${(tradeAmountTotal * 0.25 / 10000).toFixed(0)}만 원 매수</li>
-                  <li><strong>KODEX 골드 / S&P500 (각 20%)</strong>: 각 약 ${(tradeAmountTotal * 0.20 / 10000).toFixed(0)}만 원 매수</li>
-                </ul>
-              </div>
+              <div class="action-step-box"><div>1. SK하이닉스 & 삼성전자 분할 매도 (총 <strong>${(reduceAmount / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 원</strong> 규모)</div></div>
+              <div class="action-step-box"><div>2. 매도 대금을 <strong>CD금리(25%), SOFR(20%), 미국30년국채(20%), 금현물(20%), S&P500(15%)</strong>로 분배</div></div>
             `;
           } else {
+            const buyAmount = totalPortfolioVal * (absGap / 100);
+            desc.innerHTML = `반도체 비중(<strong>${semiRatio.toFixed(1)}%</strong>)이 목표(<strong>${targetObj.ratio.toFixed(1)}%</strong>) 대비 <strong>${absGap.toFixed(1)}%p 부족</strong>합니다. 1순위 실탄(CD금리) 및 예수금 <strong>${(buyAmount / 100000000).toFixed(2)}억 원</strong>을 투입해 저가 매수하세요.`;
             list.innerHTML = `
-              <div class="action-step-box">
-                <h4 style="color: var(--accent-green);">1. 반도체 주식 저가 매수 (+${(tradeAmountTotal / 10000).toFixed(0)}만 원)</h4>
-                <ul>
-                  <li><strong>삼성전자</strong>: 약 <strong>${tradeSamShares.toLocaleString()} 주</strong> 매수 (약 ${(tradeSamAmount / 10000).toFixed(0)}만 원)</li>
-                  <li><strong>SK하이닉스</strong>: 약 <strong>${tradeHynixShares.toLocaleString()} 주</strong> 매수 (약 ${(tradeHynixAmount / 10000).toFixed(0)}만 원)</li>
-                </ul>
-              </div>
-              <div class="action-step-box">
-                <h4 style="color: var(--accent-purple);">2. 기타 자산 일부 매도 (실탄 집행)</h4>
-                <ul>
-                  <li><strong>SOFR 현금성 자산</strong>에서 매수 금액 최우선 집행</li>
-                </ul>
-              </div>
+              <div class="action-step-box"><div>1. 1순위 원화 실탄(KODEX CD금리) 및 예수금 <strong>${(buyAmount / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 원</strong> 확보</div></div>
+              <div class="action-step-box"><div>2. 삼성전자 / SK하이닉스 5:5 비율로 분할 저가 매수 집행</div></div>
             `;
           }
         } else {
-          badge.className = "status-badge";
-          badgeText.innerText = `🟢 정상 상태 (격차 ${gap.toFixed(1)}%p < 8%p)`;
+          badge.className = "status-badge normal";
+          badgeText.innerText = `🟢 정상 범위 (격차 ${gap > 0 ? '+' : ''}${gap.toFixed(1)}%p < 8%p)`;
 
-          card.className = "action-guide-card normal";
-          title.innerHTML = `<span>🟢 포트폴리오 유지가이드 (정상 범위)</span>`;
-          desc.innerText = `현재 반도체 비중(${semiRatio.toFixed(1)}%)과 KOSPI ${(prices.kospi || 0).toFixed(1)}pt 레벨 목표 비중(${targetObj.ratio}%)의 격차가 ${gap > 0 ? '+' : ''}${gap.toFixed(1)}%p로 이탈 기준(±8.0%p) 미만입니다.`;
-
+          card.style.borderColor = "rgba(16, 185, 129, 0.3)";
+          title.innerHTML = `🟢 현재 비중 안정적 유지 중 (${targetObj.lvl} 구간)`;
+          desc.innerHTML = `반도체 비중(<strong>${semiRatio.toFixed(1)}%</strong>)과 목표 비중(<strong>${targetObj.ratio.toFixed(1)}%</strong>)의 이격도가 <strong>${absGap.toFixed(1)}%p</strong>로 완화된 기준선(±8%p) 이내입니다. <strong>불필요한 잦은 매매를 배제하고 관망</strong>합니다.`;
           list.innerHTML = `
-            <div class="action-step-box" style="grid-column: 1 / -1;">
-              <h4 style="color: #4ade80;">✅ 오늘은 매매 없이 편안하게 관망하시면 됩니다.</h4>
-              <ul>
-                <li>현재 계좌 상태가 박스권 리밸런싱 전략의 정상 범위 내에 있습니다.</li>
-                <li>스케줄러가 평일 10시 / 14시 마다 지수와 비중을 계속 추적 모니터링합니다.</li>
-              </ul>
-            </div>
+            <div class="action-step-box"><div>다음 매매 트리거 이격선: 반도체 비중 <strong>${(targetObj.ratio + 8.0).toFixed(1)}% 이상</strong> 또는 <strong>${(targetObj.ratio - 8.0).toFixed(1)}% 이하</strong> 진입 시</div></div>
           `;
         }
 
-
-        // 3. Highlight Active Level
-        document.querySelectorAll('.level-item').forEach(el => el.classList.remove('active'));
-        const activeEl = document.getElementById(`lvl-${targetObj.lvl}`);
-        if (activeEl) activeEl.classList.add('active');
-        document.getElementById('activeLevelLabel').innerText = `${targetObj.lvl} (목표 ${targetObj.ratio}%)`;
+        // 3. Update Level Marker
+        const activeLevelRatio = ((prices.kospi - 6000) / (8500 - 6000)) * 100;
+        const clampedRatio = Math.max(0, Math.min(100, activeLevelRatio));
+        const marker = document.getElementById('kospiProgressMarker');
+        if (marker) marker.style.left = `${clampedRatio}%`;
+        const activeLabel = document.getElementById('activeLevelLabel');
+        if (activeLabel) activeLabel.innerText = `${targetObj.lvl} (목표 ${targetObj.ratio}%)`;
 
         // 4. Update Table (Desktop) & Cards (Mobile)
         const semiTargetEach = (targetObj.ratio / 2).toFixed(2);
-
         const items = [
           { name: 'SK하이닉스', group: 'semi', shares: stateData.hynix_shares, price: prices.hynix, val: hynixVal, targetWeightStr: `${semiTargetEach}%` },
           { name: '삼성전자', group: 'semi', shares: stateData.samsung_shares, price: prices.samsung, val: samsungVal, targetWeightStr: `${semiTargetEach}%` },
-          { name: 'KODEX 골드선물(H)', group: 'other', shares: stateData.gold_shares, price: prices.gold, val: goldVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
-          { name: 'KODEX 미국S&P500선물(H)', group: 'other', shares: stateData.snp500_shares, price: prices.snp500, val: snp500Val, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
-          { name: 'KODEX 미국10년국채선물', group: 'other', shares: stateData.us10b_shares, price: prices.us10b, val: us10bVal, targetWeightStr: `${(otherTargetTotalPct * 0.25).toFixed(2)}%` },
-          { name: 'TIGER SOFR금리액티브', group: 'other', shares: stateData.sofr_shares, price: prices.sofr, val: sofrVal, targetWeightStr: `${(otherTargetTotalPct * 0.35).toFixed(2)}%` },
+          { name: 'TIGER 미국S&P500', group: 'other', shares: stateData.snp500_shares, price: prices.snp500, val: snp500Val, targetWeightStr: `${(otherTargetTotalPct * 0.15).toFixed(2)}%` },
+          { name: 'ACE KRX금현물', group: 'other', shares: stateData.gold_shares, price: prices.gold, val: goldVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
+          { name: 'ACE 미국30년국채액티브(H)', group: 'other', shares: stateData.us30b_shares, price: prices.us30b, val: us30bVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
+          { name: 'TIGER 미국달러SOFR', group: 'other', shares: stateData.sofr_shares, price: prices.sofr, val: sofrVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
+          { name: 'KODEX CD금리액티브', group: 'other', shares: stateData.cd_shares, price: prices.cd, val: cdVal, targetWeightStr: `${(otherTargetTotalPct * 0.25).toFixed(2)}%` },
           { name: '예수금 (원화 현금)', group: 'other', shares: 1, price: depositVal, val: depositVal, targetWeightStr: `현금 실탄` }
         ];
 
+        if (stateData.us10b_shares > 0) {
+          items.push({ name: 'KODEX 미국10년국채선물 (구)', group: 'other', shares: stateData.us10b_shares, price: prices.us10b, val: us10bVal, targetWeightStr: `0.00% (매도)` });
+        }
         if (stateData.fadu_shares > 0) {
           items.push({ name: '파두', group: 'other', shares: stateData.fadu_shares, price: prices.fadu, val: faduVal, targetWeightStr: `0.00% (매도)` });
         }
-
-        // Desktop Table Body
+        
         let tbody = '';
-        // Mobile Stock Cards HTML
         let mCardsHtml = '';
-
         items.forEach(it => {
           const ratio = (it.val / totalPortfolioVal * 100).toFixed(2);
           const tag = it.group === 'semi' ? '<span class="tag-semi">반도체</span>' : '<span class="tag-other">기타자산</span>';
 
-          // Table row
           tbody += `<tr>
-          <td><strong>${it.name}</strong></td>
-          <td>${tag}</td>
-          <td>${it.shares.toLocaleString()} 주</td>
-          <td>${it.price.toLocaleString()} 원</td>
-          <td>${it.val.toLocaleString()} 원</td>
-          <td><strong>${ratio}%</strong></td>
-          <td><span class="target-weight-badge">${it.targetWeightStr}</span></td>
-        </tr>`;
+            <td><strong>${it.name}</strong></td>
+            <td>${tag}</td>
+            <td>${it.shares.toLocaleString()} 주</td>
+            <td>${it.price.toLocaleString()} 원</td>
+            <td>${it.val.toLocaleString()} 원</td>
+            <td><strong>${ratio}%</strong></td>
+            <td><span class="target-weight-badge">${it.targetWeightStr}</span></td>
+          </tr>`;
 
-          // Mobile Card HTML (Optimized for Smartphone)
           mCardsHtml += `
-          <div class="m-stock-card">
-            <div class="m-stock-top">
-              <span class="m-stock-name">${it.name}</span>
-              ${tag}
-            </div>
-            <div class="m-stock-mid">
-              <div>
-                <div style="font-size:0.75rem; color:var(--text-sub);">실시간 비중</div>
-                <div style="font-size:1.1rem; font-weight:800; color:#fff;">${ratio}%</div>
+            <div class="m-stock-card">
+              <div class="m-stock-top">
+                <span class="m-stock-name">${it.name}</span>
+                ${tag}
               </div>
-              <div style="text-align:right;">
-                <div style="font-size:0.75rem; color:var(--text-sub);">목표 비중 🎯</div>
-                <div style="font-size:1.1rem; font-weight:800; color:var(--accent-green);">${it.targetWeightStr}</div>
+              <div class="m-stock-mid">
+                <div>
+                  <div style="font-size:0.75rem; color:var(--text-sub);">실시간 비중</div>
+                  <div style="font-size:1.1rem; font-weight:800; color:#fff;">${ratio}%</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:0.75rem; color:var(--text-sub);">목표 비중 🎯</div>
+                  <div style="font-size:1.1rem; font-weight:800; color:var(--accent-green);">${it.targetWeightStr}</div>
+                </div>
+              </div>
+              <div class="m-stock-sub-info" style="display:flex; justify-content:space-between; align-items:center;">
+                <span>보유: ${it.shares.toLocaleString()}주 (${it.price.toLocaleString()}원)</span>
+                <span class="m-stock-val">${it.val.toLocaleString()} 원</span>
               </div>
             </div>
-            <div class="m-stock-sub-info" style="display:flex; justify-content:space-between; align-items:center;">
-              <span>보유: ${it.shares.toLocaleString()}주 (${it.price.toLocaleString()}원)</span>
-              <span class="m-stock-val">${it.val.toLocaleString()} 원</span>
-            </div>
-          </div>
-        `;
+          `;
         });
-
         document.getElementById('stockTableBody').innerHTML = tbody;
         document.getElementById('mobileStockCards').innerHTML = mCardsHtml;
 
-        // 5. Update Detailed Donut Chart (Sorted by evaluation value / weight descending)
+        // 5. Donut Chart Items
         const chartItems = [
           { label: `SK하이닉스 (${(hynixVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: hynixVal, color: '#f97316' },
           { label: `삼성전자 (${(samsungVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: samsungVal, color: '#fb923c' },
+          { label: `KODEX CD금리 (${(cdVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: cdVal, color: '#10b981' },
           { label: `TIGER SOFR (${(sofrVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: sofrVal, color: '#0284c7' },
-          { label: `KODEX 골드 (${(goldVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: goldVal, color: '#38bdf8' },
-          { label: `KODEX 국채10년 (${(us10bVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: us10bVal, color: '#7dd3fc' },
-          { label: `KODEX S&P500 (${(snp500Val / totalPortfolioVal * 100).toFixed(1)}%)`, val: snp500Val, color: '#a5f3fc' }
+          { label: `ACE 금현물 (${(goldVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: goldVal, color: '#eab308' },
+          { label: `ACE 미국30년국채 (${(us30bVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: us30bVal, color: '#6366f1' }
         ];
-        if (depositVal > 0) {
-          chartItems.push({ label: `예수금 (${(depositVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: depositVal, color: '#10b981' });
+        if (snp500Val > 0) {
+          chartItems.push({ label: `TIGER S&P500 (${(snp500Val / totalPortfolioVal * 100).toFixed(1)}%)`, val: snp500Val, color: '#38bdf8' });
         }
-        if (faduVal > 0) {
-          chartItems.push({ label: `파두 (${(faduVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: faduVal, color: '#f43f5e' });
+        if (depositVal > 0) {
+          chartItems.push({ label: `예수금 (${(depositVal / totalPortfolioVal * 100).toFixed(1)}%)`, val: depositVal, color: '#34d399' });
         }
         chartItems.sort((a, b) => b.val - a.val);
 
@@ -1339,20 +1307,22 @@
 
         const sam = (p.samsung || 0) * (h.samsung_shares || 0);
         const hyn = (p.hynix || 0) * (h.hynix_shares || 0);
-        const gld = (p.gold || 0) * (od.kodex_gold_shares || 0);
+        const cd = (p.cd || 0) * (od.kodex_cd_shares || 0);
+        const gld = (p.gold || 0) * ((od.ace_gold_shares !== undefined ? od.ace_gold_shares : od.kodex_gold_shares) || 0);
         const us1 = (p.us10b || 0) * (od.kodex_us10b_shares || 0);
+        const us3 = (p.us30b || 0) * (od.ace_us30b_shares || 0);
         const sfr = (p.sofr || 0) * (od.tiger_sofr_shares || 0);
-        const snp = (p.snp500 || 0) * (od.kodex_snp500_shares || 0);
+        const snp = (p.snp500 || 0) * ((od.tiger_snp500_shares !== undefined ? od.tiger_snp500_shares : od.kodex_snp500_shares) || 0);
         const fdu = (p.fadu || 0) * (od.fadu_shares || 0);
         const dep = h.deposit_krw || 0;
 
-        const tot = sam + hyn + gld + us1 + sfr + snp + fdu + dep;
+        const tot = sam + hyn + cd + gld + us1 + us3 + sfr + snp + fdu + dep;
 
         dates.push(item.date);
         samVals.push(sam);
         hynixVals.push(hyn);
         goldVals.push(gld);
-        us10bVals.push(us1);
+        us10bVals.push(us1 + us3 + cd);
         sofrVals.push(sfr);
         snpVals.push(snp);
         faduVals.push(fdu);
@@ -1386,54 +1356,14 @@
         data: {
           labels: dates,
           datasets: [
-            {
-              label: 'SK하이닉스',
-              data: hynixVals,
-              backgroundColor: 'rgba(249, 115, 22, 0.85)',
-              borderRadius: 2
-            },
-            {
-              label: '삼성전자',
-              data: samVals,
-              backgroundColor: 'rgba(56, 189, 248, 0.85)',
-              borderRadius: 2
-            },
-            {
-              label: 'KODEX 골드선물',
-              data: goldVals,
-              backgroundColor: 'rgba(234, 179, 8, 0.85)',
-              borderRadius: 2
-            },
-            {
-              label: 'KODEX 10년국채',
-              data: us10bVals,
-              backgroundColor: 'rgba(16, 185, 129, 0.85)',
-              borderRadius: 2
-            },
-            {
-              label: 'TIGER SOFR',
-              data: sofrVals,
-              backgroundColor: 'rgba(6, 182, 212, 0.85)',
-              borderRadius: 2
-            },
-            {
-              label: 'KODEX S&P500',
-              data: snpVals,
-              backgroundColor: 'rgba(168, 85, 247, 0.85)',
-              borderRadius: 2
-            },
-            {
-              label: '파두',
-              data: faduVals,
-              backgroundColor: 'rgba(244, 63, 94, 0.85)',
-              borderRadius: 2
-            },
-            {
-              label: '예수금 (원화 현금)',
-              data: depositVals,
-              backgroundColor: 'rgba(148, 163, 184, 0.85)',
-              borderRadius: 4
-            }
+            { label: 'SK하이닉스', data: hynixVals, backgroundColor: '#f97316', borderRadius: 2 },
+            { label: '삼성전자', data: samVals, backgroundColor: '#fb923c', borderRadius: 2 },
+            { label: '채권/파킹(CD·미국채)', data: us10bVals, backgroundColor: '#6366f1', borderRadius: 2 },
+            { label: '금(Gold)', data: goldVals, backgroundColor: '#eab308', borderRadius: 2 },
+            { label: 'SOFR', data: sofrVals, backgroundColor: '#0284c7', borderRadius: 2 },
+            { label: 'S&P500', data: snpVals, backgroundColor: '#38bdf8', borderRadius: 2 },
+            { label: '파두', data: faduVals, backgroundColor: '#f43f5e', borderRadius: 2 },
+            { label: '예수금', data: depositVals, backgroundColor: '#10b981', borderRadius: 4 }
           ]
         },
         options: {
@@ -1481,7 +1411,7 @@
                 footer: function(items) {
                   const idx = items[0].dataIndex;
                   const tot = totalVals[idx];
-                  return `──────────────────\n💰 총 자산 가치: ${(tot / 100000000).toFixed(2)}억 원 (${tot.toLocaleString()}원)`;
+                  return `──────────────────\n💰 총 자산: ${(tot / 100000000).toFixed(2)}억 원 (${tot.toLocaleString()}원)`;
                 }
               }
             }

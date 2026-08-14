@@ -7,10 +7,13 @@ items = [
     ('kospi', 'KOSPI', '^KS11', 'index'),
     ('samsung', '005930', '005930.KS', 'stock'),
     ('hynix', '000660', '000660.KS', 'stock'),
+    ('cd', '459580', '459580.KS', 'stock'),
     ('sofr', '456610', '456610.KS', 'stock'),
-    ('us10b', '308620', '308620.KS', 'stock'),
-    ('gold', '132030', '132030.KS', 'stock'),
-    ('snp500', '219480', '219480.KS', 'stock')
+    ('us30b', '453850', '453850.KS', 'stock'),
+    ('gold', '411060', '411060.KS', 'stock'),
+    ('snp500', '360750', '360750.KS', 'stock'),
+    # 하위 호환용 (필요 시)
+    ('us10b', '308620', '308620.KS', 'stock')
 ]
 
 def fetch_naver(code, itype):

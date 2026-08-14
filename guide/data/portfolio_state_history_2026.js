@@ -133,5 +133,37 @@ window.PORTFOLIO_STATE_HISTORY_2026 = [
       "kodex_snp500_shares": 286,
       "fadu_shares": 0
     }
+  },
+  {
+    "date": "2026-08-14",
+    "note": "기타자산 최적화 전량 교체 (선물형 3종 매도 ➔ 현물형 3종 및 CD금리 매수, SOFR 추가 매수)",
+    "prices": {
+      "kospi": 6910.24,
+      "samsung": 270000,
+      "hynix": 1643000,
+      "cd": 1074947,
+      "sofr": 61275,
+      "us30b": 7175,
+      "gold": 27525,
+      "snp500": 27345,
+      "fadu": 0
+    },
+    "holdings": {
+      "samsung_shares": 576,
+      "hynix_shares": 92,
+      "deposit_krw": 18732121,
+      "other_assets_krw": 79296856
+    },
+    "other_assets_detail": {
+      "kodex_cd_shares": 18,
+      "tiger_sofr_shares": 261,
+      "ace_us30b_shares": 2228,
+      "ace_gold_shares": 581,
+      "tiger_snp500_shares": 438,
+      "kodex_gold_shares": 0,
+      "kodex_us10b_shares": 0,
+      "kodex_snp500_shares": 0,
+      "fadu_shares": 0
+    }
   }
 ];
