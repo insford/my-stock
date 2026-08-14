@@ -1112,7 +1112,11 @@
           `;
         }
 
-        // 3. Update Level Marker
+        // 3. Highlight Active Level in Matrix & Progress Marker
+        document.querySelectorAll('.level-item').forEach(el => el.classList.remove('active'));
+        const activeEl = document.getElementById(`lvl-${targetObj.lvl}`);
+        if (activeEl) activeEl.classList.add('active');
+
         const activeLevelRatio = ((prices.kospi - 6000) / (8500 - 6000)) * 100;
         const clampedRatio = Math.max(0, Math.min(100, activeLevelRatio));
         const marker = document.getElementById('kospiProgressMarker');
