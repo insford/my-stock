@@ -480,6 +480,198 @@
       }
     }
 
+    /* Tab View Styles */
+    .tabs-nav {
+      display: flex;
+      gap: 0.5rem;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 0.35rem;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      width: fit-content;
+      max-width: 100%;
+      overflow-x: auto;
+      margin-bottom: 1.25rem;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-sub);
+      padding: 0.65rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.2));
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.15);
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* History Summary Bar */
+    .history-summary-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .h-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .h-stat-label {
+      font-size: 0.78rem;
+      color: var(--text-sub);
+    }
+
+    .h-stat-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .h-stat-value.text-blue {
+      color: var(--accent-blue);
+    }
+
+    .h-stat-value.text-green {
+      color: var(--accent-green);
+    }
+
+    .h-stat-value.text-orange {
+      color: var(--accent-orange);
+    }
+
+    .time-filter-group {
+      display: inline-flex;
+      gap: 0.35rem;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.25rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .time-filter-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .time-filter-btn:hover {
+      color: #fff;
+    }
+
+    .time-filter-btn.active {
+      background: rgba(56, 189, 248, 0.25);
+      color: var(--accent-blue);
+    }
+
+    /* Mobile History Cards */
+    .mobile-history-cards {
+      display: none;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 1rem;
+    }
+
+    .m-hist-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .m-hist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .m-hist-date {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+
+    .m-hist-note {
+      font-size: 0.82rem;
+      color: var(--text-sub);
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0.4rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .m-hist-breakdown {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+      color: #e5e7eb;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 0.5rem;
+      border-radius: 8px;
+    }
+
+    .m-hist-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-history-cards {
+        display: flex;
+      }
+    }
+
     footer {
       text-align: center;
       color: var(--text-sub);
@@ -584,38 +776,123 @@
       </div>
     </div>
 
-    <!-- Table & Mobile Cards Combined Panel Card -->
-    <div class="panel-card">
-      <div class="panel-header">
-        <span>실시간 보유 종목 시세 및 목표 비중 비교</span>
-        <span style="font-size: 0.8rem; color: var(--text-sub);" id="tableCount">7개 종목</span>
+    <!-- Tabs Container for Realtime vs History -->
+    <div class="panel-card" style="padding-top: 1.25rem;">
+      <div class="tabs-nav">
+        <button class="tab-btn active" id="tabBtnRealtime" onclick="switchTab('realtime')">
+          <span>📊</span> 실시간 보유 종목 시세 및 목표 비중 비교
+        </button>
+        <button class="tab-btn" id="tabBtnHistory" onclick="switchTab('history')">
+          <span>📈</span> "매수/매도"에 따른 자산 변화
+        </button>
       </div>
 
-      <!-- 1. Desktop Table View -->
-      <div class="desktop-table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>종목명</th>
-              <th>그룹</th>
-              <th>보유수량</th>
-              <th>실시간 현재가</th>
-              <th>평가금액</th>
-              <th>실시간 비중</th>
-              <th style="color: var(--accent-green);">목표 비중 🎯</th>
-            </tr>
-          </thead>
-          <tbody id="stockTableBody">
-            <tr>
-              <td colspan="7" style="text-align: center; color: var(--text-sub);">실시간 시세를 불러오는 중입니다...</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Tab 1: Real-time Holdings & Target Weights -->
+      <div class="tab-pane active" id="tabContentRealtime">
+        <div class="panel-header" style="margin-top: 0.5rem;">
+          <span>실시간 7개 종목 시세 & 목표 비중 비교</span>
+          <span style="font-size: 0.8rem; color: var(--text-sub);" id="tableCount">7개 종목</span>
+        </div>
+
+        <!-- 1. Desktop Table View -->
+        <div class="desktop-table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>종목명</th>
+                <th>그룹</th>
+                <th>보유수량</th>
+                <th>실시간 현재가</th>
+                <th>평가금액</th>
+                <th>실시간 비중</th>
+                <th style="color: var(--accent-green);">목표 비중 🎯</th>
+              </tr>
+            </thead>
+            <tbody id="stockTableBody">
+              <tr>
+                <td colspan="7" style="text-align: center; color: var(--text-sub);">실시간 시세를 불러오는 중입니다...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 2. Mobile Responsive Stock Cards View -->
+        <div class="mobile-stock-cards" id="mobileStockCards">
+          <!-- Rendered dynamically for mobile -->
+        </div>
       </div>
 
-      <!-- 2. Mobile Responsive Stock Cards View -->
-      <div class="mobile-stock-cards" id="mobileStockCards">
-        <!-- Rendered dynamically for mobile -->
+      <!-- Tab 2: "매수/매도"에 따른 자산 변화 (Stacked Bar Chart & Timeline) -->
+      <div class="tab-pane" id="tabContentHistory">
+        <div class="panel-header" style="margin-top: 0.5rem; flex-wrap: wrap; gap: 0.75rem;">
+          <div>
+            <span>매매 집행에 따른 총자산 가치 변화 추이</span>
+            <div style="font-size: 0.8rem; color: var(--text-sub); margin-top: 0.2rem; font-weight: 400;">
+              일자별 종목 평가가치 Stacked 막대그래프 (최대 3개월)
+            </div>
+          </div>
+          <div class="time-filter-group">
+            <button class="time-filter-btn" onclick="filterHistory('1M', this)">최근 1개월</button>
+            <button class="time-filter-btn active" onclick="filterHistory('3M', this)">최근 3개월 (최대)</button>
+            <button class="time-filter-btn" onclick="filterHistory('ALL', this)">전체</button>
+          </div>
+        </div>
+
+        <!-- History Summary Metrics -->
+        <div class="history-summary-bar">
+          <div class="h-stat-item">
+            <span class="h-stat-label">최초 등록 총자산 (2026-07-31)</span>
+            <span class="h-stat-value" id="histInitTotal">---</span>
+          </div>
+          <div class="h-stat-item">
+            <span class="h-stat-label">현재 총 평가액 (2026-08-13)</span>
+            <span class="h-stat-value text-blue" id="histLatestTotal">---</span>
+          </div>
+          <div class="h-stat-item">
+            <span class="h-stat-label">확보 예수금 (원화 현금)</span>
+            <span class="h-stat-value text-green" id="histDepositTotal">---</span>
+          </div>
+          <div class="h-stat-item">
+            <span class="h-stat-label">총 리밸런싱 매매 집행</span>
+            <span class="h-stat-value text-orange" id="histTradeCount">---</span>
+          </div>
+        </div>
+
+        <!-- Stacked Bar Chart -->
+        <div style="position: relative; height: 380px; margin: 1.5rem 0;">
+          <canvas id="assetHistoryStackedChart"></canvas>
+        </div>
+
+        <!-- History Timeline Detail Table -->
+        <div style="margin-top: 2rem;">
+          <div style="font-weight: 700; font-size: 1rem; margin-bottom: 1rem; color: #fff; display: flex; justify-content: space-between; align-items: center;">
+            <span>📜 일자별 리밸런싱 매매 내역 및 자산 배분</span>
+            <span style="font-size: 0.8rem; color: var(--text-sub);" id="histRecordCount">---</span>
+          </div>
+
+          <div class="desktop-table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>일자</th>
+                  <th>매매 및 변경 내용</th>
+                  <th>KOSPI</th>
+                  <th>반도체 자산</th>
+                  <th>기타 자산</th>
+                  <th>예수금 (현금)</th>
+                  <th style="color: var(--accent-blue);">총 평가금액</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <!-- Rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="mobile-history-cards" id="mobileHistoryCards">
+            <!-- Rendered dynamically for mobile -->
+          </div>
+        </div>
       </div>
     </div>
 
@@ -641,10 +918,12 @@
   </div>
 
   <script src="guide/data/portfolio_state.js"></script>
-  <!-- <script src="guide/data/portfolio_state_history_2026.js"></script> -->
+  <script src="guide/data/portfolio_state_history_2026.js"></script>
   <script src="guide/data/live_market.js"></script>
   <script>
     let myChart = null;
+    let historyChart = null;
+    let currentHistRange = '3M';
 
     let stateData = {
       samsung_shares: 576,
@@ -658,14 +937,37 @@
       fadu_shares: 0
     };
 
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      if (tabId === 'realtime') {
+        document.getElementById('tabBtnRealtime').classList.add('active');
+        document.getElementById('tabContentRealtime').classList.add('active');
+      } else if (tabId === 'history') {
+        document.getElementById('tabBtnHistory').classList.add('active');
+        document.getElementById('tabContentHistory').classList.add('active');
+        if (historyChart) {
+          setTimeout(() => historyChart.resize(), 50);
+        }
+      }
+    }
+
+    function filterHistory(range, btnElement) {
+      currentHistRange = range;
+      document.querySelectorAll('.time-filter-btn').forEach(b => b.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+      renderHistoryTab(range);
+    }
+
     function loadPortfolioState() {
       const json = window.PORTFOLIO_STATE_DATA || null;
       if (json) {
         if (json.holdings) {
-          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 611;
-          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 98;
+          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 576;
+          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 92;
           stateData.other_assets_krw = json.holdings.other_assets_krw || 0;
-          stateData.deposit_krw = json.holdings.deposit_krw || 0;
+          stateData.deposit_krw = json.holdings.deposit_krw !== undefined ? json.holdings.deposit_krw : 51550609;
         }
         if (json.other_assets_detail) {
           stateData.gold_shares = json.other_assets_detail.kodex_gold_shares !== undefined ? json.other_assets_detail.kodex_gold_shares : 552;
@@ -706,13 +1008,13 @@
       const localData = loadLiveMarketData();
 
       let defaultPrices = {
-        kospi: 6358.95,
-        samsung: 242000,
-        hynix: 1609000,
-        gold: 22830,
-        us10b: 11955,
-        sofr: 61950,
-        snp500: 32875,
+        kospi: 6813.34,
+        samsung: 263000,
+        hynix: 1572000,
+        gold: 24600,
+        us10b: 11880,
+        sofr: 61525,
+        snp500: 33425,
         fadu: 0
       };
 
@@ -725,6 +1027,7 @@
       }
 
       updateDashboard(prices, lastUpdatedTimeStr);
+      renderHistoryTab(currentHistRange);
     }
 
     function updateDashboard(prices, lastUpdatedTimeStr = "") {
@@ -983,6 +1286,308 @@
           cutout: '65%'
         }
       });
+    }
+
+    // ==========================================
+    // History Stacked Bar Chart & Timeline Table
+    // ==========================================
+    function renderHistoryTab(range = '3M') {
+      const historyList = (window.PORTFOLIO_STATE_HISTORY_2026 || []).slice();
+      if (historyList.length === 0) return;
+
+      // Sort by date ascending
+      historyList.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      const latestDateStr = historyList[historyList.length - 1].date;
+      const latestDate = new Date(latestDateStr);
+
+      let filteredList = historyList;
+      if (range === '1M') {
+        const cutoff = new Date(latestDate);
+        cutoff.setDate(cutoff.getDate() - 31);
+        filteredList = historyList.filter(item => new Date(item.date) >= cutoff);
+      } else if (range === '3M') {
+        const cutoff = new Date(latestDate);
+        cutoff.setDate(cutoff.getDate() - 93);
+        filteredList = historyList.filter(item => new Date(item.date) >= cutoff);
+      }
+
+      if (filteredList.length === 0) filteredList = historyList;
+
+      // Calculate asset values per record
+      const dates = [];
+      const samVals = [];
+      const hynixVals = [];
+      const goldVals = [];
+      const us10bVals = [];
+      const sofrVals = [];
+      const snpVals = [];
+      const faduVals = [];
+      const depositVals = [];
+      const totalVals = [];
+      const notes = [];
+      const kospiVals = [];
+
+      let initTotal = 0;
+      let latestTotal = 0;
+      let latestDeposit = 0;
+
+      filteredList.forEach((item, idx) => {
+        const p = item.prices || {};
+        const h = item.holdings || {};
+        const od = item.other_assets_detail || {};
+
+        const sam = (p.samsung || 0) * (h.samsung_shares || 0);
+        const hyn = (p.hynix || 0) * (h.hynix_shares || 0);
+        const gld = (p.gold || 0) * (od.kodex_gold_shares || 0);
+        const us1 = (p.us10b || 0) * (od.kodex_us10b_shares || 0);
+        const sfr = (p.sofr || 0) * (od.tiger_sofr_shares || 0);
+        const snp = (p.snp500 || 0) * (od.kodex_snp500_shares || 0);
+        const fdu = (p.fadu || 0) * (od.fadu_shares || 0);
+        const dep = h.deposit_krw || 0;
+
+        const tot = sam + hyn + gld + us1 + sfr + snp + fdu + dep;
+
+        dates.push(item.date);
+        samVals.push(sam);
+        hynixVals.push(hyn);
+        goldVals.push(gld);
+        us10bVals.push(us1);
+        sofrVals.push(sfr);
+        snpVals.push(snp);
+        faduVals.push(fdu);
+        depositVals.push(dep);
+        totalVals.push(tot);
+        notes.push(item.note || '');
+        kospiVals.push(p.kospi || 0);
+
+        if (idx === 0) initTotal = tot;
+        if (idx === filteredList.length - 1) {
+          latestTotal = tot;
+          latestDeposit = dep;
+        }
+      });
+
+      // Update Summary Bar
+      document.getElementById('histInitTotal').innerText = (initTotal / 100000000).toFixed(2) + " 억 원";
+      document.getElementById('histLatestTotal').innerText = (latestTotal / 100000000).toFixed(2) + " 억 원";
+      document.getElementById('histDepositTotal').innerText = (latestDeposit / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 }) + " 만 원";
+      document.getElementById('histTradeCount').innerText = `${historyList.length - 1} 회`;
+      document.getElementById('histRecordCount').innerText = `${filteredList.length}건 기록`;
+
+      // Render Stacked Bar Chart
+      const ctx = document.getElementById('assetHistoryStackedChart').getContext('2d');
+      if (historyChart) historyChart.destroy();
+
+      const isMobile = window.innerWidth <= 600;
+
+      historyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: dates,
+          datasets: [
+            {
+              label: 'SK하이닉스',
+              data: hynixVals,
+              backgroundColor: 'rgba(249, 115, 22, 0.85)',
+              borderRadius: 2
+            },
+            {
+              label: '삼성전자',
+              data: samVals,
+              backgroundColor: 'rgba(56, 189, 248, 0.85)',
+              borderRadius: 2
+            },
+            {
+              label: 'KODEX 골드선물',
+              data: goldVals,
+              backgroundColor: 'rgba(234, 179, 8, 0.85)',
+              borderRadius: 2
+            },
+            {
+              label: 'KODEX 10년국채',
+              data: us10bVals,
+              backgroundColor: 'rgba(16, 185, 129, 0.85)',
+              borderRadius: 2
+            },
+            {
+              label: 'TIGER SOFR',
+              data: sofrVals,
+              backgroundColor: 'rgba(6, 182, 212, 0.85)',
+              borderRadius: 2
+            },
+            {
+              label: 'KODEX S&P500',
+              data: snpVals,
+              backgroundColor: 'rgba(168, 85, 247, 0.85)',
+              borderRadius: 2
+            },
+            {
+              label: '파두',
+              data: faduVals,
+              backgroundColor: 'rgba(244, 63, 94, 0.85)',
+              borderRadius: 2
+            },
+            {
+              label: '예수금 (원화 현금)',
+              data: depositVals,
+              backgroundColor: 'rgba(148, 163, 184, 0.85)',
+              borderRadius: 4
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: '#9ca3af',
+                font: { family: 'Inter', size: isMobile ? 9 : 11 },
+                boxWidth: isMobile ? 10 : 12,
+                padding: isMobile ? 6 : 10
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleColor: '#f3f4f6',
+              bodyColor: '#e5e7eb',
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              borderWidth: 1,
+              padding: 12,
+              boxPadding: 4,
+              callbacks: {
+                title: function(items) {
+                  const idx = items[0].dataIndex;
+                  return `📅 ${dates[idx]} (KOSPI: ${kospiVals[idx].toLocaleString()} pt)`;
+                },
+                beforeBody: function(items) {
+                  const idx = items[0].dataIndex;
+                  return `📝 ${notes[idx]}\n──────────────────`;
+                },
+                label: function(context) {
+                  const val = context.raw || 0;
+                  if (val === 0) return null;
+                  const idx = context.dataIndex;
+                  const tot = totalVals[idx];
+                  const pct = tot > 0 ? (val / tot * 100).toFixed(1) : 0;
+                  return ` ${context.dataset.label}: ${(val / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 원 (${pct}%)`;
+                },
+                footer: function(items) {
+                  const idx = items[0].dataIndex;
+                  const tot = totalVals[idx];
+                  return `──────────────────\n💰 총 자산 가치: ${(tot / 100000000).toFixed(2)}억 원 (${tot.toLocaleString()}원)`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              stacked: true,
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: {
+                color: '#9ca3af',
+                font: { family: 'Inter', size: isMobile ? 10 : 12 }
+              }
+            },
+            y: {
+              stacked: true,
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: {
+                color: '#9ca3af',
+                font: { family: 'Inter', size: isMobile ? 10 : 11 },
+                callback: function(value) {
+                  return (value / 100000000).toFixed(1) + '억';
+                }
+              }
+            }
+          }
+        }
+      });
+
+      // Render History Table & Mobile Cards (in reverse chronological order for table)
+      let tableRowsHtml = '';
+      let mobileCardsHtml = '';
+
+      const reverseList = filteredList.slice().reverse();
+
+      reverseList.forEach(item => {
+        const p = item.prices || {};
+        const h = item.holdings || {};
+        const od = item.other_assets_detail || {};
+
+        const sam = (p.samsung || 0) * (h.samsung_shares || 0);
+        const hyn = (p.hynix || 0) * (h.hynix_shares || 0);
+        const gld = (p.gold || 0) * (od.kodex_gold_shares || 0);
+        const us1 = (p.us10b || 0) * (od.kodex_us10b_shares || 0);
+        const sfr = (p.sofr || 0) * (od.tiger_sofr_shares || 0);
+        const snp = (p.snp500 || 0) * (od.kodex_snp500_shares || 0);
+        const fdu = (p.fadu || 0) * (od.fadu_shares || 0);
+        const dep = h.deposit_krw || 0;
+
+        const semiVal = sam + hyn;
+        const otherStockVal = gld + us1 + sfr + snp + fdu;
+        const tot = semiVal + otherStockVal + dep;
+
+        const semiRatio = tot > 0 ? (semiVal / tot * 100).toFixed(1) : 0;
+        const otherRatio = tot > 0 ? ((otherStockVal + dep) / tot * 100).toFixed(1) : 0;
+
+        tableRowsHtml += `
+          <tr>
+            <td><strong>${item.date}</strong></td>
+            <td style="max-width: 280px; font-size: 0.85rem; color: #e5e7eb;">${item.note || '-'}</td>
+            <td><span style="color: var(--accent-blue); font-weight: 600;">${(p.kospi || 0).toLocaleString()} pt</span></td>
+            <td>
+              <div>${(semiVal / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 원</div>
+              <div style="font-size: 0.75rem; color: var(--accent-orange);">${semiRatio}%</div>
+            </td>
+            <td>
+              <div>${(otherStockVal / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 원</div>
+              <div style="font-size: 0.75rem; color: var(--accent-blue);">${(otherStockVal / tot * 100).toFixed(1)}%</div>
+            </td>
+            <td>
+              <div style="color: var(--accent-green); font-weight: 600;">${(dep / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 원</div>
+            </td>
+            <td>
+              <div style="font-weight: 800; color: #fff;">${(tot / 100000000).toFixed(2)} 억 원</div>
+              <div style="font-size: 0.75rem; color: var(--text-sub);">${tot.toLocaleString()}원</div>
+            </td>
+          </tr>
+        `;
+
+        mobileCardsHtml += `
+          <div class="m-hist-card">
+            <div class="m-hist-header">
+              <span class="m-hist-date">📅 ${item.date}</span>
+              <span style="color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">KOSPI ${(p.kospi || 0).toLocaleString()} pt</span>
+            </div>
+            <div class="m-hist-note">${item.note || '-'}</div>
+            <div class="m-hist-breakdown">
+              <div>
+                <span style="color: var(--text-sub);">반도체:</span> ${(semiVal / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 (${semiRatio}%)
+              </div>
+              <div>
+                <span style="color: var(--text-sub);">기타자산:</span> ${(otherStockVal / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만
+              </div>
+              <div style="grid-column: 1 / -1;">
+                <span style="color: var(--text-sub);">예수금(현금):</span> <span style="color: var(--accent-green); font-weight: 600;">${(dep / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 원</span>
+              </div>
+            </div>
+            <div class="m-hist-total">
+              <span style="font-size: 0.85rem; color: var(--text-sub);">총 평가액</span>
+              <span style="font-size: 1.1rem; color: #fff;">${(tot / 100000000).toFixed(2)} 억 원</span>
+            </div>
+          </div>
+        `;
+      });
+
+      document.getElementById('historyTableBody').innerHTML = tableRowsHtml;
+      document.getElementById('mobileHistoryCards').innerHTML = mobileCardsHtml;
     }
 
     fetchLiveMarketData();
