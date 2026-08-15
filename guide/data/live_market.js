@@ -1,5 +1,5 @@
 window.LIVE_MARKET_DATA = {
-  "last_updated": "2026-08-15 08:49:26",
+  "last_updated": "2026-08-15 09:26:39",
   "prices": {
     "kospi": 6977.94,
     "samsung": 274500,
