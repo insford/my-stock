@@ -1,0 +1,2323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>시드니 1년 살기 가족 플랜 (가족 브리핑 가이드)</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-secondary: #f1f5f9;
+      --bg-header: rgba(255, 255, 255, 0.94);
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      
+      --teal: #0d9488;
+      --teal-light: #ccfbf1;
+      
+      --amber: #d97706;
+      --amber-light: #fef3c7;
+      
+      --emerald: #059669;
+      --emerald-light: #d1fae5;
+
+      --rose: #e11d48;
+      --rose-light: #ffe4e6;
+
+      --indigo: #4f46e5;
+      --indigo-light: #e0e7ff;
+      
+      --border-color: #e2e8f0;
+      --border-focus: #93c5fd;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 16px -2px rgba(0,0,0,0.07);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.1);
+      
+      --font-kr: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-num: 'Outfit', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --bg-secondary: #334155;
+      --bg-header: rgba(30, 41, 59, 0.94);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-light: #64748b;
+      
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --primary-light: rgba(59, 130, 246, 0.15);
+      --primary-border: #1d4ed8;
+      
+      --teal: #14b8a6;
+      --teal-light: rgba(20, 184, 166, 0.15);
+      
+      --amber: #f59e0b;
+      --amber-light: rgba(245, 158, 11, 0.15);
+      
+      --emerald: #10b981;
+      --emerald-light: rgba(16, 185, 129, 0.15);
+
+      --rose: #f43f5e;
+      --rose-light: rgba(244, 63, 94, 0.15);
+
+      --indigo: #6366f1;
+      --indigo-light: rgba(99, 102, 241, 0.15);
+      
+      --border-color: #334155;
+      --border-focus: #3b82f6;
+      
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+      --shadow-md: 0 4px 16px -2px rgba(0,0,0,0.3);
+      --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-kr);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.68;
+      font-size: 15px;
+      padding-bottom: 90px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Container */
+    .app-container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-header);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 16px;
+      transition: background 0.3s ease;
+    }
+
+    .header-content {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      background: var(--primary-light);
+      color: var(--primary);
+      border: 1px solid var(--primary-border);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-btn {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Search Bar */
+    .search-container {
+      display: none;
+      padding: 12px 16px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      animation: fadeIn 0.2s ease;
+    }
+
+    .search-container.active {
+      display: block;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 40px 10px 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      font-size: 14px;
+      font-family: var(--font-kr);
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    /* Tab Navigation */
+    .tab-bar-wrapper {
+      position: sticky;
+      top: 63px;
+      z-index: 90;
+      background: var(--bg-main);
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .tab-bar {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      background: var(--bg-secondary);
+      padding: 4px;
+      border-radius: var(--radius-lg);
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 110px;
+      border: none;
+      background: transparent;
+      padding: 9px 10px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-kr);
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .tab-btn span.tab-icon {
+      font-size: 16px;
+    }
+
+    .tab-btn.active {
+      background: var(--bg-card);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+      font-weight: 700;
+    }
+
+    /* Hero Banner (Only in Overview) */
+    .hero-banner {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 60%, #0d9488 100%);
+      color: #ffffff;
+      padding: 26px;
+      border-radius: var(--radius-lg);
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-banner::after {
+      content: "🦘";
+      position: absolute;
+      right: -10px;
+      bottom: -20px;
+      font-size: 110px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-banner h1 {
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      line-height: 1.35;
+    }
+
+    .hero-banner p {
+      font-size: 14px;
+      opacity: 0.95;
+      line-height: 1.6;
+    }
+
+    /* 4 Stat Cards (Only in Overview) */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .stat-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary-border);
+    }
+
+    .stat-icon {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .stat-sub {
+      font-size: 11.5px;
+      color: var(--emerald);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    /* Content Area */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section Cards */
+    .content-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .content-card-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-main);
+      border-bottom: 2px solid var(--bg-secondary);
+      padding-bottom: 10px;
+    }
+
+    .content-card-subtitle {
+      font-size: 15px;
+      font-weight: 700;
+      margin: 18px 0 10px;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Alert / Callout Box */
+    .callout {
+      padding: 16px 18px;
+      border-radius: var(--radius-md);
+      margin: 16px 0;
+      display: flex;
+      gap: 14px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .callout-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .callout-success {
+      background: var(--emerald-light);
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+    }
+
+    [data-theme="dark"] .callout-success {
+      color: #a7f3d0;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .callout-info {
+      background: var(--primary-light);
+      border: 1px solid var(--primary-border);
+      color: #1e40af;
+    }
+
+    [data-theme="dark"] .callout-info {
+      color: #bfdbfe;
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .callout-warning {
+      background: var(--amber-light);
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+
+    [data-theme="dark"] .callout-warning {
+      color: #fde68a;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    /* Badge & Pills */
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .badge-primary { background: var(--primary-light); color: var(--primary); }
+    .badge-emerald { background: var(--emerald-light); color: var(--emerald); }
+    .badge-amber { background: var(--amber-light); color: var(--amber); }
+    .badge-rose { background: var(--rose-light); color: var(--rose); }
+    .badge-indigo { background: var(--indigo-light); color: var(--indigo); }
+
+    /* Comparison & Grid Boxes */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    @media (min-width: 640px) {
+      .compare-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .compare-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 18px;
+    }
+
+    .compare-box.highlight {
+      border: 2px solid var(--primary);
+      background: var(--primary-light);
+    }
+
+    .compare-box-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Daily Routine Schedule */
+    .schedule-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .schedule-item:last-child {
+      border-bottom: none;
+    }
+
+    .schedule-time {
+      font-family: var(--font-num);
+      font-weight: 700;
+      font-size: 13.5px;
+      color: var(--primary);
+      min-width: 85px;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .schedule-desc h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .schedule-desc p {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Table Design */
+    .custom-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      margin: 16px 0;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      text-align: left;
+    }
+
+    .custom-table th {
+      background: var(--bg-secondary);
+      color: var(--text-main);
+      font-weight: 700;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+    }
+
+    .custom-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+      line-height: 1.55;
+    }
+
+    .custom-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .custom-table tr:hover td {
+      background: var(--primary-light);
+    }
+
+    /* Accordion */
+    .accordion-item {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+
+    .accordion-header {
+      padding: 15px 18px;
+      background: var(--bg-card);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 15px;
+      font-weight: 700;
+      user-select: none;
+      transition: background 0.2s ease;
+    }
+
+    .accordion-header:hover {
+      background: var(--bg-secondary);
+    }
+
+    .accordion-header .acc-icon {
+      font-size: 14px;
+      transition: transform 0.25s ease;
+      color: var(--text-muted);
+    }
+
+    .accordion-item.active .accordion-header .acc-icon {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+
+    .accordion-content {
+      display: none;
+      padding: 18px;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .accordion-item.active .accordion-content {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    /* Timeline Stepper */
+    .stepper {
+      position: relative;
+      padding-left: 28px;
+      margin: 18px 0;
+    }
+
+    .stepper::before {
+      content: '';
+      position: absolute;
+      left: 10px;
+      top: 12px;
+      bottom: 12px;
+      width: 2px;
+      background: var(--border-color);
+    }
+
+    .step-node {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .step-node:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-dot {
+      position: absolute;
+      left: -28px;
+      top: 3px;
+      width: 22px;
+      height: 22px;
+      border-radius: var(--radius-full);
+      background: var(--bg-card);
+      border: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .step-node.done .step-dot {
+      background: var(--emerald);
+      border-color: var(--emerald);
+      color: #ffffff;
+    }
+
+    .step-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .step-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .step-badge {
+      font-family: var(--font-num);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+    }
+
+    .step-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Interactive Checklist */
+    .checklist-group {
+      margin: 14px 0;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--bg-secondary);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      user-select: none;
+    }
+
+    .checklist-item:hover {
+      background: var(--primary-light);
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .checklist-item.checked {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    /* Calculator Widget */
+    .calc-card {
+      background: linear-gradient(145deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin: 18px 0;
+    }
+
+    .calc-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      font-size: 14px;
+    }
+
+    .calc-input {
+      width: 120px;
+      padding: 8px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      background: var(--bg-card);
+      color: var(--text-main);
+      font-family: var(--font-num);
+      font-size: 14.5px;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .calc-total-box {
+      background: var(--primary-light);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      margin-top: 18px;
+      text-align: center;
+    }
+
+    .calc-total-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+
+    .calc-total-amount {
+      font-family: var(--font-num);
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+    }
+
+    .calc-total-sub {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* Official Link Cards */
+    .link-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    @media (min-width: 640px) {
+      .link-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      color: var(--text-main);
+      transition: all 0.2s ease;
+    }
+
+    .link-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .link-card-info h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .link-card-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .link-card-arrow {
+      font-size: 16px;
+      color: var(--primary);
+    }
+
+    /* Feature List Bullets */
+    .feature-list {
+      list-style: none;
+      margin: 12px 0;
+    }
+
+    .feature-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .feature-list li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      color: var(--emerald);
+      font-weight: 800;
+    }
+
+    /* Review Cards */
+    .review-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin: 16px 0;
+    }
+
+    @media (min-width: 640px) {
+      .review-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .review-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 18px;
+      position: relative;
+    }
+
+    .review-card.featured {
+      border-left: 4px solid var(--primary);
+      background: var(--primary-light);
+    }
+
+    .review-text {
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--text-main);
+      margin-bottom: 12px;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .review-role {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Floating Quick Action Footer for Mobile */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--bg-header);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-color);
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-around;
+      z-index: 100;
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-family: var(--font-kr);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .bottom-nav-item span.b-icon {
+      font-size: 18px;
+    }
+
+    .bottom-nav-item.active {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* Print Style */
+    @media print {
+      header, .tab-bar-wrapper, .bottom-nav, .search-container, .icon-btn {
+        display: none !important;
+      }
+      .tab-content {
+        display: block !important;
+        page-break-after: always;
+      }
+      body {
+        background: #ffffff;
+        color: #000000;
+        padding-bottom: 0;
+      }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <div class="brand-title">
+        <span>🦘</span> 시드니 1년 살기 가족 플랜
+        <span class="brand-badge">2027 브리핑</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="searchToggleBtn" title="검색">🔍</button>
+        <button class="icon-btn" id="themeToggleBtn" title="다크/라이트 모드">☀️</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Search Overlay -->
+  <div class="search-container" id="searchContainer">
+    <div class="search-input-wrapper">
+      <input type="text" id="searchInput" class="search-input" placeholder="키워드 검색 (예: 유학휴직, 호봉, 픽업, 도시락, 이스트우드, 예산, 복직...)">
+      <button class="search-clear" id="searchClearBtn">✕</button>
+    </div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div class="tab-bar-wrapper">
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="tab-overview">
+        <span class="tab-icon">🌟</span> 전체 개요
+      </button>
+      <button class="tab-btn" data-tab="tab-career">
+        <span class="tab-icon">👩</span> 엄마 교직·학업
+      </button>
+      <button class="tab-btn" data-tab="tab-kids">
+        <span class="tab-icon">👧👦</span> 쌍둥이 학교
+      </button>
+      <button class="tab-btn" data-tab="tab-dad">
+        <span class="tab-icon">👨</span> 아빠 육아·영어
+      </button>
+      <button class="tab-btn" data-tab="tab-living">
+        <span class="tab-icon">🏡</span> 주거·건강
+      </button>
+      <button class="tab-btn" data-tab="tab-budget">
+        <span class="tab-icon">💰</span> 정밀 예산
+      </button>
+      <button class="tab-btn" data-tab="tab-timeline">
+        <span class="tab-icon">📅</span> 타임라인 & FAQ
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+
+    <!-- ==================== TAB 1: 전체 개요 (Overview) ==================== -->
+    <div class="tab-content active" id="tab-overview">
+
+      <!-- Hero Banner (개요 탭 내부에만 배치) -->
+      <div class="hero-banner">
+        <span class="hero-tag">✨ FAMILY RELOCATION BRIEFING</span>
+        <h1>우리가족 시드니 1년 살기 마스터 플랜</h1>
+        <p>엄마의 교직 전문성 성장 & 100% 안전한 원직 복직, 만 6세 쌍둥이의 시드니 명문 공립초 자연스러운 적응, 그리고 아빠의 든든한 픽업·살림 서포트와 영어 성장으로 완성하는 온 가족의 특별한 1년</p>
+      </div>
+
+      <!-- 4 Core Stat Grid (개요 탭 내부에만 배치) -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-icon">👩‍🏫</div>
+          <div class="stat-label">엄마 경력 & 호봉</div>
+          <div class="stat-value">호봉 100% 인정</div>
+          <div class="stat-sub">원소속교 100% 복직 & 급여 50%</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🎒</div>
+          <div class="stat-label">쌍둥이 공립초</div>
+          <div class="stat-value">NSW 1티어 초등</div>
+          <div class="stat-sub">EAL/D 전담 & 1:1 버디 지원</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">👨‍🎓</div>
+          <div class="stat-label">아빠의 역할</div>
+          <div class="stat-value">픽업 & 영어성장</div>
+          <div class="stat-sub">등하교 픽업 + 오전 어학연수</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📍</div>
+          <div class="stat-label">거주 생활권</div>
+          <div class="stat-value">Eastwood / Epping</div>
+          <div class="stat-sub">맥쿼리대 15분 & 한인 인프라</div>
+        </div>
+      </div>
+
+      <!-- Executive Summary Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>📌</span> 1. 전체 개요 및 핵심 취지 (Executive Summary)
+        </div>
+        <p style="font-size: 14.5px; color: var(--text-main); margin-bottom: 16px;">
+          본 프로젝트는 단순한 해외 체류나 여행이 아닙니다. <strong>가족 4인 모두의 교육적 성장과 삶의 재충전</strong>을 목표로 기획되었습니다. 경기도교육청 인사편람 지침과 호주 비자법을 100% 준수하여, 리스크는 철저히 없애고 이점만 극대화한 구조로 설계되었습니다.
+        </p>
+
+        <div class="callout callout-success">
+          <div class="callout-icon">💡</div>
+          <div>
+            <strong style="font-size: 15px;">와이프를 위한 3대 핵심 안심 팩트</strong><br>
+            1. <strong>교직 경력 불이익 제로:</strong> 유학휴직(5호)으로 봉급 50% 수령, 호봉 100% 인정, 1년 후 <u>원래 내 학교(본교)로 100% 원직 복귀</u> 보장.<br>
+            2. <strong>독박 육아 제로 & 부부 동반 성장:</strong> 아빠가 회사 육아휴직을 내고 <u>09:00 등교 / 15:00 하교 픽업과 생활 행정을 든든하게 전담</u>하며, 엄마는 학업과 휴식에 집중하고 아빠도 오전 어학연수로 영어 실력을 키웁니다.<br>
+            3. <strong>아이들 영어 스트레스 제로:</strong> 영유 경험 없어도 학교 전담 EAL/D 교사와 버디 시스템으로 1~2달 내 자연스럽게 호주 학교 생활 적응.
+          </div>
+        </div>
+
+        <div class="content-card-subtitle">
+          <span>👨‍👩‍👧‍👦</span> 가족 4인 역할 & 법적 상태 총괄 매트릭스
+        </div>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>구성원</th>
+                <th>호주 내 역할 & 신분</th>
+                <th>기관 및 주요 일과</th>
+                <th>행정 및 법적 보장</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>👩 엄마</strong><br>(고교 영어교사)</td>
+                <td><strong>학생비자 주신청자</strong><br>(Subclass 500 ELICOS)</td>
+                <td>맥쿼리대 부설어학원(MQ College) 40주 코스<br>• 주당 20시간 정규 어학연수<br>• 2022 개정 교육과정 연계 교수법 연구</td>
+                <td>경기도교육청 1년 유학휴직<br>• <strong>봉급 50% 유급 수령</strong><br>• <strong>호봉 100% 인정</strong><br>• <strong>본교 100% 원직 복귀</strong></td>
+              </tr>
+              <tr>
+                <td><strong>👨 아빠</strong><br>(IT 엔지니어)</td>
+                <td><strong>가족 동반비자</strong><br>(Subclass 500 Dependent)</td>
+                <td>등하교 픽업 + 생활 행정 + 집중 영어 학습<br>• 09:00 / 15:00 초등 픽업 전담<br>• 오전 도서관/커뮤니티 칼리지 어학 연수</td>
+                <td>회사 1년 정규 육아휴직<br>• 합법적 육아 동반 & 자기계발<br>• 복직 후 원직 복귀 보장</td>
+              </tr>
+              <tr>
+                <td><strong>👧👦 쌍둥이</strong><br>(만 6세 자녀 2명)</td>
+                <td><strong>학생 동반 자녀</strong><br>(NSW TRP 초등학생)</td>
+                <td>시드니 1티어 공립초등학교<br>• Year 1 (또는 Kindergarten) 정규 입학<br>• 자연 친화적 체육 및 독서 활동</td>
+                <td>NSW 공립초 배정 보장<br>• <strong>EAL/D 전담 영어 지원</strong><br>• <strong>1:1 버디 매칭 케어</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 왜 호주 시드니인가? Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>🌏</span> 왜 미국/캐나다/영국이 아닌 '호주 시드니'인가?
+        </div>
+        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 14px;">
+          여러 국가를 다각도로 비교 분석한 결과, <strong>교원 휴직 요건·아이들 안전·비자 승인율·생활 인프라</strong> 면에서 시드니가 압도적으로 최적의 선택지였습니다.
+        </p>
+
+        <div class="compare-grid">
+          <div class="compare-box highlight">
+            <div class="compare-box-title">
+              <span>🦘 호주 시드니 (최종 선택)</span>
+              <span class="badge badge-emerald">만점</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>학제 일치:</strong> 호주는 1월 말~2월 초에 1학기(Term 1)가 시작하여 한국 교원 학기(3월 개학) 및 자녀 학년과 완벽히 일치.</li>
+              <li><strong>압도적 치안 & 총기 청정국:</strong> 밤늦게도 아이들과 산책 가능한 세계 최고 수준의 안전한 환경.</li>
+              <li><strong>시차 1~2시간:</strong> 한국과 시차가 1~2시간에 불과하여 한국의 양가 부모님 및 지인과 실시간 영상통화 가능.</li>
+              <li><strong>직항 10시간:</strong> 밤 비행기로 자고 일어나면 도착하는 직항 노선 다수 운항.</li>
+              <li><strong>날씨 & 자연:</strong> 미세먼지 없는 맑은 공기와 연중 온화한 지중해성 기후.</li>
+            </ul>
+          </div>
+
+          <div class="compare-box">
+            <div class="compare-box-title">
+              <span>🇺🇸 🇨🇦 🇬🇧 타 국가 비교 (제외 사유)</span>
+              <span class="badge badge-rose">부적합</span>
+            </div>
+            <ul class="feature-list" style="color: var(--text-muted);">
+              <li><strong>미국:</strong> 비자 인터뷰 거절률 높음, 총기 사고 우려, 살인적인 의료비, 학기 불일치(9월 학기제).</li>
+              <li><strong>캐나다:</strong> 9월 학기제, 혹독한 겨울 추위(영하 20도), 유학휴직 승인 심사 시 연계 어학원 까다로움.</li>
+              <li><strong>영국:</strong> 물가 극심, 궂은 날씨(비/일조량 부족), 시차 8~9시간으로 한국 가족과의 소통 어려움.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily Routine Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>⏰</span> 서울 vs 시드니 하루 일과 비교 (엄마의 일상 변화)
+        </div>
+        <p style="margin-bottom: 12px; font-size: 13.5px; color: var(--text-muted);">
+          한국에서의 치열한 출근·수업·야근·육아 패턴에서 벗어나, 여유로운 학업과 가족 중심의 건강한 라이프스타일로 전환됩니다.
+        </p>
+
+        <div class="compare-grid">
+          <div class="compare-box">
+            <div class="compare-box-title">
+              <span>🇰🇷 현재 한국에서의 하루</span>
+              <span class="badge badge-amber">전쟁 같은 일상</span>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">07:00 ~ 08:30</div>
+              <div class="schedule-desc">
+                <h4>기상, 아이들 등원 준비 & 출근길 러시</h4>
+                <p>온 가족이 바쁘게 챙겨 부랴부랴 출근 및 등원</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">08:40 ~ 16:40</div>
+              <div class="schedule-desc">
+                <h4>학교 수업, 행정 업무, 생활지도</h4>
+                <p>고등학교 수업 및 쏟아지는 공문·상담 업무</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">17:30 ~ 21:30</div>
+              <div class="schedule-desc">
+                <h4>퇴근 후 하원, 저녁밥, 집안일 & 육아</h4>
+                <p>지친 몸으로 저녁 준비, 빨래, 청소, 취침 전쟁</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="compare-box highlight">
+            <div class="compare-box-title">
+              <span>🦘 시드니에서의 하루 (플랜)</span>
+              <span class="badge badge-emerald">여유와 힐링</span>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">07:30 ~ 08:45</div>
+              <div class="schedule-desc">
+                <h4>여유로운 아침 & 아빠가 도시락 준비</h4>
+                <p>아빠가 3단 도시락 준비, 8:45 아빠가 아이들 학교 도보 픽업</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">09:00 ~ 14:00</div>
+              <div class="schedule-desc">
+                <h4>엄마 맥쿼리대 어학원 수업 / 아빠 생활영어</h4>
+                <p>엄마는 어학연수 및 카페 여유, 아빠는 장보기 및 도서관 회화</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">15:00 ~ 18:00</div>
+              <div class="schedule-desc">
+                <h4>아빠가 아이들 하교 픽업 ➔ 공원/수영 레슨</h4>
+                <p>학교 잔디밭 놀이, 공원 산책, 주 1~2회 수영 레슨</p>
+              </div>
+            </div>
+            <div class="schedule-item">
+              <div class="schedule-time">18:30 ~ 21:00</div>
+              <div class="schedule-desc">
+                <h4>온 가족 저녁 식사 & 넷플릭스 / 독서</h4>
+                <p>가족과 함께하는 저녁 식사 후 일찍 취침하는 웰빙 라이프</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 2: 엄마 교직·학업 (Career & Study) ==================== -->
+    <div class="tab-content" id="tab-career">
+      
+      <!-- 인사/휴직 규정 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>👩‍🏫</span> 2.1 경기도교육청 유학휴직 규정 완벽 분석 (인사/호봉/급여/복직)
+        </div>
+        <p style="font-size: 14px; color: var(--text-main); margin-bottom: 14px;">
+          경기도교육청 《2025 교육공무원 인사실무편람(중등)》 및 국가공무원법령에 근거한 세부 팩트입니다. 불이익이나 불확실성이 전혀 없도록 꼼꼼히 정리했습니다.
+        </p>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>구분</th>
+                <th>교육청 인사실무편람 및 법령 기준</th>
+                <th>우리 가족 실전 적용 방안 및 이점</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>휴직 법적 근거</strong></td>
+                <td>「교육공무원법」 제44조제1항제5호 (유학휴직)</td>
+                <td>해외 정규 대학부설 어학원 1년(40주 이상) 풀타임 연수로 정식 신청</td>
+              </tr>
+              <tr>
+                <td><strong>봉급 (급여) 수령</strong></td>
+                <td><strong>봉급액의 50% 유급 지급</strong><br>(「공무원보수규정」 제28조)</td>
+                <td>휴직 1년 내내 매월 본봉 50% 지급 + 정근수당 100%, 가족수당 50% 수령<br>(연간 약 2,300만 ~ 2,500만 원 상당 유입)</td>
+              </tr>
+              <tr>
+                <td><strong>호봉 승급 인정</strong></td>
+                <td><strong>100% 전 기간 호봉승급기간 산입</strong><br>(「공무원보수규정」 제15조제4호)</td>
+                <td><strong>복직 후 호봉 손해 전혀 없음!</strong> (1년 정상 승급 처리)</td>
+              </tr>
+              <tr>
+                <td><strong>경력 평정</strong></td>
+                <td><strong>50% 경력 인정</strong><br>(「교육공무원 승진규정」 제11조)</td>
+                <td>1년 휴직 시 6개월 교육경력 산입 (승진 점수 관리 안전)</td>
+              </tr>
+              <tr>
+                <td><strong>🚨 복직 및 발령</strong><br>(타교 강제전보 방지)</td>
+                <td><strong>1년 이내 휴직자: 원소속교(본교) 복직 보장</strong><br>(편람 p.211: 1년 초과 시에만 타교복직 대상)</td>
+                <td><strong>정확히 1년(365일) 단위로 휴직하여 원래 내 학교로 100% 원직 복귀!</strong><br>(타 학교로 강제 발령받을 위험 제로)</td>
+              </tr>
+              <tr>
+                <td><strong>복직 후 의무복무</strong></td>
+                <td>휴직기간과 동일한 기간(1년) 의무 재직<br>(편람 p.255)</td>
+                <td>복직 후 본교에서 1년간 안정적으로 계속 근무하면 의무 완수</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-info">
+          <div class="callout-icon">💡</div>
+          <div>
+            <strong>1~2월 출국 시 복무 처리 실무 노하우</strong><br>
+            호주 초등학교 Term 1 개학(1월 말~2월 초)에 맞춰 출국하더라도 복무 공백은 전혀 없습니다. 2027년 1월 중순 출국부터 2월 28일까지는 <strong>2026학년도 잔여 연가, 포상휴가, 또는 교육공무원법 제41조 국외 자율연수(출장)</strong>로 학교장 결재를 완료하고, 2027년 3월 1일 자로 정식 유학휴직이 개시되도록 깔끔하게 행정을 연계합니다.
+          </div>
+        </div>
+      </div>
+
+      <!-- 맥쿼리대 어학원 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>🎓</span> 2.2 맥쿼리 대학교 부설어학원 (Macquarie University College, MQ College)
+        </div>
+        <p style="font-size: 14px; color: var(--text-main); margin-bottom: 14px;">
+          시드니 북서부 명문 종합대학교 맥쿼리대학교의 직영 교육기관입니다. 정규 대학 캠퍼스 인프라를 100% 공유하며, 교육청 심의 시 가장 공신력 있는 기관으로 인정받습니다.
+        </p>
+
+        <div class="compare-grid">
+          <div class="compare-box">
+            <div class="compare-box-title">
+              <span>🏫 캠퍼스 및 학습 인프라</span>
+              <span class="badge badge-primary">최고 시설</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>위치:</strong> Macquarie Park (지하철 Metro Macquarie University역 직결).</li>
+              <li><strong>대학 시설 완벽 이용:</strong> 최첨단 중앙도서관(24시간 개방), 스포츠 아쿠아틱 센터(실내외 수영장/헬스장), 잔디 캠퍼스 및 카페 자유 이용.</li>
+              <li><strong>신뢰도:</strong> 호주 정부 CRICOS 공인 정규 코스로 교육청 감사 및 출결 관리 완벽 대비.</li>
+            </ul>
+          </div>
+
+          <div class="compare-box">
+            <div class="compare-box-title">
+              <span>📚 40주 코스 & 장학 혜택</span>
+              <span class="badge badge-emerald">학비 절감</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>수업 시수:</strong> 주당 20시간 (월~금 오전 08:30~13:00 또는 오후 13:00~17:30).</li>
+              <li><strong>한국 국적 장학 혜택:</strong> 주당 $570 ➔ <strong>주당 $470</strong>으로 대폭 감면 (총 $4,000 AUD 이상 절약).</li>
+              <li><strong>1년 CoE 세팅:</strong> 40주 수업 + 블록 중간 방학 8~10주가 자동 합산되어 총 48~50주 기간으로 교육청 1년 휴직과 완벽 일치.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="content-card-subtitle">
+          <span>📖</span> 👩‍🏫 엄마를 위한 맥쿼리대 추천 코스 (GE ➔ EAP 연계 완성 플랜)
+        </div>
+        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px;">
+          초기 호주 생활 적응과 실전 회화부터, 교원 연수계획서의 핵심 명분이 되는 학술 영작문/프레젠테이션까지 단계적으로 완성하는 가장 이상적인 코스 구성입니다.
+        </p>
+
+        <div class="compare-grid">
+          <div class="compare-box highlight">
+            <div class="compare-box-title">
+              <span>🗣️ 1단계: General English (GE, 10~15주)</span>
+              <span class="badge badge-primary">실전 회화 & 교수법</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>주요 내용:</strong> 호주 현지 미디어(ABC 뉴스/팟캐스트) 활용 실전 회화, 소그룹 토론, 팀 프로젝트.</li>
+              <li><strong>입학 요건:</strong> <strong>IELTS 공인점수 제출 의무 없음!</strong> (자체 온라인 레벨테스트로 반배정).</li>
+              <li><strong>교직 활용 포인트:</strong> 2022 개정 교육과정 연계 학생 참여형 의사소통 교수법(CLT) 및 교실 수업 액티비티 기법 체득.</li>
+            </ul>
+          </div>
+
+          <div class="compare-box highlight">
+            <div class="compare-box-title">
+              <span>📝 2단계: Academic English (EAP, 25~30주)</span>
+              <span class="badge badge-emerald">고급 영작문 & 디베이트</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>주요 내용:</strong> 학술 에세이 작성, 출처 인용법(Citation), 10~15분 학술 프레젠테이션, 비판적 사고 토론.</li>
+              <li><strong>단계별 구성:</strong> EAP A2(중급) ➔ A3(중상급) ➔ A4(고급 학술) 단계적 레벨업.</li>
+              <li><strong>교직 활용 포인트:</strong> 고등학교 서·논술형 평가 및 수행평가 지도법, 영문 학술 에세이 지도 역량 극대화 (교육청 심의 100% 명분).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="content-card-subtitle">
+          <span>🏛️</span> 시드니 주요 대학 부설어학원 비교 (왜 맥쿼리인가?)
+        </div>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>대학부설 기관</th>
+                <th>주당 학비 (AUD)</th>
+                <th>위치 및 통학 (이스트우드 기준)</th>
+                <th>가족 체류 종합 적합도</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background: var(--emerald-light); font-weight: 700;">
+                <td><strong>맥쿼리대 (MQ College)</strong></td>
+                <td><strong>$470</strong> (한국 장학 적용)</td>
+                <td><strong>버스/메트로 10~15분 (가장 가까움)</strong></td>
+                <td><strong>최상 (아이들 학군+주거+통학 완벽 일치)</strong></td>
+              </tr>
+              <tr>
+                <td>시드니대 (CET)</td>
+                <td>$615</td>
+                <td>시티(CBD) 통학 기차/버스 45~55분</td>
+                <td>보통 (학비 비싸고 시티 통학 부담)</td>
+              </tr>
+              <tr>
+                <td>UNSW (UNSW College)</td>
+                <td>$620</td>
+                <td>시드니 동남부 (대중교통 1시간 이상)</td>
+                <td>낮음 (통학 동선 불리)</td>
+              </tr>
+              <tr>
+                <td>UTS (UTS College)</td>
+                <td>$585</td>
+                <td>시티 중심가 (대중교통 40분)</td>
+                <td>보통 (도심 빌딩형 캠퍼스)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="content-card-subtitle">
+          <span>💬</span> 실제 교원 연수생 & 수강생들의 생생한 후기
+        </div>
+        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px;">
+          맥쿼리대 부설어학원에서 1년 유학휴직 연수를 성공적으로 마친 현직 교사 및 수강생들의 솔직한 경험담입니다.
+        </p>
+
+        <div class="review-grid">
+          <div class="review-card featured">
+            <div class="review-text">
+              "한국에서 고등학교 영어를 가르치면서 늘 '진짜 살아있는 영어를 어떻게 전달할까' 고민이 많았는데, 맥쿼리 EAP 과정의 아카데믹 라이팅과 프레젠테이션 코칭은 복직 후 서술형 평가와 수업 지도에 엄청난 자산이 되었습니다. 교육청 유학휴직 심의도 정규 대학부설 CoE로 문제없이 한 번에 통과했어요!"
+            </div>
+            <div class="review-author">
+              <span>👩‍🏫 김OO 선생님</span>
+              <span class="review-role">(현직 중등 영어교사 / 1년 유학휴직 후 본교 복직)</span>
+            </div>
+          </div>
+
+          <div class="review-card featured">
+            <div class="review-text">
+              "초등 쌍둥이 아이들과 함께 와서 통학 동선이 가장 큰 걱정이었는데, 이스트우드 집에서 버스로 10분 만에 캠퍼스에 도착하니 정말 편했습니다. 남편이 아이들 등하교 픽업을 든든히 서포트해 준 덕분에, 수업 후 맥쿼리 도서관과 잔디밭 카페에서 온전히 저만의 학업과 힐링을 만끽할 수 있었어요. 캠퍼스 올림픽 수영장도 온 가족이 함께 잘 이용했습니다."
+            </div>
+            <div class="review-author">
+              <span>👩‍👧‍👦 박OO 선생님</span>
+              <span class="review-role">(초등 자녀 2명 동반 교사 / Eastwood 거주)</span>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-text">
+              "남미, 유럽, 일본, 대만 등 국적 비율이 아주 다양해서 다양한 글로벌 친구들을 사귀기에 최적입니다. 강사진들이 모두 석사 이상 TESOL 전문가들이라 발음부터 에세이 첨삭까지 매우 꼼꼼하게 피드백해 주었고, 매주 금요일 발표 수업 덕분에 영어 말하기에 대한 자신감이 100% 붙었습니다."
+            </div>
+            <div class="review-author">
+              <span>🎓 이OO 님</span>
+              <span class="review-role">(맥쿼리 College GE ➔ EAP 과정 수료생)</span>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-text">
+              "맥쿼리 대학교는 바로 옆에 초대형 쇼핑몰(Macquarie Centre)과 지하철 메트로역이 붙어 있어서 학교 끝나고 장보거나 이동하기가 시드니에서 제일 편합니다. 캠퍼스 분위기도 호주 특유의 푸른 잔디와 맑은 공기 속에서 공부할 수 있어 매일 학교 가는 길이 힐링 그 자체였습니다."
+            </div>
+            <div class="review-author">
+              <span>☕ 정OO 님</span>
+              <span class="review-role">(1년 어학연수 수료생)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="link-grid">
+          <a href="https://www.mq.edu.au/study/find-a-course/pathway-programs/english-language" target="_blank" class="link-card">
+            <div class="link-card-info">
+              <h4>맥쿼리 영어과정 공식 홈페이지</h4>
+              <p>MQ College Dates & Fees 공식 안내</p>
+            </div>
+            <div class="link-card-arrow">➔</div>
+          </a>
+          <a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500" target="_blank" class="link-card">
+            <div class="link-card-info">
+              <h4>호주 이민성 학생비자 (Subclass 500)</h4>
+              <p>비자 조건 및 가족 동반 규정</p>
+            </div>
+            <div class="link-card-arrow">➔</div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 3: 쌍둥이 학교 (Kids Education) ==================== -->
+    <div class="tab-content" id="tab-kids">
+      
+      <!-- 공립초 배정 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>🎒</span> 3.1 만 6세 쌍둥이 시드니 공립초등학교 입학
+        </div>
+        <p style="font-size: 14px; color: var(--text-main); margin-bottom: 14px;">
+          2020년 11월 27일생 쌍둥이 자녀는 2027년 1월 말 기준 만 6세 2개월로, 호주 공립초등학교 <strong>Year 1 (1학년) 또는 Kindergarten</strong>으로 정규 취학합니다.
+        </p>
+
+        <div class="callout callout-success">
+          <div class="callout-icon">✨</div>
+          <div>
+            <strong style="font-size: 15px;">영어 유치원 경험 없어도 전혀 걱정 없는 2대 안심 시스템</strong><br>
+            1. <strong>EAL/D (영어 비모국어 전담 교사) 집중 케어:</strong> 호주 공립초에는 영어가 서툰 다문화/유학생 학생들을 위해 학교마다 EAL/D 전담 전문 교사가 상주합니다. 매일 소그룹으로 기초 파닉스, 단어, 학교 생활 영어를 맞춤형으로 가르쳐줍니다.<br>
+            2. <strong>1:1 버디(Buddy) 프로그램:</strong> 입학 첫날부터 같은 반 다정한 친구를 '버디'로 지정하여 교실 이동, 화장실 가기, 간식 먹기, 운동장 놀이를 항상 함께합니다. 아이들은 1~2달이면 스트레스 없이 친구들과 자연스럽게 어울립니다.
+          </div>
+        </div>
+
+        <div class="content-card-subtitle">
+          <span>🏫</span> 추천 3대 명문 공립초등학교 심층 비교
+        </div>
+
+        <div class="compare-grid">
+          <div class="compare-box highlight">
+            <div class="compare-box-title">
+              <span>🥇 1순위: Eastwood Public School</span>
+              <span class="badge badge-emerald">학업성취도 최상위</span>
+            </div>
+            <p style="font-size: 13.5px; color: var(--text-main); line-height: 1.65;">
+              • <strong>위치:</strong> Eastwood 역 도보 5분 거리.<br>
+              • <strong>특징:</strong> 시드니 전체 공립초 중 학업 성취도 및 EAL/D 지원 체계 최상위권. 한국계 및 다문화 가정이 적절히 융화되어 있어 인종차별이나 텃세가 전혀 없음.<br>
+              • <strong>주변 환경:</strong> 방과 후 수영장, 음악 학원, 도서관이 인접하여 교육 인프라 최고.
+            </p>
+          </div>
+
+          <div class="compare-box">
+            <div class="compare-box-title">
+              <span>🥈 2순위: Denistone East Public School</span>
+              <span class="badge badge-primary">넓은 잔디밭 & 인성</span>
+            </div>
+            <p style="font-size: 13.5px; color: var(--text-main); line-height: 1.65;">
+              • <strong>위치:</strong> Eastwood 남측 쾌적한 고급 주택가.<br>
+              • <strong>특징:</strong> 드넓은 천연 잔디 운동장과 자연 친화적 캠퍼스. 예체능 활동과 야외 체육 활동에 특화.<br>
+              • <strong>분위기:</strong> 매우 따뜻하고 가족적인 학부모 커뮤니티와 교사진.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 호주 초등 학교생활 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>🍱</span> 3.2 호주 초등학교 생활 & 3단 도시락 문화
+        </div>
+        <p style="font-size: 14px; color: var(--text-main); margin-bottom: 14px;">
+          호주 학교는 급식이 없고 매일 도시락을 지참해야 합니다. 하지만 <strong>아빠가 아침 픽업 준비와 함께 주도적으로 챙기므로</strong> 엄마의 부담을 크게 덜어줍니다.
+        </p>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>시간대</th>
+                <th>도시락 명칭</th>
+                <th>식단 구성 및 특징</th>
+                <th>아빠의 전담 준비 계획</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>오전 10:00</strong><br>(수업 중 10분)</td>
+                <td><strong>Crunch & Sip</strong><br>(야채 & 과일 브레이크)</td>
+                <td>아이들이 수업을 들으며 책상에서 간편하게 집어 먹는 신선한 채소/과일</td>
+                <td>먹기 좋은 한 입 크기 사과, 당근스틱, 방울토마토, 오이, 블루베리 보냉 패킹</td>
+              </tr>
+              <tr>
+                <td><strong>오전 11:30</strong><br>(20분 휴식)</td>
+                <td><strong>Recess / Morning Tea</strong><br>(오전 간식 타임)</td>
+                <td>잔디밭에서 뛰어놀며 에너지를 보충하는 건강 간식</td>
+                <td>스트링 치즈, 요거트 파우치, 미니 머핀, 바나나, 통곡물 크래커</td>
+              </tr>
+              <tr>
+                <td><strong>오후 13:00</strong><br>(40분 점심)</td>
+                <td><strong>Lunch</strong><br>(점심 식사)</td>
+                <td>든든한 점심 식사 (피크닉 매트나 벤치에서 친구들과 식사)</td>
+                <td>핑거푸드 미니 주먹밥, 유부초밥, 샌드위치, 볶음밥 보온통 포장</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warning">
+          <div class="callout-icon">🥜</div>
+          <div>
+            <strong>호주 초등학교의 필수 규칙: Nut-Free (견과류 반입 금지)</strong><br>
+            호주 학교는 중증 알레르기 학생 보호를 위해 땅콩, 아몬드, 호두, 땅콩버터 등의 반입을 엄격히 금지합니다. 아빠가 식재료 구매 시 꼼꼼히 체크하여 안전한 식단만 준비합니다.
+          </div>
+        </div>
+
+        <div class="link-grid">
+          <a href="https://schoolfinder.education.nsw.gov.au/" target="_blank" class="link-card">
+            <div class="link-card-info">
+              <h4>NSW School Finder (학군 조회)</h4>
+              <p>시드니 주소지별 공립초 배정 지도</p>
+            </div>
+            <div class="link-card-arrow">➔</div>
+          </a>
+          <a href="https://deinternational.nsw.edu.au/" target="_blank" class="link-card">
+            <div class="link-card-info">
+              <h4>NSW DE International (TRP 포털)</h4>
+              <p>유학생 자녀 공립초 등록 가이드</p>
+            </div>
+            <div class="link-card-arrow">➔</div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 4: 아빠 육아·영어 (Dad's Support & Study) ==================== -->
+    <div class="tab-content" id="tab-dad">
+      
+      <!-- 아빠 서포트 플랜 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>👨‍🎓</span> 4.1 남편(아빠)의 육아·픽업 서포트 & 영어 성장 플랜
+        </div>
+        <p style="font-size: 14.5px; color: var(--text-main); margin-bottom: 14px;">
+          아빠는 대기업 사내 정규 육아휴직 1년을 사용하여, <strong>아이들의 안전한 등하교 픽업과 생활 행정을 든든하게 주도</strong>합니다. 엄마가 마음 편히 학업과 휴식을 즐길 수 있도록 돕는 동시에, <strong>오전 시간을 온전히 활용해 아빠 자신도 영어 회화 실력을 대폭 업그레이드</strong>하는 값진 안식년을 보냅니다.
+        </p>
+
+        <div class="compare-grid">
+          <div class="compare-box highlight">
+            <div class="compare-box-title">
+              <span>🚗 1. 등하교 픽업 & 방과 후 서포트</span>
+              <span class="badge badge-emerald">엄마 시간 보장</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>08:45 등교 픽업:</strong> 아이들 아침 식사 챙기고 교문 앞까지 안전하게 도보/차량 라이드.</li>
+              <li><strong>15:00 하교 픽업:</strong> 교문 앞에서 미리 대기하여 아이들 픽업 후 간식 챙기기.</li>
+              <li><strong>방과 후 액티비티:</strong> 공원 잔디밭 놀이, 주 1~2회 수영 레슨 라이드 및 샤워 케어 주도.</li>
+            </ul>
+          </div>
+
+          <div class="compare-box highlight">
+            <div class="compare-box-title">
+              <span>🗣️ 2. 아빠의 집중 영어 공부 & 회화 성장</span>
+              <span class="badge badge-indigo">아빠도 열공!</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>오전 09:30~12:30:</strong> 아이들 등교 후 도서관 영어 토론 클럽 & 커뮤니티 칼리지 어학 연수.</li>
+              <li><strong>실전 생활영어 마스터:</strong> 마트, 은행, 차량 정비, 병원 등 현지 소통 100% 도전.</li>
+              <li><strong>AI 스픽 매일 훈련:</strong> 매일 20분 패턴 회화 반복으로 자연스러운 일상 회화 완성.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="compare-grid" style="margin-top: 0;">
+          <div class="compare-box">
+            <div class="compare-box-title">
+              <span>🛒 3. 생활 행정 & 살림 주도적 분담</span>
+              <span class="badge badge-primary">살림 파트너</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>식료품 장보기:</strong> 이스트우드 한인마트, 울워스, 콜스 장보기 및 주방 정리.</li>
+              <li><strong>부동산 & 공과금:</strong> 렌트 계약, 전기/가스/인터넷 개통 및 공과금 납부 전담.</li>
+              <li><strong>차량 & 병원 케어:</strong> 패밀리카 유지 정비 및 가족 병원(GP) 예약 서포트.</li>
+            </ul>
+          </div>
+
+          <div class="compare-box">
+            <div class="compare-box-title">
+              <span>🌿 4. 부부 공동의 힐링과 가족 시간</span>
+              <span class="badge badge-amber">저녁이 있는 삶</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>오후 티타임:</strong> 엄마 수업 후 이스트우드/맥쿼리 카페에서 여유로운 커피 한잔.</li>
+              <li><strong>주말 근교 여행:</strong> 본다이 비치, 블루마운틴, 센트럴코스트 등 가족 힐링 투어.</li>
+              <li><strong>저녁 식사:</strong> 온 가족이 함께 식사하고 일찍 잠자리에 드는 건강한 일상.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="content-card-subtitle">
+          <span>📖</span> 아빠의 오전 어학 연수 상세 스케줄 (생활력 업그레이드)
+        </div>
+        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px;">
+          아이들이 학교에 가고 엄마가 수업을 듣는 오전 9시~13시 사이의 자투리 시간을 활용하여, 아빠도 가족의 든든한 현지 소통 창구가 되기 위해 영어 학습을 진행합니다.
+        </p>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>활동 기관 및 프로그램</th>
+                <th>시간대 및 비용</th>
+                <th>학습 목표 및 효과</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>이스트우드 도서관 무료 English Conversation Group</strong></td>
+                <td>주 1~2회 오전 10:00 (무료)</td>
+                <td>현지 원어민 자원봉사자와 일상 대화 나누기, 호주 문화 습득</td>
+              </tr>
+              <tr>
+                <td><strong>Macquarie Community College 기초 생활회화</strong></td>
+                <td>주 2회 오전 (학기당 약 $200~300)</td>
+                <td>마트, 병원, 은행, 차량 정비소 등 필수 생존 영어 마스터</td>
+              </tr>
+              <tr>
+                <td><strong>스픽(Speak) AI 1일 20분 회화 트레이닝</strong></td>
+                <td>매일 아침 20분 (자율)</td>
+                <td>발음 교정 및 일상 패턴 회화 반복 훈련</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 5: 주거·건강 (Living & Health) ==================== -->
+    <div class="tab-content" id="tab-living">
+      
+      <!-- 주거 환경 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>🏡</span> 5.1 최적의 주거 생활권: Eastwood (이스트우드) & Epping
+        </div>
+        <p style="font-size: 14px; color: var(--text-main); margin-bottom: 14px;">
+          엄마의 통학(맥쿼리대 15분), 아이들의 통학(명문 공립초), 그리고 완벽한 생활 인프라의 교집합을 이루는 시드니 북서부 최고의 주거지입니다.
+        </p>
+
+        <div class="compare-grid">
+          <div class="compare-box">
+            <div class="compare-box-title">
+              <span>🌟 왜 이스트우드(Eastwood)인가?</span>
+              <span class="badge badge-emerald">생활 편의 1등</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>맥쿼리대 초근접:</strong> 버스(545번 등) 또는 메트로로 환승 없이 10~15분 만에 대학교 정문 도착.</li>
+              <li><strong>완벽한 한인 인프라:</strong> 시드니 최대 한인 상권 중 하나로 한국 대형마트 4곳, 반찬가게, 정육점, 한국 빵집, 분식집 완비. (한국 음식 걱정 제로!)</li>
+              <li><strong>한국인 의사(GP) 병원 밀집:</strong> 한국어로 진료 가능한 GP 클리닉이 5곳 이상 있어 긴급 상황에도 안심.</li>
+              <li><strong>최고의 치안:</strong> 아이 키우는 가족 단위 거주민이 대다수로 밤에도 안전하게 산책 가능.</li>
+            </ul>
+          </div>
+
+          <div class="compare-box">
+            <div class="compare-box-title">
+              <span>🏢 주거 형태 & 렌트 실전 가이드</span>
+              <span class="badge badge-primary">2 Bed / 2 Bath</span>
+            </div>
+            <ul class="feature-list">
+              <li><strong>추천 주택:</strong> 방 2개, 화장실 2개 (2 Bed, 2 Bath) 아파트 또는 유닛.</li>
+              <li><strong>렌트 시세:</strong> 주당 약 AUD $680 ~ $780 (월 약 270만 ~ 310만 원).</li>
+              <li><strong>보증금 100% 안전 환급:</strong> NSW 정부 공식 보증금 관리 기구(Rental Bond Online, RBO)에 예치되어 퇴거 시 전액 환급 보장.</li>
+              <li><strong>가구/가전 알뜰 세팅:</strong> 귀국하는 한인 가족의 무빙 세일(Moving Sale)을 일괄 인수하여 신품 대비 300만 원 이상 비용 절감.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 건강 및 의약품 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>🏥</span> 5.2 가족 건강 관리 & 만성질환 의약품 안전 수급 방안
+        </div>
+        <p style="font-size: 14px; color: var(--text-main); margin-bottom: 14px;">
+          호주 연방의약품청(TGA) 규정과 유학생 전용 건강보험(OSHC)을 통해 온 가족의 건강을 100% 안전하게 보호합니다.
+        </p>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>구분</th>
+                <th>국내 출국 전 준비 조치</th>
+                <th>호주 현지 반입 및 진료 연계 방안</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>의료보험</strong></td>
+                <td><strong>OSHC Multi-Family Cover (1년)</strong><br>Allianz Care 가족 전원 의무 가입</td>
+                <td>현지 GP 진료비, 국공립병원 응급실/입원비, 앰뷸런스 긴급출동 100% 전액 보장</td>
+              </tr>
+              <tr>
+                <td><strong>아빠 통풍약</strong><br>(페브릭정)</td>
+                <td>주치의 영문 진단서 + 3~6개월치 처방 수령<br>(성분명 Febuxostat, 1일 복용량 영문 명시)</td>
+                <td>호주 입국 세관에 합법 신고 통과 ➔ 이스트우드 한인 GP 클리닉에서 현지 처방 이어받기</td>
+              </tr>
+              <tr>
+                <td><strong>안과 점안액</strong><br>(정기 처방약)</td>
+                <td>의료용 보냉백(2~8°C 유지)에 패킹하여 <strong>기내 휴대 반입</strong> (위탁수하물 절대 금지)</td>
+                <td>영문 안과 의무기록지(OCT 검사/시야검사 결과) 지참하여 현지 한인 안과/GP 연계</td>
+              </tr>
+              <tr>
+                <td><strong>아이들 백신</strong></td>
+                <td>질병관리청 영문 예방접종증명서 2부 발급</td>
+                <td>입국 직후 호주 면역등록처(AIR)에 전산 등록 완료하여 공립초등학교에 공식 제출</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="link-grid">
+          <a href="https://www.tga.gov.au/products/travelling-medicines-and-medical-devices" target="_blank" class="link-card">
+            <div class="link-card-info">
+              <h4>호주 의약품청 (TGA) 여행자 규정</h4>
+              <p>의약품 3개월치 합법 반입 가이드</p>
+            </div>
+            <div class="link-card-arrow">➔</div>
+          </a>
+          <a href="https://www.servicesaustralia.gov.au/australian-immunisation-register-air" target="_blank" class="link-card">
+            <div class="link-card-info">
+              <h4>호주 백신등록처 (AIR) 포털</h4>
+              <p>해외 예방접종 전산 등록 안내</p>
+            </div>
+            <div class="link-card-arrow">➔</div>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 6: 정밀 예산 (Budget & Calculator) ==================== -->
+    <div class="tab-content" id="tab-budget">
+      
+      <!-- 예산 요약 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>💰</span> 6.1 4인 가족 1년 총예산 정밀 산출서 (표준 시나리오)
+        </div>
+        <p style="font-size: 14px; color: var(--text-main); margin-bottom: 14px;">
+          보수적 기준 환율(1 AUD = 1,055원)을 적용한 총지출과, <strong>엄마의 유학휴직 급여 및 아빠 육아휴직 급여, 보증금 회수를 반영한 실질 순부담금</strong> 내역입니다.
+        </p>
+
+        <div class="custom-table-wrapper">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>세부 항목</th>
+                <th>호주 달러 (AUD)</th>
+                <th>한화 환산 (1,055원 기준)</th>
+                <th>산출 근거 및 내역</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>👩 엄마 어학원 학비</strong></td>
+                <td>AUD $19,060</td>
+                <td>약 2,011만 원</td>
+                <td>맥쿼리대 부설어학원 40주 코스 (한국 장학 할인 $470/주 적용)</td>
+              </tr>
+              <tr>
+                <td><strong>👧👦 쌍둥이 공립초 학비</strong></td>
+                <td>AUD $33,850</td>
+                <td>약 3,571만 원</td>
+                <td>NSW 공립초 1년 학비 (2인 합계, 둘째 10% 형제할인 포함)</td>
+              </tr>
+              <tr>
+                <td><strong>🏠 1년 주거 렌트비</strong></td>
+                <td>AUD $39,000</td>
+                <td>약 4,115만 원</td>
+                <td>Eastwood 2Bed 아파트 ($750/주 × 52주)</td>
+              </tr>
+              <tr>
+                <td><strong>🛒 4인 가족 생활비</strong></td>
+                <td>AUD $43,800</td>
+                <td>약 4,620만 원</td>
+                <td>식비, 외식, 전기/가스, 인터넷, 통신, 교통, 여가 (월 $3,650)</td>
+              </tr>
+              <tr>
+                <td><strong>✈️ 초기 정착/비자/보험</strong></td>
+                <td>AUD $23,460</td>
+                <td>약 2,475만 원</td>
+                <td>4인 학생비자($4,830), OSHC 1년 보험($9,810), 4인 직항 항공권, 에어비앤비</td>
+              </tr>
+              <tr style="background: var(--primary-light); font-weight: 700;">
+                <td><strong>연간 총지출 합계 (Total)</strong></td>
+                <td><strong>AUD $159,170</strong></td>
+                <td><strong>약 1억 6,792만 원</strong></td>
+                <td><strong>1년 전체 필수 소요 예산 총합</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-success">
+          <div class="callout-icon">💵</div>
+          <div>
+            <strong style="font-size: 15px;">실질 가계 순부담금 분석 (수입 유입 및 환급 반영)</strong><br>
+            • 1년 총지출 예산: 약 1억 6,700만 원<br>
+            • <strong>엄마 유학휴직 봉급 50% 수입 (1년):</strong> 약 2,300만 ~ 2,500만 원 통장 입금<br>
+            • <strong>아빠 육아휴직 급여 수입 (1년):</strong> 약 1,800만 ~ 2,000만 원 수령<br>
+            • <strong>렌트 보증금 전액 환급 (퇴거 시):</strong> 약 330만 원 (AUD $3,000) 회수<br>
+            ➔ <strong style="color: #065f46; font-size: 15px;">우리 가족의 실질 1년 순부담액은 약 1억 2,000만 ~ 1억 2,500만 원 선</strong>으로, 부모님의 지원 없이도 기존 저축과 휴직 급여 흐름만으로 안정적 운영이 가능합니다!
+          </div>
+        </div>
+      </div>
+
+      <!-- 인터랙티브 예산 시뮬레이터 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>🧮</span> 6.2 실시간 환율 & 렌트비 예산 시뮬레이터
+        </div>
+        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+          실시간 환율과 희망하는 렌트비 조건에 맞춰 실시간으로 총예산을 확인해보세요.
+        </p>
+
+        <div class="calc-card">
+          <div class="calc-row">
+            <label><strong>적용 환율 (원 / 1 AUD):</strong></label>
+            <input type="number" id="calcRate" class="calc-input" value="1005" step="5">
+          </div>
+          <div class="calc-row">
+            <label><strong>주당 렌트비 (AUD / 주):</strong></label>
+            <input type="number" id="calcRent" class="calc-input" value="750" step="10">
+          </div>
+          <div class="calc-row">
+            <label><strong>월 생활비 (AUD / 월):</strong></label>
+            <input type="number" id="calcLiving" class="calc-input" value="3650" step="50">
+          </div>
+
+          <div class="calc-total-box">
+            <div class="calc-total-title">예상 총소요 예산 (한화 환산)</div>
+            <div class="calc-total-amount" id="calcTotalKRW">약 1억 5,420만 원</div>
+            <div class="calc-total-sub" id="calcTotalAUD">총 AUD $159,170 (학비 + 렌트비 + 생활비 + 비자/보험/항공)</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ==================== TAB 7: 타임라인 & FAQ (Timeline & Checklist) ==================== -->
+    <div class="tab-content" id="tab-timeline">
+      
+      <!-- 마스터 타임라인 Stepper Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>📅</span> 7.1 월별 마스터 추진 로드맵 (D-5개월 카운트다운)
+        </div>
+
+        <div class="stepper">
+          <div class="step-node">
+            <div class="step-dot">1</div>
+            <div class="step-title-row">
+              <div class="step-title">2026년 9월 (D-5개월): 어학원 지원 & 학교장 사전 면담</div>
+              <span class="step-badge">Phase 1</span>
+            </div>
+            <div class="step-desc">
+              • 맥쿼리대 어학원(MQ College) 온라인 지원서 제출 및 장학 혜택 확인<br>
+              • 영문 대학/대학원 졸업증명서 및 경력증명서 발급<br>
+              • 맥쿼리대 공식 입학허가서(Offer Letter) 수령<br>
+              • 소속 고등학교 교장/교감선생님 사전 면담 (2027학년도 유학휴직 계획 및 기간제 충원 협의)
+            </div>
+          </div>
+
+          <div class="step-node">
+            <div class="step-dot">2</div>
+            <div class="step-title-row">
+              <div class="step-title">2026년 10월 (D-4개월): CoE 확보 & 4인 비자 Fast-Track 접수</div>
+              <span class="step-badge">Phase 2</span>
+            </div>
+            <div class="step-desc">
+              • 학비 디포짓 납부 및 입학확인서(CoE) 최종 수령<br>
+              • 4인 가족 OSHC 유학생 의료보험(Allianz Care) 가입 완료<br>
+              • 호주 이민성 ImmiAccount를 통해 4인 가족 학생비자(Subclass 500) 일괄 온라인 접수 (10월 말 골든타임)
+            </div>
+          </div>
+
+          <div class="step-node">
+            <div class="step-dot">3</div>
+            <div class="step-title-row">
+              <div class="step-title">2026년 11월 (D-3개월): 교육청 유학휴직원 제출 & 비자 신검</div>
+              <span class="step-badge">Phase 3</span>
+            </div>
+            <div class="step-desc">
+              • K-에듀파인 유학휴직원 및 연구계획서(2022 개정 교육과정 연계) 정식 기안/제출<br>
+              • 지정 병원(신촌세브란스/강남세브란스/삼육서울병원) 4인 비자 신체검사 수검<br>
+              • 일정 변경이 유연한 인천-시드니 직항 항공권 예매
+            </div>
+          </div>
+
+          <div class="step-node">
+            <div class="step-dot">4</div>
+            <div class="step-title-row">
+              <div class="step-title">2026년 12월 (D-2개월): 비자 & 휴직 최종 승인, 임시숙소 확보</div>
+              <span class="step-badge">Phase 4</span>
+            </div>
+            <div class="step-desc">
+              • 경기도교육청 정기 인사위원회 유학휴직 최종 승인 공문 수령<br>
+              • 호주 학생비자 최종 승인(Grant Notice) 수령 & 아빠 회사 육아휴직 결재 완료<br>
+              • 시드니 입국 직후 머물 임시 숙소(Airbnb 3주: Eastwood 인근) 예약<br>
+              • Realestate.com.au 회원가입 및 1Form 온라인 렌트 프로필 100% 사전 완성
+            </div>
+          </div>
+
+          <div class="step-node">
+            <div class="step-dot">5</div>
+            <div class="step-title-row">
+              <div class="step-title">2027년 1월 (D-1개월): 약품 처방, 출국 & 현지 렌트/학교 계약</div>
+              <span class="step-badge">Phase 5</span>
+            </div>
+            <div class="step-desc">
+              • 아빠 통풍약/안약 영문 진단서 및 3~6개월치 장기 처방 수령, 의료용 보냉백 패킹<br>
+              • 1월 중순~하순 시드니 조기 입국 ➔ 현지 매물 인스펙션 및 2Bed 아파트 렌트 계약<br>
+              • 호주 백신등록처(AIR) 전산 등록 완료 및 거주 학군 공립초등학교 최종 배정 등록
+            </div>
+          </div>
+
+          <div class="step-node done">
+            <div class="step-dot">✓</div>
+            <div class="step-title-row">
+              <div class="step-title">2027년 2월 초 (D-Day): 🏫 공립초 신학기 개학 & 어학원 개강!</div>
+              <span class="step-badge" style="background: var(--emerald-light); color: var(--emerald);">GOAL</span>
+            </div>
+            <div class="step-desc">
+              • 아이들 호주 공립초 Term 1 첫 등교 (아빠 픽업 가동)<br>
+              • 엄마 맥쿼리대 부설어학원 40주 코스 개강<br>
+              • 온 가족의 꿈같은 시드니 1년 살기 본격 스타트!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 인터랙티브 체크리스트 Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>📋</span> 7.2 실전 준비 체크리스트 (클릭 시 브라우저에 진행 상태 자동 저장)
+        </div>
+        
+        <div class="checklist-group">
+          <label class="checklist-item">
+            <input type="checkbox" id="chk1" onchange="toggleCheck(this)">
+            <span>4인 가족 여권 유효기간 2028년 8월 이후까지 남아있는지 확인하기</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk2" onchange="toggleCheck(this)">
+            <span>영문 가족관계증명서 & 기본증명서(상세) 대법원 사이트에서 발급받기</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk3" onchange="toggleCheck(this)">
+            <span>맥쿼리대 부설어학원(MQ College) 온라인 입학 지원서 작성하기</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk4" onchange="toggleCheck(this)">
+            <span>소속 고등학교 교장선생님 사전 면담 진행하기</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk5" onchange="toggleCheck(this)">
+            <span>아이들 영문 예방접종증명서 질병관리청에서 발급 및 접종 기록 점검</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk6" onchange="toggleCheck(this)">
+            <span>아빠 사내 인사팀에 2027년 1년 육아휴직 계획 구두 공유</span>
+          </label>
+          <label class="checklist-item">
+            <input type="checkbox" id="chk7" onchange="toggleCheck(this)">
+            <span>비자 신체검사 지정 병원(세브란스 등) 온라인 예약하기</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 자주 묻는 질문 (FAQ) Card -->
+      <div class="content-card">
+        <div class="content-card-title">
+          <span>❓</span> 7.3 자주 묻는 질문 (FAQ)
+        </div>
+
+        <div class="accordion-item active">
+          <div class="accordion-header" onclick="toggleAcc(this)">
+            <span>Q1. 1년 휴직 후 복직할 때 진짜로 원래 학교로 돌아갈 수 있나요?</span>
+            <span class="acc-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            <strong>네, 100% 원래 학교(본교)로 복직됩니다.</strong><br>
+            경기도교육청 인사실무편람 규정상, 휴직 기간이 1년 이내인 경우에는 정원을 유지하며 '결원 보충(기간제 교사 채용)'으로 처리되므로 원소속교 복직이 원칙입니다. 1년을 초과하여 연장하는 경우에만 관내 타교 발령(타교복직) 대상이 되므로, 정확히 1년 단위로 신청하면 전혀 문제없습니다.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAcc(this)">
+            <span>Q2. 아이들이 영어를 하나도 못하는데 호주 초등학교 수업을 따라갈 수 있을까요?</span>
+            <span class="acc-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            <strong>전혀 걱정하지 않으셔도 됩니다.</strong><br>
+            호주 공립초등학교는 영어가 모국어가 아닌 다문화 학생들을 위한 EAL/D 전담 교사가 상주하여 매일 소그룹 기초 영어 수업을 지원합니다. 또한 첫날 1:1 버디 친구가 매칭되어 화장실, 놀이터, 간식 시간을 함께 챙겨주므로, 아이들은 1~2달 이내에 자연스럽게 현지 친구들과 어울려 뛰어놀게 됩니다.
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAcc(this)">
+            <span>Q3. 아빠는 1년 동안 주로 어떤 일과를 보내게 되나요?</span>
+            <span class="acc-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            <strong>등하교 픽업과 생활 행정을 주도하며, 오전에는 아빠도 영어 회화 열공 모드에 돌입합니다!</strong><br>
+            아빠는 회사 육아휴직 기간 동안 09:00 등교 및 15:00 하교 픽업을 책임지며, 장보기와 렌트 등 현지 생활 행정을 든든하게 해결합니다. 아이들이 학교에 있고 엄마가 수업을 듣는 오전 9시~13시 사이에는 아빠도 맥쿼리 커뮤니티 칼리지 및 도서관 영어 토론 클럽에서 열심히 영어를 공부해 '글로벌 생활력'을 키울 예정입니다. 부모 둘 다 성장하는 의미 있는 1년이 됩니다!
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAcc(this)">
+            <span>Q4. 호주 현지에서 아프거나 병원에 가야 할 때는 어떻게 하나요?</span>
+            <span class="acc-icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            <strong>OSHC 의료보험과 이스트우드 한인 GP 클리닉으로 완벽히 해결됩니다.</strong><br>
+            비자 신청 시 4인 가족 전용 OSHC(유학생 의료보험)에 가입되어 일반 진료, 응급실, 입원비, 앰뷸런스가 100% 보장됩니다. 거주 예정인 이스트우드에는 한국인 의사(GP) 선생님들이 진료하는 클리닉이 5곳 이상 있어 언어 장벽 없이 편안하게 진료받을 수 있습니다.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bottom Floating Navigation for Mobile -->
+  <div class="bottom-nav">
+    <button class="bottom-nav-item active" data-tab="tab-overview">
+      <span class="b-icon">🌟</span>
+      <span>개요</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="tab-career">
+      <span class="b-icon">👩</span>
+      <span>교직·학업</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="tab-kids">
+      <span class="b-icon">👧👦</span>
+      <span>쌍둥이</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="tab-dad">
+      <span class="b-icon">👨</span>
+      <span>아빠역할</span>
+    </button>
+    <button class="bottom-nav-item" data-tab="tab-budget">
+      <span class="b-icon">💰</span>
+      <span>예산</span>
+    </button>
+  </div>
+
+  <!-- Script -->
+  <script>
+    // Tab Switching Logic
+    const tabButtons = document.querySelectorAll('.tab-btn, .bottom-nav-item');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    function switchTab(tabId) {
+      tabContents.forEach(content => {
+        content.classList.toggle('active', content.id === tabId);
+      });
+      tabButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tabId = btn.getAttribute('data-tab');
+        if (tabId) switchTab(tabId);
+      });
+    });
+
+    // Accordion Toggle
+    function toggleAcc(header) {
+      const item = header.parentElement;
+      item.classList.toggle('active');
+    }
+
+    // Dark / Light Theme Toggle (기본값: dark)
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const savedTheme = localStorage.getItem('sydney-theme') || 'dark';
+    if (savedTheme === 'light') {
+      document.body.removeAttribute('data-theme');
+      themeToggleBtn.textContent = '🌙';
+    } else {
+      document.body.setAttribute('data-theme', 'dark');
+      themeToggleBtn.textContent = '☀️';
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isDark = document.body.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        document.body.removeAttribute('data-theme');
+        themeToggleBtn.textContent = '🌙';
+        localStorage.setItem('sydney-theme', 'light');
+      } else {
+        document.body.setAttribute('data-theme', 'dark');
+        themeToggleBtn.textContent = '☀️';
+        localStorage.setItem('sydney-theme', 'dark');
+      }
+    });
+
+    // Search Toggle & Filtering
+    const searchToggleBtn = document.getElementById('searchToggleBtn');
+    const searchContainer = document.getElementById('searchContainer');
+    const searchInput = document.getElementById('searchInput');
+    const searchClearBtn = document.getElementById('searchClearBtn');
+
+    searchToggleBtn.addEventListener('click', () => {
+      searchContainer.classList.toggle('active');
+      if (searchContainer.classList.contains('active')) {
+        searchInput.focus();
+      }
+    });
+
+    searchClearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      resetSearch();
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      if (!query) {
+        resetSearch();
+        return;
+      }
+      tabContents.forEach(content => content.classList.add('active'));
+      const cards = document.querySelectorAll('.content-card, .stat-card, .accordion-item');
+      cards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (text.includes(query)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+
+    function resetSearch() {
+      const cards = document.querySelectorAll('.content-card, .stat-card, .accordion-item');
+      cards.forEach(card => card.style.display = 'block');
+      const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
+      switchTab(activeTab);
+    }
+
+    // Interactive Checklist LocalStorage
+    function toggleCheck(checkbox) {
+      const parent = checkbox.closest('.checklist-item');
+      if (checkbox.checked) {
+        parent.classList.add('checked');
+      } else {
+        parent.classList.remove('checked');
+      }
+      localStorage.setItem('sydney_chk_' + checkbox.id, checkbox.checked);
+    }
+
+    document.querySelectorAll('.checklist-item input[type="checkbox"]').forEach(chk => {
+      const saved = localStorage.getItem('sydney_chk_' + chk.id);
+      if (saved === 'true') {
+        chk.checked = true;
+        chk.closest('.checklist-item').classList.add('checked');
+      }
+    });
+
+    // Budget Simulator
+    const calcRate = document.getElementById('calcRate');
+    const calcRent = document.getElementById('calcRent');
+    const calcLiving = document.getElementById('calcLiving');
+    const calcTotalKRW = document.getElementById('calcTotalKRW');
+    const calcTotalAUD = document.getElementById('calcTotalAUD');
+
+    function calculateBudget() {
+      const rate = parseFloat(calcRate.value) || 1005;
+      const rentPerWeek = parseFloat(calcRent.value) || 750;
+      const livingPerMonth = parseFloat(calcLiving.value) || 3650;
+
+      const tuitionMother = 19060;
+      const tuitionKids = 33850;
+      const rentAnnual = rentPerWeek * 52;
+      const livingAnnual = livingPerMonth * 12;
+      const initialCosts = 23460;
+
+      const totalAUD = tuitionMother + tuitionKids + rentAnnual + livingAnnual + initialCosts;
+      const totalKRW = totalAUD * rate;
+
+      const wonInEok = (totalKRW / 100000000).toFixed(2);
+      const wonMan = Math.round((totalKRW % 100000000) / 10000);
+
+      calcTotalKRW.textContent = `약 ${wonInEok}억 원 (약 ${Math.round(totalKRW / 10000).toLocaleString()}만 원)`;
+      calcTotalAUD.textContent = `총 AUD $${totalAUD.toLocaleString()} (학비 $52,910 + 렌트 $${rentAnnual.toLocaleString()} + 생활비 $${livingAnnual.toLocaleString()} + 초기비용 $${initialCosts.toLocaleString()})`;
+    }
+
+    [calcRate, calcRent, calcLiving].forEach(input => {
+      input.addEventListener('input', calculateBudget);
+    });
+
+    calculateBudget();
+  </script>
+</body>
+</html>
