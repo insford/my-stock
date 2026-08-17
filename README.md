@@ -6,7 +6,7 @@ KOSPI 6,000 ~ 8,500 박스권 전략 기반의 국내주식 포트폴리오 자�
 
 ## 🚀 시스템 동작 구조 (Architecture & Flow)
 
-GitHub Actions 워크플로가 주식 시장 운영 시간 동안 10분 마다 최신 시세를 자동 수집하여 `live_market.js`를 갱신하며, `index.html` 웹 대시보드는 이 시세 데이터와 사용자의 보유 수량(`portfolio_state.js`)을 기반으로 실시간 비중 및 매매 가이드를 계산하여 제공합니다.
+GitHub Actions 워크플로가 주식 시장 운영 시간 동안 10분 마다 최신 시세를 자동 수집하여 `live_market.js`를 갱신하며, `index.html` 웹 대시보드(`https://insford.github.io/my-stock/`)는 이 시세 데이터와 사용자의 보유 수량(`portfolio_state.js`)을 기반으로 실시간 비중 및 매매 가이드를 계산하여 제공합니다.
 
 ```mermaid
 flowchart TD
@@ -51,13 +51,14 @@ flowchart TD
 
 ```text
 my-stock/
-├── index.html                               # 웹 대시보드 메인 (HTML / CSS / JS)
+├── index.html                               # 📈 국내주식 실시간 포트폴리오 리밸런싱 대시보드 (메인)
 ├── update_prices.py                         # 네이버/야후 증권 시세 수집 스크립트
 ├── .github/
 │   └── workflows/
 │       └── monitor.yml                      # 10분 주기 자동 시세 수집 GitHub Actions
 └── guide/
     ├── 국내주식_리밸런싱_전략.md              # KOSPI 6,000~8,500 매매조건 완화형 전략 문서
+    ├── 국내주식_리밸런싱_종목선택.md          # 포트폴리오 편입 종목 및 ETF 분석
     ├── 매매일지.md                           # 리밸런싱 매매 기록 일지
     ├── 포트폴리오_2026-07-31.md              # 최초 포트폴리오 진단 및 구성 내역
     └── data/
