@@ -931,17 +931,15 @@
     let currentHistRange = '3M';
 
     let stateData = {
-      samsung_shares: 576,
-      hynix_shares: 92,
-      other_assets_krw: 46725625,
-      deposit_krw: 51550609,
-      gold_shares: 552,
-      us10b_shares: 995,
-      cd_shares: 0,
-      sofr_shares: 0,
-      us30b_shares: 0,
-      gold_shares: 0,
-      snp500_shares: 0,
+      samsung_shares: 616,
+      hynix_shares: 99,
+      other_assets_krw: 78541095,
+      deposit_krw: 207420,
+      cd_shares: 18,
+      sofr_shares: 261,
+      us30b_shares: 2228,
+      gold_shares: 581,
+      snp500_shares: 438,
       us10b_shares: 0,
       fadu_shares: 0
     };
@@ -973,10 +971,10 @@
       const json = window.PORTFOLIO_STATE_DATA || null;
       if (json) {
         if (json.holdings) {
-          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 576;
-          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 92;
+          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 616;
+          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 99;
           stateData.other_assets_krw = json.holdings.other_assets_krw || 0;
-          stateData.deposit_krw = json.holdings.deposit_krw !== undefined ? json.holdings.deposit_krw : 18732121;
+          stateData.deposit_krw = json.holdings.deposit_krw !== undefined ? json.holdings.deposit_krw : 207420;
         }
         if (json.other_assets_detail) {
           stateData.cd_shares = json.other_assets_detail.kodex_cd_shares || 0;
@@ -1462,15 +1460,17 @@
 
         const sam = (p.samsung || 0) * (h.samsung_shares || 0);
         const hyn = (p.hynix || 0) * (h.hynix_shares || 0);
-        const gld = (p.gold || 0) * (od.kodex_gold_shares || 0);
+        const cd = (p.cd || 0) * (od.kodex_cd_shares || 0);
+        const gld = (p.gold || 0) * ((od.ace_gold_shares !== undefined ? od.ace_gold_shares : od.kodex_gold_shares) || 0);
         const us1 = (p.us10b || 0) * (od.kodex_us10b_shares || 0);
+        const us3 = (p.us30b || 0) * (od.ace_us30b_shares || 0);
         const sfr = (p.sofr || 0) * (od.tiger_sofr_shares || 0);
-        const snp = (p.snp500 || 0) * (od.kodex_snp500_shares || 0);
+        const snp = (p.snp500 || 0) * ((od.tiger_snp500_shares !== undefined ? od.tiger_snp500_shares : od.kodex_snp500_shares) || 0);
         const fdu = (p.fadu || 0) * (od.fadu_shares || 0);
         const dep = h.deposit_krw || 0;
 
         const semiVal = sam + hyn;
-        const otherStockVal = gld + us1 + sfr + snp + fdu;
+        const otherStockVal = cd + gld + us1 + us3 + sfr + snp + fdu;
         const tot = semiVal + otherStockVal + dep;
 
         const semiRatio = tot > 0 ? (semiVal / tot * 100).toFixed(1) : 0;
