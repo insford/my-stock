@@ -1,11 +1,11 @@
 window.PORTFOLIO_STATE_DATA = {
-  "last_updated": "2026-08-19",
+  "last_updated": "2026-08-20",
   "account_name": "국내주식 종합_주식 리밸런싱",
   "holdings": {
-    "samsung_shares": 616,
-    "hynix_shares": 99,
-    "deposit_krw": 207420,
-    "other_assets_krw": 78541095
+    "samsung_shares": 556,
+    "hynix_shares": 90,
+    "deposit_krw": 30278216,
+    "other_assets_krw": 79212930
   },
   "other_assets_detail": {
     "kodex_cd_shares": 18,
