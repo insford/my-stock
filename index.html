@@ -1287,16 +1287,16 @@
       // Sort by date ascending
       historyList.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-      const latestDateStr = historyList[historyList.length - 1].date;
-      const latestDate = new Date(latestDateStr);
+      const latestHistDateStr = historyList[historyList.length - 1].date;
+      const latestHistDateObj = new Date(latestHistDateStr);
 
       let filteredList = historyList;
       if (range === '1M') {
-        const cutoff = new Date(latestDate);
+        const cutoff = new Date(latestHistDateObj);
         cutoff.setDate(cutoff.getDate() - 31);
         filteredList = historyList.filter(item => new Date(item.date) >= cutoff);
       } else if (range === '3M') {
-        const cutoff = new Date(latestDate);
+        const cutoff = new Date(latestHistDateObj);
         cutoff.setDate(cutoff.getDate() - 93);
         filteredList = historyList.filter(item => new Date(item.date) >= cutoff);
       }
@@ -1360,19 +1360,19 @@
       });
 
       // Update Summary Bar
-      const initDate = filteredList.length > 0 ? filteredList[0].date : '';
-      const latestDate = filteredList.length > 0 ? filteredList[filteredList.length - 1].date : '';
+      const initDateStr = filteredList.length > 0 ? filteredList[0].date : '';
+      const latestDateStr = filteredList.length > 0 ? filteredList[filteredList.length - 1].date : '';
 
       const initLabelElem = document.getElementById('histInitLabel');
-      if (initLabelElem && initDate) {
+      if (initLabelElem && initDateStr) {
         initLabelElem.innerText = currentHistRange === 'ALL'
-          ? `최초 등록 총자산 (${initDate})`
-          : `기점 총자산 (${initDate})`;
+          ? `최초 등록 총자산 (${initDateStr})`
+          : `기점 총자산 (${initDateStr})`;
       }
 
       const latestLabelElem = document.getElementById('histLatestLabel');
-      if (latestLabelElem && latestDate) {
-        latestLabelElem.innerText = `최근 거래일 평가액 (${latestDate})`;
+      if (latestLabelElem && latestDateStr) {
+        latestLabelElem.innerText = `최근 거래일 평가액 (${latestDateStr})`;
       }
 
       document.getElementById('histInitTotal').innerText = (initTotal / 100000000).toFixed(2) + " 억 원";
