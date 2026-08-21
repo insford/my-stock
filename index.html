@@ -478,6 +478,20 @@
       .chart-container {
         height: 290px;
       }
+
+      .history-summary-bar {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        padding: 0.85rem;
+      }
+
+      .h-stat-value {
+        font-size: 1.15rem;
+      }
+
+      .h-stat-label {
+        font-size: 0.72rem;
+      }
     }
 
     /* Tab View Styles */
@@ -846,11 +860,11 @@
         <!-- History Summary Metrics -->
         <div class="history-summary-bar">
           <div class="h-stat-item">
-            <span class="h-stat-label">최초 등록 총자산 (2026-07-31)</span>
+            <span class="h-stat-label" id="histInitLabel">최초 등록 총자산 (---)</span>
             <span class="h-stat-value" id="histInitTotal">---</span>
           </div>
           <div class="h-stat-item">
-            <span class="h-stat-label">현재 총 평가액 (2026-08-13)</span>
+            <span class="h-stat-label" id="histLatestLabel">최근 거래일 평가액 (---)</span>
             <span class="h-stat-value text-blue" id="histLatestTotal">---</span>
           </div>
           <div class="h-stat-item">
@@ -931,10 +945,10 @@
     let currentHistRange = '3M';
 
     let stateData = {
-      samsung_shares: 556,
-      hynix_shares: 90,
-      other_assets_krw: 79212930,
-      deposit_krw: 30278216,
+      samsung_shares: 536,
+      hynix_shares: 87,
+      other_assets_krw: 79035415,
+      deposit_krw: 40982401,
       cd_shares: 18,
       sofr_shares: 261,
       us30b_shares: 2228,
@@ -971,10 +985,10 @@
       const json = window.PORTFOLIO_STATE_DATA || null;
       if (json) {
         if (json.holdings) {
-          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 556;
-          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 90;
+          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 536;
+          stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 87;
           stateData.other_assets_krw = json.holdings.other_assets_krw || 0;
-          stateData.deposit_krw = json.holdings.deposit_krw !== undefined ? json.holdings.deposit_krw : 30278216;
+          stateData.deposit_krw = json.holdings.deposit_krw !== undefined ? json.holdings.deposit_krw : 40982401;
         }
         if (json.other_assets_detail) {
           stateData.cd_shares = json.other_assets_detail.kodex_cd_shares || 0;
@@ -1346,6 +1360,21 @@
       });
 
       // Update Summary Bar
+      const initDate = filteredList.length > 0 ? filteredList[0].date : '';
+      const latestDate = filteredList.length > 0 ? filteredList[filteredList.length - 1].date : '';
+
+      const initLabelElem = document.getElementById('histInitLabel');
+      if (initLabelElem && initDate) {
+        initLabelElem.innerText = currentHistRange === 'ALL'
+          ? `최초 등록 총자산 (${initDate})`
+          : `기점 총자산 (${initDate})`;
+      }
+
+      const latestLabelElem = document.getElementById('histLatestLabel');
+      if (latestLabelElem && latestDate) {
+        latestLabelElem.innerText = `최근 거래일 평가액 (${latestDate})`;
+      }
+
       document.getElementById('histInitTotal').innerText = (initTotal / 100000000).toFixed(2) + " 억 원";
       document.getElementById('histLatestTotal').innerText = (latestTotal / 100000000).toFixed(2) + " 억 원";
       document.getElementById('histDepositTotal').innerText = (latestDeposit / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 }) + " 만 원";

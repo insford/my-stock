@@ -229,5 +229,37 @@ window.PORTFOLIO_STATE_HISTORY_2026 = [
       "kodex_snp500_shares": 0,
       "fadu_shares": 0
     }
+  },
+  {
+    "date": "2026-08-21",
+    "note": "일부 주식 매도 (삼성전자 20주, SK하이닉스 3주 매도) 및 예수금 반영",
+    "prices": {
+      "kospi": 6912.95,
+      "samsung": 270000,
+      "hynix": 1761000,
+      "cd": 1075450,
+      "sofr": 60155,
+      "us30b": 7150,
+      "gold": 28450,
+      "snp500": 26295,
+      "fadu": 0
+    },
+    "holdings": {
+      "samsung_shares": 536,
+      "hynix_shares": 87,
+      "deposit_krw": 40982401,
+      "other_assets_krw": 79035415
+    },
+    "other_assets_detail": {
+      "kodex_cd_shares": 18,
+      "tiger_sofr_shares": 261,
+      "ace_us30b_shares": 2228,
+      "ace_gold_shares": 581,
+      "tiger_snp500_shares": 438,
+      "kodex_gold_shares": 0,
+      "kodex_us10b_shares": 0,
+      "kodex_snp500_shares": 0,
+      "fadu_shares": 0
+    }
   }
 ];
