@@ -2,6 +2,8 @@
 
 Welcome to the `my-stock` repository. This document serves as a comprehensive system manual and operational guide for AI coding assistants and developers working on or maintaining this codebase.
 
+This file is the **Single Source of Truth (SSOT)** for this project, used by both **antigravity-cli** (reads this file directly as its context) and **Claude Code** (loaded via [`CLAUDE.md`](./CLAUDE.md)'s `@import`). It inherits the workspace-wide common rules (PII protection, external link validation, dark-theme default, git commit/push policy) defined in the root [`../AGENTS.md`](../AGENTS.md) — read that first. Project-specific rules below take precedence when they conflict.
+
 ---
 
 ## 1. Project Overview & Objectives
