@@ -261,5 +261,37 @@ window.PORTFOLIO_STATE_HISTORY_2026 = [
       "kodex_snp500_shares": 0,
       "fadu_shares": 0
     }
+  },
+  {
+    "date": "2026-08-24",
+    "note": "삼성전자 추가 매수 (삼성전자 20주 매수) 및 예수금 반영",
+    "prices": {
+      "kospi": 6696.96,
+      "samsung": 257000,
+      "hynix": 1675000,
+      "cd": 1075535,
+      "sofr": 59920,
+      "us30b": 7170,
+      "gold": 29065,
+      "snp500": 26235,
+      "fadu": 0
+    },
+    "holdings": {
+      "samsung_shares": 556,
+      "hynix_shares": 87,
+      "deposit_krw": 35832238,
+      "other_assets_krw": 79380510
+    },
+    "other_assets_detail": {
+      "kodex_cd_shares": 18,
+      "tiger_sofr_shares": 261,
+      "ace_us30b_shares": 2228,
+      "ace_gold_shares": 581,
+      "tiger_snp500_shares": 438,
+      "kodex_gold_shares": 0,
+      "kodex_us10b_shares": 0,
+      "kodex_snp500_shares": 0,
+      "fadu_shares": 0
+    }
   }
 ];

@@ -945,10 +945,10 @@
     let currentHistRange = '3M';
 
     let stateData = {
-      samsung_shares: 536,
+      samsung_shares: 556,
       hynix_shares: 87,
-      other_assets_krw: 79035415,
-      deposit_krw: 40982401,
+      other_assets_krw: 79380510,
+      deposit_krw: 35832238,
       cd_shares: 18,
       sofr_shares: 261,
       us30b_shares: 2228,
@@ -985,10 +985,10 @@
       const json = window.PORTFOLIO_STATE_DATA || null;
       if (json) {
         if (json.holdings) {
-          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 536;
+          stateData.samsung_shares = json.holdings.samsung_shares !== undefined ? json.holdings.samsung_shares : 556;
           stateData.hynix_shares = json.holdings.hynix_shares !== undefined ? json.holdings.hynix_shares : 87;
           stateData.other_assets_krw = json.holdings.other_assets_krw || 0;
-          stateData.deposit_krw = json.holdings.deposit_krw !== undefined ? json.holdings.deposit_krw : 40982401;
+          stateData.deposit_krw = json.holdings.deposit_krw !== undefined ? json.holdings.deposit_krw : 35832238;
         }
         if (json.other_assets_detail) {
           stateData.cd_shares = json.other_assets_detail.kodex_cd_shares || 0;
