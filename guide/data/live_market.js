@@ -1,14 +1,14 @@
 window.LIVE_MARKET_DATA = {
-  "last_updated": "2026-08-25 13:04:26",
+  "last_updated": "2026-08-25 13:51:02",
   "prices": {
-    "kospi": 6640.25,
-    "samsung": 253500,
-    "hynix": 1622000,
-    "cd": 1075617,
-    "sofr": 60040,
+    "kospi": 6669.88,
+    "samsung": 254000,
+    "hynix": 1648000,
+    "cd": 1075620,
+    "sofr": 60020,
     "us30b": 7170,
-    "gold": 29075,
+    "gold": 28970,
     "snp500": 26280,
-    "us10b": 11570
+    "us10b": 11565
   }
 };
