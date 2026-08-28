@@ -51,20 +51,42 @@ flowchart TD
 
 ```text
 my-stock/
-├── index.html                               # 📈 국내주식 실시간 포트폴리오 리밸런싱 대시보드 (메인)
-├── update_prices.py                         # 네이버/야후 증권 시세 수집 스크립트
+├── index.html                               # 📈 국내주식 실시간 포트폴리오 리밸런싱 대시보드 (메인 SPA)
+├── server.sh                                # 🚀 로컬 테스트용 웹서버 제어 스크립트 (start/stop/status)
+├── update_prices.py                         # 10분 주기 실시간 시세 수집 스크립트 (Naver/Yahoo)
+├── update_history.py                        # 15:05, 20:05 KST 일별 시장 히스토리 SQLite 수집 스크립트
+├── DB_SCHEMA.md                             # 📊 SQLite 데이터베이스 스키마 & Mermaid ERD 명세서
+├── BACKLOG.md                               # 포트폴리오 전면 SQLite 마이그레이션 개발 백로그
 ├── .github/
 │   └── workflows/
-│       └── monitor.yml                      # 10분 주기 자동 시세 수집 GitHub Actions
+│       ├── monitor.yml                      # 10분 주기 실시간 시세 자동 수집 워크플로우
+│       └── history.yml                      # 매일 15:05, 20:05 KST 시장 히스토리 SQLite 자동 갱신 워크플로우
+├── dc/                                      # 🏛️ 퇴직연금(DC) 20년 백테스트 & 장기 투자
+│   ├── index.html                           # DC 퇴직연금 인터랙티브 시뮬레이션 대시보드
+│   ├── DC_GUIDE.md                          # 미래에셋 DC 장기 투자 계획서 및 자동매수 가이드
+│   └── data/                                # 20년(2006~2025) 백테스트 시뮬레이션 데이터 (JSON/JS)
 └── guide/
+    ├── 시장데이터_히스토리_수집_계획서.md     # SQLite-WASM 기반 일별 히스토리 수집 계획서
     ├── 국내주식_리밸런싱_전략.md              # KOSPI 6,000~8,500 매매조건 완화형 전략 문서
     ├── 국내주식_리밸런싱_종목선택.md          # 포트폴리오 편입 종목 및 ETF 분석
     ├── 매매일지.md                           # 리밸런싱 매매 기록 일지
     ├── 포트폴리오_2026-07-31.md              # 최초 포트폴리오 진단 및 구성 내역
     └── data/
+        ├── market_history.db                # [자동 갱신] 일별 종가 SQLite 바이너리 DB (WASM 쿼리)
         ├── portfolio_state.js               # [사용자 수정] 계좌 보유 주식 수량 데이터
-        └── live_market.js                  # [자동 갱신] 수집된 최신 시세 및 갱신 시각
+        ├── portfolio_state_history_2026.js  # [사용자 수정] 매매 집행 이력 스냅샷
+        └── live_market.js                  # [자동 갱신] 수집된 최신 실시간 시세 및 갱신 시각
 ```
+
+---
+
+## 📊 데이터베이스 스키마 (Database Schema)
+
+시장 데이터 수집 및 WASM 분석에 사용되는 SQLite DB(`guide/data/market_history.db`)의 테이블/뷰 구조 및 Mermaid ER 다이어그램은 [DB_SCHEMA.md](./DB_SCHEMA.md)에서 자세히 확인하실 수 있습니다.
+
+* **테이블**: `market_history` (일자별·종목별 50거래일 종가 데이터)
+* **뷰**: `v_market_history` (윈도우 함수 기반 전일 종가 `prev_price` 및 등락률 `change_percent` 자동 연산)
+* **인덱스**: `idx_code_date` (`(code, date)` 복합 B-Tree 인덱스)
 
 ---
 

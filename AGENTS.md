@@ -67,7 +67,8 @@ flowchart TD
 my-stock/
 ├── .github/
 │   └── workflows/
-│       └── monitor.yml                    # Automated 10-minute cron workflow for market prices
+│       ├── monitor.yml                    # Automated 10-minute cron workflow for market prices
+│       └── history.yml                    # Daily 15:05, 20:05 KST cron workflow for market history SQLite DB
 ├── guide/
 │   ├── attachment/                        # Strategy simulation chart images
 │   │   ├── bull_market_simulation.png
@@ -75,16 +76,21 @@ my-stock/
 │   │   ├── rebalancing_simulation.png
 │   │   ├── relaxed_band_simulation.png
 │   │   └── trigger_relaxed_simulation.png
-│   ├── data/                              # State storage files (JS global variables)
+│   ├── data/                              # State storage files (JS globals & SQLite DB)
+│   │   ├── market_history.db              # [Auto-generated] Daily closing prices SQLite binary DB (WASM)
 │   │   ├── live_market.js                 # [Auto-generated] Live prices and timestamps
 │   │   ├── portfolio_state.js             # [User-maintained] Current stock shares & deposits
 │   │   └── portfolio_state_history_2026.js# [User-maintained] Historical portfolio records
+│   ├── 시장데이터_히스토리_수집_계획서.md     # SQLite-WASM history collection specification
 │   ├── 국내주식_리밸런싱_전략.md             # Detailed KOSPI 6,000~8,500 matrix strategy guide
 │   ├── 국내주식_리밸런싱_종목선택.md         # Selected asset breakdown and ETF analysis
 │   ├── 매매일지.md                          # Plaintext trading execution journal
 │   └── 포트폴리오_2026-07-31.md             # Initial portfolio snapshot & diagnostic report
-├── index.html                             # Main single-page web dashboard (Standalone SPA)
-├── update_prices.py                       # Python script fetching Naver/Yahoo market prices
+├── index.html                             # Main single-page web dashboard (Standalone SPA with SQLite-WASM)
+├── update_prices.py                       # Python script fetching Naver/Yahoo live market prices
+├── update_history.py                      # Python script fetching Naver/Yahoo daily history into SQLite DB
+├── DB_SCHEMA.md                           # SQLite database schema specification & Mermaid ERD
+├── BACKLOG.md                             # SQLite full migration backlog
 ├── README.md                              # Public repository documentation
 └── AGENTS.md                              # AI Agent & Developer Guidelines (This file)
 ```
@@ -222,8 +228,24 @@ When the user executes a trade or requests a portfolio state update, follow this
 * **Zero Build Step**: The app must run directly by opening `index.html` in a browser or serving via GitHub Pages. Do not introduce npm/webpack/vite build pipelines unless explicitly requested by the user.
 * **Data Dependency**: `index.html` imports `portfolio_state.js`, `portfolio_state_history_2026.js`, and `live_market.js` via `<script>` tags in the `<head>` or before the inline logic. Always ensure backward compatibility of property keys.
 
-### 6.4. Best Practices & Do's / Don'ts
+### 6.4. Database & Schema Modification Policy (Strict Sync Rule)
+When creating, altering, or removing SQLite database tables, columns, indexes, or views (e.g. in `guide/data/market_history.db` or future migration databases), **you MUST synchronize and update the following related documentation immediately**:
+
+1. **Update [`DB_SCHEMA.md`](./DB_SCHEMA.md)**:
+   * **Update Mermaid ER Diagram**: Reflect new/modified entities, relationships, primary keys, and views.
+   * **Update Table & View Specifications**: Keep DDL statements, column data types, constraints, and descriptions accurate.
+   * **Update Asset Code Mapping & Sample Queries**: Update if tickers or query structures have changed.
+2. **Update [`README.md`](./README.md)**:
+   * Keep the `## 📊 데이터베이스 스키마 (Database Schema)` summary section and file tree in sync with the latest DB capabilities.
+3. **Update Python Ingestion Scripts (`update_history.py`)**:
+   * Ensure `init_database()`, index creation, and view definitions match the DDL documented in `DB_SCHEMA.md`.
+4. **Update Planning & Backlog Documents**:
+   * Synchronize [`BACKLOG.md`](./BACKLOG.md) and [`guide/시장데이터_히스토리_수집_계획서.md`](./guide/시장데이터_히스토리_수집_계획서.md) if the schema change affects the migration roadmap.
+
+### 6.5. Best Practices & Do's / Don'ts
 * ❌ **Do NOT hardcode live market prices** into `index.html`; always rely on `window.LIVE_MARKET_DATA`.
 * ❌ **Do NOT overwrite `live_market.js` manually** when editing portfolio configuration; it is updated by GitHub Actions.
+* ❌ **Do NOT modify SQLite tables, indexes, or views without updating `DB_SCHEMA.md` and `README.md`.**
+* ✅ **Always update Mermaid ERD and column specifications in `DB_SCHEMA.md`** whenever changing database schemas.
 * ✅ **Always verify mathematical consistency** across share counts, prices, cash deposits, and sum totals when updating portfolio data files.
 * ✅ **Keep mobile responsiveness** intact: `index.html` is frequently accessed on mobile devices (M-Stock trading environment). Ensure glassmorphism cards and charts scale cleanly on small viewports.

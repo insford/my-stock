@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미래에셋 퇴직연금(DC) 20년 백테스트 & 포트폴리오 대시보드</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Data Script -->
+  <script src="./data/simulation_data.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --card-bg: rgba(18, 24, 38, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(56, 189, 248, 0.3);
+      --accent-blue: #38bdf8;
+      --accent-indigo: #6366f1;
+      --accent-green: #10b981;
+      --accent-orange: #f59e0b;
+      --accent-red: #ef4444;
+      --accent-purple: #8b5cf6;
+      --accent-pink: #ec4899;
+      --text-main: #f1f5f9;
+      --text-sub: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 45%),
+        radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 45%),
+        radial-gradient(at 50% 50%, rgba(16, 185, 129, 0.05) 0px, transparent 60%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 1.5rem;
+    }
+
+    .header-title h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .header-title p {
+      color: var(--text-sub);
+      font-size: 0.92rem;
+      margin-top: 0.35rem;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #38bdf8;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      padding: 0.55rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--text-sub);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      color: #fff;
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    /* KPI Summary Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .kpi-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1.3rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--card-hover-border);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent-blue);
+    }
+
+    .kpi-card.m3::before {
+      background: linear-gradient(180deg, #ec4899, #8b5cf6);
+    }
+
+    .kpi-card.m2::before {
+      background: linear-gradient(180deg, #38bdf8, #818cf8);
+    }
+
+    .kpi-card.m1::before {
+      background: var(--accent-green);
+    }
+
+    .kpi-card.dep::before {
+      background: var(--text-dim);
+    }
+
+    .kpi-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-sub);
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .kpi-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+
+    .kpi-sub {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .profit-badge {
+      font-weight: 700;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    .profit-badge.up {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+    }
+
+    .profit-badge.fire {
+      background: rgba(236, 72, 153, 0.15);
+      color: #f472b6;
+    }
+
+    /* Content Cards */
+    .dashboard-section {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-title span.icon {
+      font-size: 1.3rem;
+    }
+
+    /* Chart Container */
+    .chart-box {
+      position: relative;
+      height: 430px;
+      width: 100%;
+    }
+
+    .chart-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-toggle {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-sub);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-toggle:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .btn-toggle.active {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+    }
+
+    /* Milestone Timeline Grid */
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .milestone-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      position: relative;
+    }
+
+    .milestone-card .badge-year {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 0.4rem;
+    }
+
+    .milestone-card .inv-label {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-bottom: 0.8rem;
+    }
+
+    .milestone-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.45rem 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+      font-size: 0.85rem;
+    }
+
+    .milestone-item:last-child {
+      border-bottom: none;
+    }
+
+    .milestone-item .val {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+    }
+
+    /* Scenario Grid */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .scenario-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      border-top: 3px solid var(--accent-blue);
+    }
+
+    .scenario-card.opt { border-top-color: #38bdf8; }
+    .scenario-card.neu { border-top-color: #10b981; }
+    .scenario-card.con { border-top-color: #f59e0b; }
+    .scenario-card.dep { border-top-color: #94a3b8; }
+
+    .scenario-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+
+    .scenario-cagr {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 0.8rem;
+    }
+
+    .scenario-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+    }
+
+    table.custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+
+    table.custom-table th {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 0.9rem 1rem;
+      color: var(--text-sub);
+      font-weight: 600;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    table.custom-table td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+
+    table.custom-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    table.custom-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .code-badge {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: #38bdf8;
+    }
+
+    .badge-rule {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .badge-rule.risk {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .badge-rule.safe {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* Step Card Grid */
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .step-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.4rem;
+    }
+
+    .step-card .num {
+      display: inline-flex;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #38bdf8, #6366f1);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-card h4 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .step-card p {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.5;
+    }
+
+    /* FAQ Box */
+    .faq-item {
+      margin-bottom: 1rem;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    .faq-item h4 {
+      font-size: 0.95rem;
+      color: #38bdf8;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .faq-item p {
+      font-size: 0.85rem;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      margin-top: 3rem;
+      border-top: 1px solid var(--card-border);
+      padding-top: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem 0.5rem 3rem;
+      }
+
+      .header-title h1 {
+        font-size: 1.45rem;
+      }
+
+      .chart-box {
+        height: 320px;
+      }
+
+      .kpi-value {
+        font-size: 1.45rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="header-title">
+        <h1>미래에셋 퇴직연금(DC) 장기 투자 시뮬레이션</h1>
+        <p>
+          <span class="badge-pill">🏛️ 미래에셋증권 DC</span>
+          <span>초기 자금 <strong>2,000만 원</strong> + 매월 <strong>100만 원</strong> 적립</span>
+          <span>• 20년 백테스트 (2006 ~ 2025)</span>
+        </p>
+      </div>
+      <div class="nav-links">
+        <a href="../index.html" class="nav-btn">📊 국내주식 대시보드</a>
+        <a href="./DC_GUIDE.md" class="nav-btn">📑 운용계획서</a>
+        <a href="./MIRAEASSET_SETUP_GUIDE.md" class="nav-btn active" style="color: #f472b6; border-color: rgba(236, 72, 153, 0.4); background: rgba(236, 72, 153, 0.12);">📱 M-STOCK 세팅 매뉴얼</a>
+      </div>
+    </header>
+
+    <!-- Top KPI Cards -->
+    <div class="kpi-grid">
+      <!-- M2 Card (Final Choice) -->
+      <div class="kpi-card m2" style="border-color: rgba(56, 189, 248, 0.5); box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);">
+        <div class="kpi-tag">
+          <span style="color: #38bdf8; font-weight: 800;">🚀 [추천 2] 대형주 극대화 (45:25:30)</span>
+          <span style="color: #38bdf8; background: rgba(56, 189, 248, 0.15); padding: 0.1rem 0.4rem; border-radius: 4px; font-weight: 700;">⭐ 최종 확정</span>
+        </div>
+        <div class="kpi-value" id="kpi-m2-val">17억 3,798만 원</div>
+        <div class="kpi-sub">
+          <span>납입 원금 2.6억 대비</span>
+          <span class="profit-badge up" id="kpi-m2-ret">+568.5% (6.7배)</span>
+        </div>
+        <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 0.4rem;">
+          적립식 MDD: <strong>-16.0%</strong> | 실질 주식 <strong>85.0%</strong>
+        </div>
+      </div>
+
+      <!-- M3 Card -->
+      <div class="kpi-card m3">
+        <div class="kpi-tag">
+          <span>🔥 [추천 3] 반반 고성장 (35:35:30)</span>
+          <span style="color: #f472b6;">기술주 고성장</span>
+        </div>
+        <div class="kpi-value" id="kpi-m3-val">18억 5,501만 원</div>
+        <div class="kpi-sub">
+          <span>납입 원금 2.6억 대비</span>
+          <span class="profit-badge fire" id="kpi-m3-ret">+613.5% (7.1배)</span>
+        </div>
+        <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 0.4rem;">
+          적립식 MDD: <strong>-17.6%</strong> | 실질 주식 <strong>85.0%</strong>
+        </div>
+      </div>
+
+      <!-- M1 Card -->
+      <div class="kpi-card m1">
+        <div class="kpi-tag">
+          <span>🥇 [추천 1] 정석 미국지수 (70/30)</span>
+          <span style="color: #34d399;">균형 안정</span>
+        </div>
+        <div class="kpi-value" id="kpi-m1-val">12억 9,358만 원</div>
+        <div class="kpi-sub">
+          <span>납입 원금 2.6억 대비</span>
+          <span class="profit-badge up" id="kpi-m1-ret">+397.5% (5.0배)</span>
+        </div>
+        <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 0.4rem;">
+          적립식 MDD: <strong>-13.0%</strong> | 실질 주식 <strong>70.0%</strong>
+        </div>
+      </div>
+
+      <!-- Deposit Card -->
+      <div class="kpi-card dep">
+        <div class="kpi-tag">
+          <span>🏦 비교군: 정기예금 (연 3.0% 복리)</span>
+          <span>원리금 보장</span>
+        </div>
+        <div class="kpi-value" id="kpi-dep-val">3억 6,298만 원</div>
+        <div class="kpi-sub">
+          <span>납입 원금 2.6억 대비</span>
+          <span class="profit-badge" style="background: rgba(255,255,255,0.08); color: var(--text-sub);" id="kpi-dep-ret">+39.6% (1.4배)</span>
+        </div>
+        <div style="font-size: 0.78rem; color: var(--text-dim); margin-top: 0.4rem;">
+          [추천 2] 대비 <strong>약 13.8억 원 격차</strong> 발생
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 1: Main Interactive Asset Growth Chart -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">📈</span>
+          <span>20년간 자산 성장 시뮬레이션 곡선 (2006 ~ 2025)</span>
+        </div>
+        <div class="chart-controls">
+          <button class="btn-toggle active" id="btn-scale-lin" onclick="setScale('linear')">선형 차트</button>
+          <button class="btn-toggle" id="btn-scale-log" onclick="setScale('logarithmic')">로그 스케일</button>
+        </div>
+      </div>
+      <div class="chart-box">
+        <canvas id="growthChart"></canvas>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-dim); margin-top: 0.8rem; flex-wrap: wrap; gap: 0.5rem;">
+        <span>* 조건: 초기 2,000만 원 + 매월 100만 원 적립 (총 240회 = 2억 6,000만 원), 달러 환노출(KRW 기준) 및 연 1회 리밸런싱 반영</span>
+        <span>* 2023.11 감독규정 개정(채권혼합50 주식상한 50%) 스펙 적용</span>
+      </div>
+    </div>
+
+    <!-- Section 2: Future Scenarios Projection -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">🔮</span>
+          <span>미래 15~20년 현실적 기대수익 시나리오 (프로젝션)</span>
+        </div>
+        <span style="font-size: 0.82rem; color: var(--accent-blue);">* 과거 슈퍼사이클 편향을 배제한 연환산 CAGR 시나리오</span>
+      </div>
+      <div class="scenario-grid">
+        <div class="scenario-card opt">
+          <div class="scenario-title">🌟 낙관적 시나리오</div>
+          <div class="scenario-cagr">연 10.0% CAGR (기술주 강세)</div>
+          <div class="scenario-val">15년: 약 4.65억</div>
+          <div style="font-size: 0.8rem; color: var(--text-sub);">20년: 약 8.22억 원</div>
+        </div>
+        <div class="scenario-card neu">
+          <div class="scenario-title">⚖️ 중립 / 현실적 시나리오</div>
+          <div class="scenario-cagr">연 7.5% CAGR (미국 역사 평균)</div>
+          <div class="scenario-val">15년: 약 3.73억</div>
+          <div style="font-size: 0.8rem; color: var(--text-sub);">20년: 약 6.05억 원</div>
+        </div>
+        <div class="scenario-card con">
+          <div class="scenario-title">🌧️ 보수적 시나리오</div>
+          <div class="scenario-cagr">연 5.0% CAGR (저성장/환율하락)</div>
+          <div class="scenario-val">15년: 약 3.00억</div>
+          <div style="font-size: 0.8rem; color: var(--text-sub);">20년: 약 4.50억 원</div>
+        </div>
+        <div class="scenario-card dep">
+          <div class="scenario-title">🏦 정기예금 비교</div>
+          <div class="scenario-cagr">연 3.0% 단리/복리</div>
+          <div class="scenario-val">15년: 약 2.54억</div>
+          <div style="font-size: 0.8rem; color: var(--text-sub);">20년: 약 3.59억 원</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: Milestones Grid (5y, 10y, 15y, 20y) -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">🎯</span>
+          <span>과거 20년 백테스트 마일스톤 비교</span>
+        </div>
+        <span style="font-size: 0.82rem; color: var(--accent-pink);">* 15년 차(2020) = 은퇴 및 연금 수령 예상 시점</span>
+      </div>
+      <div class="milestone-grid" id="milestones-container">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+    <!-- Section 4: Drawdown (MDD) Chart -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">🛡️</span>
+          <span>하락장 방어력 비교: 적립식 계좌 낙폭 (Drawdown, %)</span>
+        </div>
+        <span class="badge-pill" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">⭐ 최종 확정 [추천 2] MDD: -16.0%</span>
+      </div>
+      <div class="chart-box" style="height: 280px;">
+        <canvas id="drawdownChart"></canvas>
+      </div>
+      <div style="font-size: 0.82rem; color: var(--text-sub); margin-top: 0.8rem; line-height: 1.5;">
+        💡 <strong>MDD 산출 기준 안내</strong>: 매월 100만 원씩 신규 원금이 유입되는 '적립식 계좌 평가액' 기준 낙폭(-16.0%)입니다. <strong>최종 확정된 [추천 2] 모델은 MDD -16.0%</strong>로 [추천 3](-17.6%) 대비 하락장 방어력이 한층 강화되었으며, 2008년 금융위기 및 2022년 금리인상기 당시 원/달러 환율 급등(달러 에어백) 효과가 미국 현지 원지수 낙폭(-53%) 대비 절반 이하로 손실을 방어해 주었습니다.
+      </div>
+    </div>
+
+    <!-- Section 5: Target Portfolio Allocation & Auto-buy Table -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">📋</span>
+          <span>미래에셋증권 자동매수 주문 설정표 (⭐ [추천 2] 대형주 극대화 45:25:30 최종 확정)</span>
+        </div>
+        <span class="badge-pill" style="color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">M-STOCK 「연금 모으기」 등록용</span>
+      </div>
+
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>종목명</th>
+              <th>종목코드</th>
+              <th>규제 분류</th>
+              <th>목표 비중</th>
+              <th>초기 1차 (1,000만)</th>
+              <th>초기 2차 (1,000만)</th>
+              <th>매월 자동매수 (100만)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong style="color: #f59e0b;">안전 (1순위 매수)</strong></td>
+              <td><strong>ACE 미국S&P500미국채혼합50액티브</strong></td>
+              <td><span class="code-badge" style="color: #f59e0b; font-weight: 700;">438080</span></td>
+              <td><span class="badge-rule safe">안전자산 (100%가능)</span></td>
+              <td><strong>30.0%</strong></td>
+              <td><strong>300만 원</strong></td>
+              <td><strong>300만 원</strong></td>
+              <td><strong style="color: #34d399;">30만 원</strong></td>
+            </tr>
+            <tr>
+              <td><strong style="color: #38bdf8;">위험 1</strong></td>
+              <td><strong>TIGER 미국S&P500</strong></td>
+              <td><span class="code-badge">360750</span></td>
+              <td><span class="badge-rule risk">위험자산</span></td>
+              <td><strong>45.0%</strong></td>
+              <td><strong>450만 원</strong></td>
+              <td><strong>450만 원</strong></td>
+              <td><strong style="color: #34d399;">45만 원</strong></td>
+            </tr>
+            <tr>
+              <td><strong style="color: #818cf8;">위험 2</strong></td>
+              <td><strong>TIGER 미국나스닥100</strong></td>
+              <td><span class="code-badge">133690</span></td>
+              <td><span class="badge-rule risk">위험자산</span></td>
+              <td><strong>25.0%</strong></td>
+              <td><strong>250만 원</strong></td>
+              <td><strong>250만 원</strong></td>
+              <td><strong style="color: #34d399;">25만 원</strong></td>
+            </tr>
+            <tr style="background: rgba(56, 189, 248, 0.08); font-weight: 700;">
+              <td colspan="4" style="text-align: right; color: var(--text-sub);">합계 (실질 주식 85.0% + 채권 15.0%)</td>
+              <td>100.0%</td>
+              <td>1,000만 원</td>
+              <td>1,000만 원</td>
+              <td style="color: #38bdf8;">100만 원 / 월</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="margin-top: 1rem; font-size: 0.82rem; color: var(--text-dim);">
+        * ⚠️ 주의: 안전자산은 총보수가 저렴(0.15%)하고 팩터가 분산되는 <span class="code-badge" style="color: #f59e0b; font-weight: 700;">438080</span>(ACE 미국S&P500미국채혼합50액티브)을 매수합니다. (<span class="code-badge">396500</span>, <span class="code-badge">435420</span> 혼동 주의)
+      </div>
+    </div>
+
+    <!-- Section: Execution & Setup History -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">📜</span>
+          <span>포트폴리오 운용 및 설정 히스토리 (History Log)</span>
+        </div>
+        <span class="badge-pill" style="border-color: rgba(16, 185, 129, 0.3); color: #34d399; background: rgba(16, 185, 129, 0.1);">✅ 운용 중 (Active)</span>
+      </div>
+
+      <div class="timeline-container" style="display: flex; flex-direction: column; gap: 1rem;">
+        <div class="timeline-item" style="background: rgba(255, 255, 255, 0.02); border: 1px solid var(--card-border); border-left: 4px solid var(--accent-blue); border-radius: 12px; padding: 1.3rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap; gap: 0.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <span class="badge-year" style="color: #38bdf8; font-weight: 800; font-size: 1rem; font-family: 'Outfit', sans-serif;">2026-08-28</span>
+              <span class="badge-pill" style="font-size: 0.72rem; padding: 0.15rem 0.55rem; color: #38bdf8; border-color: rgba(56, 189, 248, 0.3);">최초 세팅 완료</span>
+            </div>
+            <span style="font-size: 0.8rem; color: var(--text-dim);">미래에셋증권 M-STOCK 「연금 모으기」</span>
+          </div>
+          <h4 style="font-size: 1.05rem; color: #fff; margin-bottom: 0.5rem;">
+            🚀 [추천 2] 대형주 극대화 포트폴리오 (45:25:30) 최종 확정 및 자동매수 등록
+          </h4>
+          <div style="font-size: 0.85rem; color: var(--text-sub); line-height: 1.6; margin-bottom: 0.8rem;">
+            * <strong>최종 확정 비중</strong>: <strong>TIGER 미국S&P500 45% (45만 원)</strong> + <strong>TIGER 미국나스닥100 25% (25만 원)</strong> + <strong>ACE 미국S&P500미국채혼합50액티브 30% (30만 원)</strong><br>
+            * <strong>초기 자금 운용 (약 2,000만 원)</strong>: 1차 1,000만 원 즉시 분할 매수(450만/250만/300만) ➔ 2차 1,000만 원 1개월 후 동일 분할 매수<br>
+            * <strong>정기 적립 세팅</strong>: 매월 회사 부담금(100만 원) 입금 익영업일에 M-STOCK 「연금 모으기」를 통한 3종목 일괄 자동매수 등록 완료
+          </div>
+          <div style="background: rgba(56, 189, 248, 0.06); border: 1px dashed rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.82rem; color: var(--text-main); line-height: 1.5;">
+            💡 <strong>비중 확정 배경</strong>: 최근 나스닥100 주가 상승(1주당 약 18~19만 원)에 따른 예수금 우수리 잔여를 최소화하고, 미국 대표 대형 우량주(S&P 500) 중심의 변동성 완화(적립식 MDD -16.0%)와 퇴직연금 규제 완화 채권혼합50을 통한 실질 주식 85.0% 극대화를 최적으로 조화시켜 [추천 2] 모델로 최종 확정.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 6: FAQ & Glidepath -->
+    <div class="dashboard-section">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">💡</span>
+          <span>퇴직연금(DC) 포트폴리오 핵심 Q&A & 디리스킹(De-risking)</span>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <h4>Q. 은퇴 직전(10~15년 차)에 하락장을 맞으면 어떻게 하나요? (글라이드패스)</h4>
+        <p>1~10년 차에는 주식 85%로 자산을 극대화하고, <strong>은퇴 3~5년 전(11~13년 차)부터 안전자산 비중을 30% → 50% → 70%로 점진적으로 전환(De-risking)</strong>하여 인출 시점의 시퀀스 리스크(Sequence of Returns Risk)를 사전에 방어합니다.</p>
+      </div>
+
+      <div class="faq-item">
+        <h4>Q. 한국 주식이나 금(Gold)은 왜 제외하나요?</h4>
+        <p>
+          <strong>한국 주식:</strong> 이미 일반 계좌(`my-stock`)에서 삼성전자·SK하이닉스 박스권 전략을 운용 중이므로, 퇴직연금은 장기 우상향하는 미국 기축통화 자산으로 완전히 분리(Hedge)합니다.<br>
+          <strong>금(Gold):</strong> 배당과 기업 성장 복리 엔진이 없으므로 자산 축적기에는 주식 복리에 집중하고, 은퇴 직전 안전자산 슬롯으로 일부 전환하는 것이 유리합니다.
+        </p>
+      </div>
+
+      <div class="faq-item">
+        <h4>Q. 왜 환헤지(H)가 아닌 환노출형 ETF를 사야 하나요?</h4>
+        <p>위기 시마다 원/달러 환율이 급등하여 주가 하락을 방어해 주는 강력한 <strong>'천연 에어백'</strong> 역할을 합니다. 실제로 2008년 금융위기 및 2022년 하락장 당시 원화 환산 낙폭은 미국 현지 낙폭의 절반 수준에 불과했습니다.</p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>미래에셋증권 퇴직연금(DC) 스마트 포트폴리오 리포트 | 본 시뮬레이션은 과거 실제 데이터를 기반으로 산출되었습니다.</p>
+    </footer>
+  </div>
+
+  <script>
+    const simData = window.DC_SIMULATION_DATA;
+
+    let growthChartInstance = null;
+    let drawdownChartInstance = null;
+    let currentScale = 'linear';
+
+    function initDashboard() {
+      if (!simData) {
+        console.error('Simulation data not found.');
+        return;
+      }
+
+      // Update KPI
+      document.getElementById('kpi-m3-val').innerText = (simData.summary.m3.final_val / 100000000).toFixed(2) + '억 원';
+      document.getElementById('kpi-m3-ret').innerText = '+' + simData.summary.m3.return_pct + '% (7.1배)';
+
+      document.getElementById('kpi-m2-val').innerText = (simData.summary.m2.final_val / 100000000).toFixed(2) + '억 원';
+      document.getElementById('kpi-m2-ret').innerText = '+' + simData.summary.m2.return_pct + '% (6.7배)';
+
+      document.getElementById('kpi-m1-val').innerText = (simData.summary.m1.final_val / 100000000).toFixed(2) + '억 원';
+      document.getElementById('kpi-m1-ret').innerText = '+' + simData.summary.m1.return_pct + '% (5.0배)';
+
+      document.getElementById('kpi-dep-val').innerText = (simData.summary.dep.final_val / 100000000).toFixed(2) + '억 원';
+      document.getElementById('kpi-dep-ret').innerText = '+' + simData.summary.dep.return_pct + '% (1.4배)';
+
+      renderMilestones();
+      renderGrowthChart();
+      renderDrawdownChart();
+    }
+
+    function renderMilestones() {
+      const container = document.getElementById('milestones-container');
+      const snaps = simData.snapshots;
+
+      const milestones = [
+        { key: '5y', title: '5년 차 (2010.12)', note: '2008 금융위기 관통' },
+        { key: '10y', title: '10년 차 (2015.12)', note: '원금 2배 달성' },
+        { key: '15y', title: '15년 차 (2020.12) ⭐', note: '연금 수령 준비기' },
+        { key: '20y', title: '20년 차 (2025.12)', note: '최종 복리 완성' }
+      ];
+
+      container.innerHTML = milestones.map(m => {
+        const item = snaps[m.key];
+        const invWon = (item.invested / 100000000).toFixed(1) + '억';
+        const m1Won = (item.m1_val / 100000000).toFixed(2) + '억';
+        const m2Won = (item.m2_val / 100000000).toFixed(2) + '억';
+        const m3Won = (item.m3_val / 100000000).toFixed(2) + '억';
+        const depWon = (item.dep_val / 100000000).toFixed(2) + '억';
+
+        return `
+          <div class="milestone-card">
+            <div class="badge-year">${m.title}</div>
+            <div class="inv-label">누적 원금: ${invWon}원 (${m.note})</div>
+            <div class="milestone-item">
+              <span style="color: var(--text-dim);">🏦 정기예금</span>
+              <span class="val">${depWon}원 <small style="color: var(--text-dim);">(+${item.dep_ret}%)</small></span>
+            </div>
+            <div class="milestone-item">
+              <span style="color: #34d399;">🥇 [추천1] 70/30</span>
+              <span class="val" style="color: #34d399;">${m1Won}원 <small>(+${item.m1_ret}%)</small></span>
+            </div>
+            <div class="milestone-item">
+              <span style="color: #38bdf8;">🚀 [추천2] 45:25</span>
+              <span class="val" style="color: #38bdf8;">${m2Won}원 <small>(+${item.m2_ret}%)</small></span>
+            </div>
+            <div class="milestone-item" style="background: rgba(236, 72, 153, 0.08); padding: 0.45rem 0.3rem; border-radius: 6px;">
+              <span style="color: #f472b6; font-weight: 700;">🔥 [추천3] 35:35</span>
+              <span class="val" style="color: #f472b6;">${m3Won}원 <small>(+${item.m3_ret}%)</small></span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderGrowthChart() {
+      const ctx = document.getElementById('growthChart').getContext('2d');
+      const timeline = simData.timeline;
+
+      const labels = timeline.map(t => t.month);
+      const dataInvested = timeline.map(t => t.invested / 100000000);
+      const dataDep = timeline.map(t => t.dep_val / 100000000);
+      const dataM1 = timeline.map(t => t.m1_val / 100000000);
+      const dataM2 = timeline.map(t => t.m2_val / 100000000);
+      const dataM3 = timeline.map(t => t.m3_val / 100000000);
+      const dataSpy = timeline.map(t => t.spy_val / 100000000);
+      const dataQqq = timeline.map(t => t.qqq_val / 100000000);
+
+      if (growthChartInstance) {
+        growthChartInstance.destroy();
+      }
+
+      growthChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: '🚀 [추천 2] 대형주 극대화 (45:25:30) ⭐ [최종 확정]',
+              data: dataM2,
+              borderColor: '#38bdf8',
+              backgroundColor: 'rgba(56, 189, 248, 0.1)',
+              borderWidth: 3.0,
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1
+            },
+            {
+              label: '🔥 [추천 3] 반반 고성장 (35:35:30)',
+              data: dataM3,
+              borderColor: '#ec4899',
+              borderWidth: 2.0,
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1
+            },
+            {
+              label: '🥇 [추천 1] 정석 미국지수 (70/30)',
+              data: dataM1,
+              borderColor: '#10b981',
+              borderWidth: 2.0,
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1
+            },
+            {
+              label: '🏦 정기예금 (연 3.0%)',
+              data: dataDep,
+              borderColor: '#94a3b8',
+              borderWidth: 1.8,
+              borderDash: [5, 5],
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1
+            },
+            {
+              label: '📌 [참고] S&P 500 100%',
+              data: dataSpy,
+              borderColor: '#f59e0b',
+              borderWidth: 1.5,
+              borderDash: [2, 2],
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1,
+              hidden: true
+            },
+            {
+              label: '📌 [참고] 나스닥 100 100%',
+              data: dataQqq,
+              borderColor: '#c084fc',
+              borderWidth: 1.5,
+              borderDash: [2, 2],
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1,
+              hidden: true
+            },
+            {
+              label: '💵 총 납입 원금',
+              data: dataInvested,
+              borderColor: '#64748b',
+              borderWidth: 1.5,
+              borderDash: [3, 3],
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: {
+                color: '#cbd5e1',
+                boxWidth: 12,
+                font: { size: 12 }
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(15, 23, 42, 0.95)',
+              titleColor: '#38bdf8',
+              bodyColor: '#f1f5f9',
+              borderColor: 'rgba(255, 255, 255, 0.15)',
+              borderWidth: 1,
+              callbacks: {
+                label: function (ctx) {
+                  return `${ctx.dataset.label}: ${ctx.raw.toFixed(2)}억 원`;
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#64748b', maxTicksLimit: 12 }
+            },
+            y: {
+              type: currentScale,
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: {
+                color: '#64748b',
+                callback: function (val) { return val + '억'; }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderDrawdownChart() {
+      const ctx = document.getElementById('drawdownChart').getContext('2d');
+      const timeline = simData.timeline;
+
+      const labels = timeline.map(t => t.month);
+      const ddM1 = timeline.map(t => t.m1_dd);
+      const ddM2 = timeline.map(t => t.m2_dd);
+      const ddM3 = timeline.map(t => t.m3_dd);
+
+      // SPY & QQQ cumulative peak drawdown calculation
+      let spyPeak = 0;
+      const ddSpy = timeline.map(t => {
+        if (t.spy_val > spyPeak) spyPeak = t.spy_val;
+        return spyPeak > 0 ? Number((((t.spy_val - spyPeak) / spyPeak) * 100).toFixed(2)) : 0;
+      });
+      let qqqPeak = 0;
+      const ddQqq = timeline.map(t => {
+        if (t.qqq_val > qqqPeak) qqqPeak = t.qqq_val;
+        return qqqPeak > 0 ? Number((((t.qqq_val - qqqPeak) / qqqPeak) * 100).toFixed(2)) : 0;
+      });
+
+      if (drawdownChartInstance) {
+        drawdownChartInstance.destroy();
+      }
+
+      drawdownChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: '🚀 [추천 2] 낙폭 (45:25:30) ⭐ [최종 확정]',
+              data: ddM2,
+              borderColor: '#38bdf8',
+              backgroundColor: 'rgba(56, 189, 248, 0.18)',
+              borderWidth: 2.4,
+              fill: true,
+              pointRadius: 0,
+              tension: 0.1
+            },
+            {
+              label: '🔥 [추천 3] 낙폭 (35:35:30)',
+              data: ddM3,
+              borderColor: '#ec4899',
+              backgroundColor: 'transparent',
+              borderWidth: 1.6,
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1
+            },
+            {
+              label: '🥇 [추천 1] 낙폭 (70/30)',
+              data: ddM1,
+              borderColor: '#10b981',
+              backgroundColor: 'transparent',
+              borderWidth: 1.6,
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1
+            },
+            {
+              label: '📌 [참고] S&P 500 100% 낙폭',
+              data: ddSpy,
+              borderColor: '#f59e0b',
+              borderWidth: 1.3,
+              borderDash: [2, 2],
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1,
+              hidden: true
+            },
+            {
+              label: '📌 [참고] 나스닥 100 100% 낙폭',
+              data: ddQqq,
+              borderColor: '#c084fc',
+              borderWidth: 1.3,
+              borderDash: [2, 2],
+              fill: false,
+              pointRadius: 0,
+              tension: 0.1,
+              hidden: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: {
+            mode: 'index',
+            intersect: false,
+          },
+          plugins: {
+            legend: {
+              position: 'top',
+              labels: { color: '#cbd5e1', boxWidth: 12, font: { size: 12 } }
+            },
+            tooltip: {
+              callbacks: {
+                label: function (ctx) { return `${ctx.dataset.label}: ${ctx.raw.toFixed(2)}%`; }
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: { color: '#64748b', maxTicksLimit: 12 }
+            },
+            y: {
+              grid: { color: 'rgba(255, 255, 255, 0.05)' },
+              ticks: {
+                color: '#64748b',
+                callback: function (val) { return val + '%'; }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function setScale(scale) {
+      currentScale = scale;
+      document.getElementById('btn-scale-lin').classList.toggle('active', scale === 'linear');
+      document.getElementById('btn-scale-log').classList.toggle('active', scale === 'logarithmic');
+      renderGrowthChart();
+    }
+
+    window.addEventListener('DOMContentLoaded', initDashboard);
+  </script>
+</body>
+
+</html>
