@@ -2286,10 +2286,6 @@
       rawHistoryList.sort((a, b) => new Date(a.date) - new Date(b.date));
       const firstHistDate = rawHistoryList[0].date;
 
-      const errorContainer = document.getElementById('histErrorContainer');
-      const chartContainer = document.getElementById('histChartContainer');
-      const errorDetailElem = document.getElementById('histErrorDetail');
-
       const db = await getMarketHistoryDB();
 
       if (myRenderToken !== historyRenderToken) return;
