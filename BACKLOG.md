@@ -64,9 +64,16 @@ CREATE TABLE IF NOT EXISTS market_history (
 ### 3. 작업 항목 (Task Checklist)
 
 - [ ] **Data Migration**: 기존 `portfolio_state.js` 및 `portfolio_state_history_2026.js` 데이터를 SQLite 테이블로 이관하는 마이그레이션 스크립트(`migrate_to_sqlite.py`) 개발
-- [ ] **CLI / Update Tooling**: 매매 집행 후 터미널 또는 웹 UI에서 손쉽게 매매 내역을 SQLite에 INSERT할 수 있는 툴링 제공
+- [ ] **[방안 A] Web UI 매매 기록기 (GitHub REST API 연동)**:
+  - `index.html` 상단에 `[⚙️ 설정]` (GitHub PAT 등록/관리, `localStorage` 안전 보관) 및 `[+ 매매 기록 입력]` 모달 팝업 구현
+  - 종목 선택(삼성전자, 하이닉스 등), 매수/매도 구분, 체결 수량, 체결 단가(실시간가 자동완성), 예수금 변동 입력폼 제공
+  - 브라우저 JS에서 변경된 보유 수량 및 매매일지 마크다운 텍스트를 연산 후, **GitHub REST Contents API (`PUT /repos/.../contents/...`)를 호출하여 저장소에 직접 Commit & Push** 실행 (서버리스 0.5초 완료)
+  - 저장 완료 후 대시보드 실시간 자동 새로고침 및 성공 토스트 알림 표시
+- [ ] **[간단한 방안] 초간편 로컬 매매 기록 CLI 도구 (`trade_logger.py`)**:
+  - 터미널에서 한 줄 명령어로 매매 내역을 즉시 기록하고 Git Push하는 간편 툴 제공 (예: `python trade_logger.py buy samsung 20 260500 "밴드 하단 추가 매수"`)
+  - PC의 기존 Git SSH/Keychain 인증을 활용하여 PAT 없이도 터미널에서 초고속 처리 지원
 - [ ] **Frontend Refactoring**: `index.html`에서 JS 파일 의존성을 제거하고, WASM SQL 쿼리(`SELECT ...`)로 현재 보유 비중 및 리밸런싱 주문을 계산하도록 로직 전환
-- [ ] **Documentation Sync**: `AGENTS.md` 및 `README.md`의 데이터 갱신 가이드를 SQLite 기준으로 전면 개정
+- [ ] **Documentation Sync**: `AGENTS.md` 및 `README.md`의 데이터 갱신 가이드를 SQLite 및 웹 UI 기록기 기준으로 전면 개정
 
 ---
 
