@@ -211,20 +211,20 @@ def run_init():
 
 
 def run_update():
-    """Phase 3/일상 운영: 최근 5일치 시세 수집 후 SQLite Upsert"""
-    print("=== [UPDATE MODE] Updating recent 5-day history into SQLite DB ===")
+    """Phase 3/일상 운영: 최근 3일치 시세 수집 후 SQLite Upsert"""
+    print("=== [UPDATE MODE] Updating recent 3-day history into SQLite DB ===")
     kst = datetime.timezone(datetime.timedelta(hours=9))
     now_str = datetime.datetime.now(kst).strftime("%Y-%m-%d %H:%M:%S")
 
     all_records = []
     for key, naver_code, yahoo_symbol, itype, name in ITEMS:
         # 1차 네이버
-        recent_hist = fetch_naver_history(naver_code, itype, count=5)
+        recent_hist = fetch_naver_history(naver_code, itype, count=3)
         source = "Naver"
 
         # 2차 야후 백업
         if not recent_hist:
-            recent_hist = fetch_yahoo_history(yahoo_symbol, itype, count=5)
+            recent_hist = fetch_yahoo_history(yahoo_symbol, itype, count=3)
             source = "Yahoo"
 
         if recent_hist:

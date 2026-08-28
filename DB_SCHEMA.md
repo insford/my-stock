@@ -12,7 +12,7 @@
   * 국내외 주요 지수(KOSPI, S&P 500) 및 포트폴리오 편입 종목(반도체, 채권/금/달러 ETF 등)의 **최근 50거래일 일별 종가 히스토리 보관**
   * 일별 전일 대비 등락률(`change_percent`) 및 전일 종가(`prev_price`) 자동 계산 뷰 제공
   * 프론트엔드(`index.html`)에서 GitHub Pages 정적 CDN 환경을 통해 WASM 바이너리로 직접 로드 및 조회
-* **자동 갱신 주기**: 매일 15:05, 20:05 KST (GitHub Actions `.github/workflows/history.yml` ➔ `update_history.py`)
+* **자동 갱신 주기**: 월~금 08:00~20:00 KST 매 10분 (GitHub Actions `.github/workflows/monitor.yml` ➔ `update_history.py --update`)
 
 ---
 

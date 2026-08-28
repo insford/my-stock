@@ -67,8 +67,7 @@ flowchart TD
 my-stock/
 ├── .github/
 │   └── workflows/
-│       ├── monitor.yml                    # Automated 10-minute cron workflow for market prices
-│       └── history.yml                    # Daily 15:05, 20:05 KST cron workflow for market history SQLite DB
+│       └── monitor.yml                    # Automated 10-minute cron workflow for live prices & SQLite history DB
 ├── guide/
 │   ├── attachment/                        # Strategy simulation chart images
 │   │   ├── bull_market_simulation.png

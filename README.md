@@ -54,13 +54,12 @@ my-stock/
 ├── index.html                               # 📈 국내주식 실시간 포트폴리오 리밸런싱 대시보드 (메인 SPA)
 ├── server.sh                                # 🚀 로컬 테스트용 웹서버 제어 스크립트 (start/stop/status)
 ├── update_prices.py                         # 10분 주기 실시간 시세 수집 스크립트 (Naver/Yahoo)
-├── update_history.py                        # 15:05, 20:05 KST 일별 시장 히스토리 SQLite 수집 스크립트
+├── update_history.py                        # 최근 3거래일 시장 히스토리 SQLite 수집 스크립트
 ├── DB_SCHEMA.md                             # 📊 SQLite 데이터베이스 스키마 & Mermaid ERD 명세서
 ├── BACKLOG.md                               # 포트폴리오 전면 SQLite 마이그레이션 개발 백로그
 ├── .github/
 │   └── workflows/
-│       ├── monitor.yml                      # 10분 주기 실시간 시세 자동 수집 워크플로우
-│       └── history.yml                      # 매일 15:05, 20:05 KST 시장 히스토리 SQLite 자동 갱신 워크플로우
+│       └── monitor.yml                      # 10분 주기 실시간 시세 & SQLite 히스토리 DB 통합 자동 갱신 워크플로우
 ├── dc/                                      # 🏛️ 퇴직연금(DC) 20년 백테스트 & 장기 투자
 │   ├── index.html                           # DC 퇴직연금 인터랙티브 시뮬레이션 대시보드
 │   ├── DC_GUIDE.md                          # 미래에셋 DC 장기 투자 계획서 및 자동매수 가이드
