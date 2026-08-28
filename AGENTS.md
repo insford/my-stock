@@ -23,7 +23,7 @@ This file is the **Single Source of Truth (SSOT)** for this project, used by bot
 ```mermaid
 flowchart TD
     subgraph GitHub_Actions["GitHub Actions (Automated Price Fetcher)"]
-        CRON["cron: */10 23,0-11 * * *"] --> WORKFLOW[".github/workflows/monitor.yml"]
+        CRON["cron: */30 23,0-11 * * 1-5"] --> WORKFLOW[".github/workflows/monitor.yml"]
         WORKFLOW --> UPDATER["update_prices.py"]
         
         subgraph Market_API["Market Price APIs"]
@@ -67,7 +67,7 @@ flowchart TD
 my-stock/
 ├── .github/
 │   └── workflows/
-│       └── monitor.yml                    # Automated 10-minute cron workflow for live prices & SQLite history DB
+│       └── monitor.yml                    # Automated 30-minute cron workflow for live prices & SQLite history DB
 ├── guide/
 │   ├── attachment/                        # Strategy simulation chart images
 │   │   ├── bull_market_simulation.png

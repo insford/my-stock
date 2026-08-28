@@ -6,12 +6,12 @@ KOSPI 6,000 ~ 8,500 박스권 전략 기반의 국내주식 포트폴리오 자�
 
 ## 🚀 시스템 동작 구조 (Architecture & Flow)
 
-GitHub Actions 워크플로가 주식 시장 운영 시간 동안 10분 마다 최신 시세를 자동 수집하여 `live_market.js`를 갱신하며, `index.html` 웹 대시보드(`https://insford.github.io/my-stock/`)는 이 시세 데이터와 사용자의 보유 수량(`portfolio_state.js`)을 기반으로 실시간 비중 및 매매 가이드를 계산하여 제공합니다.
+GitHub Actions 워크플로가 주식 시장 운영 시간 동안 30분 마다 최신 시세를 자동 수집하여 `live_market.js`를 갱신하며, `index.html` 웹 대시보드(`https://insford.github.io/my-stock/`)는 이 시세 데이터와 사용자의 보유 수량(`portfolio_state.js`)을 기반으로 실시간 비중 및 매매 가이드를 계산하여 제공합니다.
 
 ```mermaid
 flowchart TD
     subgraph GitHub_Actions["GitHub Actions (자동 시세 수집 스케줄러)"]
-        CRON["cron: */10 23,0-11 * * *"] --> WORKFLOW["monitor.yml"]
+        CRON["cron: */30 23,0-11 * * 1-5"] --> WORKFLOW["monitor.yml"]
         WORKFLOW --> UPDATER["update_prices.py"]
         
         subgraph Market_API["시세 API 이중 수집"]
@@ -53,13 +53,13 @@ flowchart TD
 my-stock/
 ├── index.html                               # 📈 국내주식 실시간 포트폴리오 리밸런싱 대시보드 (메인 SPA)
 ├── server.sh                                # 🚀 로컬 테스트용 웹서버 제어 스크립트 (start/stop/status)
-├── update_prices.py                         # 10분 주기 실시간 시세 수집 스크립트 (Naver/Yahoo)
+├── update_prices.py                         # 30분 주기 실시간 시세 수집 스크립트 (Naver/Yahoo)
 ├── update_history.py                        # 최근 3거래일 시장 히스토리 SQLite 수집 스크립트
 ├── DB_SCHEMA.md                             # 📊 SQLite 데이터베이스 스키마 & Mermaid ERD 명세서
 ├── BACKLOG.md                               # 포트폴리오 전면 SQLite 마이그레이션 개발 백로그
 ├── .github/
 │   └── workflows/
-│       └── monitor.yml                      # 10분 주기 실시간 시세 & SQLite 히스토리 DB 통합 자동 갱신 워크플로우
+│       └── monitor.yml                      # 30분 주기 실시간 시세 & SQLite 히스토리 DB 통합 자동 갱신 워크플로우
 ├── dc/                                      # 🏛️ 퇴직연금(DC) 20년 백테스트 & 장기 투자
 │   ├── index.html                           # DC 퇴직연금 인터랙티브 시뮬레이션 대시보드
 │   ├── DC_GUIDE.md                          # 미래에셋 DC 장기 투자 계획서 및 자동매수 가이드
