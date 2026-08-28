@@ -57,6 +57,8 @@ my-stock/
 ├── update_history.py                        # 최근 3거래일 시장 히스토리 SQLite 수집 스크립트
 ├── DB_SCHEMA.md                             # 📊 SQLite 데이터베이스 스키마 & Mermaid ERD 명세서
 ├── BACKLOG.md                               # 포트폴리오 전면 SQLite 마이그레이션 개발 백로그
+├── AGENT_TEAM_GUIDE.md                      # 🤖 사내 시니어 8인 에이전트 팀 & 오케스트레이션 가이드
+├── PERSONA.md                               # 👥 8대 시장 국면 및 투자 전략가 페르소나 정의서
 ├── .github/
 │   └── workflows/
 │       └── monitor.yml                      # 30분 주기 실시간 시세 & SQLite 히스토리 DB 통합 자동 갱신 워크플로우
@@ -81,11 +83,17 @@ my-stock/
 
 ## 📊 데이터베이스 스키마 (Database Schema)
 
-시장 데이터 수집 및 WASM 분석에 사용되는 SQLite DB(`guide/data/market_history.db`)의 테이블/뷰 구조 및 Mermaid ER 다이어그램은 [DB_SCHEMA.md](./DB_SCHEMA.md)에서 자세히 확인하실 수 있습니다.
+본 프로젝트는 포트폴리오 상태, 매매 이력 및 시장 시세를 **단일 통합 SQLite DB(`guide/data/market_history.db`)**로 완벽히 통합 관리합니다. 상세 스키마 DDL 및 Mermaid ER 다이어그램은 [DB_SCHEMA.md](./DB_SCHEMA.md)에서 확인하실 수 있습니다.
 
-* **테이블**: `market_history` (일자별·종목별 50거래일 종가 데이터)
-* **뷰**: `v_market_history` (윈도우 함수 기반 전일 종가 `prev_price` 및 등락률 `change_percent` 자동 연산)
-* **인덱스**: `idx_code_date` (`(code, date)` 복합 B-Tree 인덱스)
+* **핵심 테이블**:
+  * `account_state`: 계좌 설정 파라미터, 예수금 잔액, 리밸런싱 트리거 기준
+  * `account_holdings`: 종목별 실시간 보유 주식 수량
+  * `trade_history`: 과거/신규 매매 거래 내역 (거래일자, 유형, 수량, 예수금, 평가액)
+  * `market_history`: 일자별·종목별 50거래일 종가 데이터
+* **핵심 뷰**:
+  * `v_account_valuation`: 최신 시장 종가와 보유 수량을 조인한 실시간 종목별 평가액
+  * `v_market_history`: 윈도우 함수(`LAG`) 기반 전일 종가 및 전일 대비 등락률(%) 자동 연산
+* **최적화 인덱스**: `idx_code_date`, `idx_trade_date`
 
 ---
 
@@ -106,11 +114,31 @@ my-stock/
 
 ---
 
-## 🛠️ 매매 집행 후 보유 수량 업데이트 방법
+## 🛠️ 매매 집행 후 기록 및 상태 업데이트 방법
 
-실제 매매를 진행한 후 파이썬 코드를 수정할 필요 없이, **JS 파일 하나만 수정 후 Git Push**하면 자동으로 반영됩니다.
+매매를 집행한 후, 취향에 따라 **웹 UI** 또는 **CLI 도구**로 간편하게 기록할 수 있습니다.
 
-1. 주식 앱에서 리밸런싱 매매 완료
-2. [portfolio_state.js](file:///Users/insford/work/antigravity/my-stock/guide/data/portfolio_state.js)의 수량(`samsung_shares`, `hynix_shares` 등) 수정
-3. [매매일지.md](file:///Users/insford/work/antigravity/my-stock/guide/매매일지.md)에 매매 내역 한 줄 기록
-4. `git commit -m "Update portfolio after rebalancing"` ➔ `git push` 실행
+### 방법 1. 웹 대시보드 UI에서 직접 기록 (추천 - 모바일/PC 모두 지원)
+1. 웹 대시보드([https://insford.github.io/my-stock/](https://insford.github.io/my-stock/)) 접속
+2. 상단 `[⚙️ GitHub 연동 설정]`에서 GitHub Personal Access Token (PAT) 등록
+3. `[➕ 매매 기록 입력]` 클릭 ➔ 종목, 수량, 체결단가 입력 후 `[🚀 GitHub에 커밋 & 푸시]` 클릭
+4. 4대 파일(`market_history.db`, `portfolio_state.js`, `portfolio_state_history_2026.js`, `매매일지.md`)이 일괄 동기화되며, 실패 시 100% 원상태로 롤백(Fail-Safe)됩니다!
+5. **Smart Merge 탑재**: GitHub Pages 배포 딜레이 중 새로고침해도 로컬 최신 매매가 보존되고 서버 최신 시세만 병합됩니다.
+
+### 방법 2. 초간편 로컬 CLI 도구 (`trade_logger.py`)
+터미널에서 한 줄 명령어로 기록하고 Git Push까지 자동 완료:
+```bash
+# 1. 대화형 인터랙티브 마법사 실행
+python trade_logger.py -i
+
+# 2. 명령어 직접 실행 (예: 삼성전자 20주 매수 & 자동 커밋/푸시)
+python trade_logger.py buy samsung 20 260500 -n "밴드 하단 추가 매수" --commit --push
+
+# 3. 현재 포트폴리오 현황 및 매매 이력 조회
+python trade_logger.py --status
+python trade_logger.py --history
+```
+
+### 방법 3. 수동 파일 수정
+* `guide/data/portfolio_state.js`의 보유 수량 및 예수금 수정 후 `git commit & push`
+* 또는 `migrate_to_sqlite.py`를 실행하여 SQLite DB로 일괄 재동기화

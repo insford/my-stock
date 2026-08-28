@@ -6,7 +6,47 @@ This file is the **Single Source of Truth (SSOT)** for this project, used by bot
 
 ---
 
-## 1. Project Overview & Objectives
+## 🗣️ 0. 사용자(Jake) 호칭 및 호출 모드 구분 프로토콜 (Mandatory)
+
+* **사용자 공식 호칭:** 사용자님을 부를 때는 반드시 **"Jake"**라고 호칭합니다. ("오너님", "사용자님" 호칭 사용 금지)
+* **총괄 리드 닉네임:** 총괄 Lead(강태석 CPO)를 부를 때 사용되는 공식 닉네임은 **"스톡맨"** (`stock_lead_kang`)입니다.
+* **호출 키워드별 동작 모드 (엄격 분기):**
+  1. ⚡ **[단독 즉시 답변 모드] "스톡맨, ~"으로 물어보는 경우:**
+     * 총괄 Lead 스톡맨(강태석)이 전문성을 바탕으로 스스로 빠르게 판단하여 **지체 없이 즉시 답변**합니다.
+     * *(적용 대상: 실시간 시세/비중 조회, 단순 갭 확인, 매매 주문 수량 계산, 아이디어 브레인스토밍 등)*
+  2. 👥 **[팀원 병렬 협의 모드] "팀원들과 검토해봐", "팀원들과 상의해봐", "팀원들과 협의해봐", "팀원들과 시뮬레이션해봐" 등의 키워드가 포함된 경우:**
+     * 절대로 Lead 단독으로 답변하지 않으며, 반드시 [AGENT_TEAM_GUIDE.md](./AGENT_TEAM_GUIDE.md)에 정의된 사내 시니어 에이전트(퀀트 송민혁, 테크 정다은, 매크로 안유리, 리스크 윤서진, UX/UI 이지원, 프론트 박현우, 데이터 한예슬) 및 [PERSONA.md](./PERSONA.md) 8대 시장·투자 페르소나를 `invoke_subagent`로 **병렬 소집**하여 실질적인 교차 검증과 치열한 수리적 시뮬레이션을 진행한 뒤, 취합된 결과를 종합하여 Jake에게 브리핑합니다.
+     * *(적용 대상: 포트폴리오 리밸런싱 실행 및 3단계 동기화, KOSPI 밴드 매트릭스 수식 수정, 백테스팅, 대시보드 UI/차트 대규모 개편, SQLite DB 스키마 변경 등)*
+
+---
+
+## 👥 1. 사내 시니어 전문 에이전트 팀 & 8대 투자 페르소나 거버넌스
+
+본 프로젝트는 주식 자산배분, 퀀트 알고리즘, 반도체 리서치, 매크로/헤지 분석, 세제 컴플라이언스, 금융 UX/UI 디자인, 프론트엔드 엔지니어링, 데이터 파이프라인의 8대 전문 영역으로 분업화되어 운영됩니다. 상세 프로필 및 오케스트레이션 메커니즘은 [AGENT_TEAM_GUIDE.md](./AGENT_TEAM_GUIDE.md)와 [PERSONA.md](./PERSONA.md)를 참조하십시오.
+
+### 🏢 사내 시니어 8인 전문 에이전트 팀 ([AGENT_TEAM_GUIDE.md](./AGENT_TEAM_GUIDE.md))
+* **👑 `stock_lead_kang` (강태석 43세, Chief Portfolio Officer / 스톡맨):** 총괄 오케스트레이션, Jake 단일 소통 창구, 리밸런싱 최종 승인.
+* **📈 `stock_quant_song` (송민혁 38세, Senior Quant Strategist):** KOSPI 6000~8500 매트릭스, ±8%p 갭 알고리즘, 백테스팅 및 델타 주문 산출.
+* **🔬 `stock_equity_jeong` (정다은 36세, Senior Tech & Semi Analyst):** 삼성전자·SK하이닉스 HBM/DRAM 사이클, 외인/기관 수급, 55:45 배분 적정성 분석.
+* **🌐 `stock_macro_ahn` (안유리 34세, Senior Macro & Multi-Asset Strategist):** 미국 연준 금리, 환율(SOFR), 금현물, 미국30년국채, S&P500 5대 헤지 자산 최적화.
+* **🛡️ `stock_risk_yoon` (윤서진 37세, Senior Risk & Tax Compliance Officer):** 계좌 MDD 통제, 배당소득세(15.4%), 미래에셋증권 매매 수수료 최적화.
+* **🎨 `stock_ux_lee` (이지원 34세, Senior Product & Financial UX Designer):** 3초 인지 비주얼 계층, Glassmorphism Dark 디자인 시스템, 모바일 48px Thumb Zone.
+* **💻 `stock_fe_park` (박현우 39세, Senior Frontend Architect & Chart Lead):** `index.html` Vanilla JS, Chart.js 동적 시각화, Zero-Build SPA 성능 최적화.
+* **⚙️ `stock_data_han` (한예슬 35세, Senior Data & Database Engineer):** Python `update_prices.py`/`update_history.py`, SQLite WASM DB, GitHub Actions.
+
+### 👥 8대 시장 국면 및 투자자 페르소나 ([PERSONA.md](./PERSONA.md))
+1. **🧊 박한결 (45세, 자산보존):** KOSPI 폭락장 MDD $\le 15\%$ 방어, 안전자산 버퍼 30% 이상 유지 검증.
+2. **🚀 이지훈 (34세, 테크 롱홀더):** 반도체 랠리 시 조기 매도 없는 상승 추세 보존(±8%p 갭 유지) 검증.
+3. **📉 김철우 (48세, 딥밸류 사냥):** L0/L1 위기 바닥에서 기타자산 털어 반도체 70~77.5% 공격 매수 실탄 검증.
+4. **🌋 최은비 (32세, 테일리스크):** 환율 급등 및 지정학 위기 시 SOFR·금현물 환차익 방어 검증.
+5. **💵 정승호 (41세, 월배당 인컴):** 미국 30년 국채 월분배금 및 분기 배당 재투자 복리 엔진 검증.
+6. **🎯 조민서 (37세, 시스템 퀀트):** 잦은 노이즈 매매 배제(연 3~8회) 및 거래세 0%/최저 수수료 세후 수익률 검증.
+7. **🌐 배준영 (29세, 올웨더 배분):** 한국 주식 + 미국 지수/국채/금/달러/CD금리 6대 자산군 분산 효과 검증.
+8. **📱 송하늘 (33세, 1분 모바일):** 모바일 MTS 환경에서 3초 내 KOSPI 레벨/갭/주문 수량 직관적 판독성 검증.
+
+---
+
+## 2. Project Overview & Objectives
 
 * **Project Name**: `my-stock` (국내주식 스마트 포트폴리오 리밸런싱 대시보드)
 * **Live URL**: `https://insford.github.io/my-stock/`
@@ -18,7 +58,7 @@ This file is the **Single Source of Truth (SSOT)** for this project, used by bot
 
 ---
 
-## 2. System Architecture & Tech Stack
+## 3. System Architecture & Tech Stack
 
 ```mermaid
 flowchart TD
@@ -61,7 +101,7 @@ flowchart TD
 
 ---
 
-## 3. Directory & File Structure
+## 4. Directory & File Structure
 
 ```text
 my-stock/
@@ -88,17 +128,22 @@ my-stock/
 ├── index.html                             # Main single-page web dashboard (Standalone SPA with SQLite-WASM)
 ├── update_prices.py                       # Python script fetching Naver/Yahoo live market prices
 ├── update_history.py                      # Python script fetching Naver/Yahoo daily history into SQLite DB
+├── trade_logger.py                        # CLI trade execution logger (Interactive wizard & Git sync)
+├── migrate_to_sqlite.py                   # Data migration script from legacy JS to SQLite DB
 ├── DB_SCHEMA.md                           # SQLite database schema specification & Mermaid ERD
+├── CHANGE_LOG.md                          # Versioned project changelog (Keep a Changelog)
 ├── BACKLOG.md                             # SQLite full migration backlog
+├── AGENT_TEAM_GUIDE.md                    # In-house 7-member specialist team & orchestration guide
+├── PERSONA.md                             # 8 market regime & investor personas
 ├── README.md                              # Public repository documentation
 └── AGENTS.md                              # AI Agent & Developer Guidelines (This file)
 ```
 
 ---
 
-## 4. Key Components & Data Specifications
+## 5. Key Components & Data Specifications
 
-### 4.1. Data Files (`guide/data/`)
+### 5.1. Data Files (`guide/data/`)
 
 #### 1. `portfolio_state.js`
 Defines current portfolio holdings, cash reserve, and strategy parameters under `window.PORTFOLIO_STATE_DATA`:
@@ -154,9 +199,9 @@ Chronological array `window.PORTFOLIO_STATE_HISTORY_2026` of past execution date
 
 ---
 
-## 5. Core Business Logic & Algorithms
+## 6. Core Business Logic & Algorithms
 
-### 5.1. KOSPI Dynamic Matrix (Level L0 ~ L6)
+### 6.1. KOSPI Dynamic Matrix (Level L0 ~ L6)
 
 The strategy shifts weights between Semiconductor giants (Samsung + SK Hynix) and Other Assets based on KOSPI index levels:
 
@@ -170,7 +215,7 @@ The strategy shifts weights between Semiconductor giants (Samsung + SK Hynix) an
 | **L1** | $6,000 \sim 6,500$ | Undervalued | **70.0%** | **30.0%** | Aggressive low-cost semiconductor accumulation |
 | **L0** | $< 6,000$ | Crisis Bottom | **77.5%** | **22.5%** | Maximum allocation to core semiconductors |
 
-### 5.2. Trigger-Relaxed Rebalancing Rule ($\pm 8.0\%p$)
+### 6.2. Trigger-Relaxed Rebalancing Rule ($\pm 8.0\%p$)
 
 1. **Calculate Current Semiconductor Weight**:
    $$\text{Semi Value} = (\text{Shares}_{\text{Samsung}} \times P_{\text{Samsung}}) + (\text{Shares}_{\text{Hynix}} \times P_{\text{Hynix}})$$
@@ -197,22 +242,25 @@ The strategy shifts weights between Semiconductor giants (Samsung + SK Hynix) an
 
 ---
 
-## 6. Development & Maintenance Guidelines for Agents
+## 7. Development & Maintenance Guidelines for Agents
 
-### 6.1. Updating Holdings After Trade Execution
-When the user executes a trade or requests a portfolio state update, follow this strict three-step synchronization:
+### 7.1. Updating Holdings After Trade Execution
+When the user executes a trade or requests a portfolio state update, follow these operational methods:
 
-1. **Update `guide/data/portfolio_state.js`**:
-   * Update `holdings` (e.g. `samsung_shares`, `hynix_shares`, `deposit_krw`).
-   * Update `other_assets_detail` with the new share counts.
-   * Update `last_updated` to the current date (`YYYY-MM-DD`).
-2. **Append to `guide/data/portfolio_state_history_2026.js`**:
-   * Add a new entry to `window.PORTFOLIO_STATE_HISTORY_2026` with `date`, `note`, `prices`, `holdings`, and `other_assets_detail`.
-3. **Log in `guide/매매일지.md`**:
-   * Add a markdown section describing trade reason, buy/sell breakdown, post-trade holdings, and execution date.
+1. **Option A (CLI Tool - Recommended)**:
+   * Run `python trade_logger.py -i` (Interactive Wizard) or one-line command (e.g. `python trade_logger.py buy samsung 20 260500 -n "..." --commit --push`).
+   * This automatically updates `guide/data/market_history.db` (`account_state`, `account_holdings`, `trade_history`), `guide/매매일지.md`, `guide/data/portfolio_state.js`, and `guide/data/portfolio_state_history_2026.js` within a single atomic transaction.
+2. **Option B (Web Dashboard UI)**:
+   * Open the dashboard, configure GitHub PAT in `[⚙️ Settings]`, and click `[➕ Input Trade Record]`.
+   * Directly commits to the GitHub repository via GitHub REST Contents API with automatic Fail-Safe rollback on partial failure.
+3. **Option C (Manual File Update & DB Re-sync)**:
+   * Update `guide/data/portfolio_state.js` & `guide/매매일지.md`.
+   * Run `python migrate_to_sqlite.py` to synchronize state into `guide/data/market_history.db`.
+   * Commit and push the changes.
 
-### 6.2. Modifying Price Fetching (`update_prices.py`)
+### 7.2. Modifying Price Fetching (`update_prices.py` / `update_history.py`)
 * The script utilizes Naver Finance Mobile API as primary and Yahoo Finance API as fallback.
+* Regular market updates (`update_history.py --update`) must **preserve** the account's `PRAGMA user_version` to prevent overwriting pending client trade states.
 * If adding or modifying tracked tickers in `items`:
   ```python
   items = [
@@ -222,12 +270,13 @@ When the user executes a trade or requests a portfolio state update, follow this
   ```
 * Standard library `urllib.request` is deliberately used for fast, dependency-free execution in GitHub Actions. Avoid introducing heavy packages unless necessary.
 
-### 6.3. Modifying Web Dashboard (`index.html`)
+### 7.3. Modifying Web Dashboard (`index.html`)
 * **Single-File Architecture**: All CSS, DOM structures, and client-side calculation logic reside in `index.html`.
 * **Zero Build Step**: The app must run directly by opening `index.html` in a browser or serving via GitHub Pages. Do not introduce npm/webpack/vite build pipelines unless explicitly requested by the user.
+* **Smart Merge & Fail-Safe Pipeline**: Always preserve local user trades during GitHub Pages deployment delays and ensure 5-snapshot rollback on API failures.
 * **Data Dependency**: `index.html` imports `portfolio_state.js`, `portfolio_state_history_2026.js`, and `live_market.js` via `<script>` tags in the `<head>` or before the inline logic. Always ensure backward compatibility of property keys.
 
-### 6.4. Database & Schema Modification Policy (Strict Sync Rule)
+### 7.4. Database & Schema Modification Policy (Strict Sync Rule)
 When creating, altering, or removing SQLite database tables, columns, indexes, or views (e.g. in `guide/data/market_history.db` or future migration databases), **you MUST synchronize and update the following related documentation immediately**:
 
 1. **Update [`DB_SCHEMA.md`](./DB_SCHEMA.md)**:
@@ -241,7 +290,7 @@ When creating, altering, or removing SQLite database tables, columns, indexes, o
 4. **Update Planning & Backlog Documents**:
    * Synchronize [`BACKLOG.md`](./BACKLOG.md) and [`guide/시장데이터_히스토리_수집_계획서.md`](./guide/시장데이터_히스토리_수집_계획서.md) if the schema change affects the migration roadmap.
 
-### 6.5. Best Practices & Do's / Don'ts
+### 7.5. Best Practices & Do's / Don'ts
 * ❌ **Do NOT hardcode live market prices** into `index.html`; always rely on `window.LIVE_MARKET_DATA`.
 * ❌ **Do NOT overwrite `live_market.js` manually** when editing portfolio configuration; it is updated by GitHub Actions.
 * ❌ **Do NOT modify SQLite tables, indexes, or views without updating `DB_SCHEMA.md` and `README.md`.**

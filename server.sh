@@ -2,7 +2,7 @@
 
 # ==============================================================================
 # my-stock Local Test Web Server Controller
-# Usage: ./server.sh {start|stop|status|restart}
+# Usage: ./server.sh {start|stop|status|restart|logs}
 # ==============================================================================
 
 PORT=8000
@@ -25,11 +25,27 @@ is_running() {
     return 1
 }
 
+tail_log() {
+    if [ ! -f "$LOG_FILE" ]; then
+        touch "$LOG_FILE"
+    fi
+    echo ""
+    echo "📋 실시간 로그 모니터링을 시작합니다 (종료: Ctrl+C | 서버는 백그라운드 유지)"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    
+    # SIGINT (Ctrl+C) 수신 시 안내 메시지 출력 후 스크립트만 종료 (서버 프로세스는 계속 유지)
+    trap 'echo -e "\n\n📌 실시간 로그 모니터링을 종료합니다. 로컬 웹서버는 백그라운드(PID: $(cat "$PID_FILE" 2>/dev/null))에서 계속 실행 중입니다.\n   (서버 종료: ./server.sh stop)"; exit 0' INT
+
+    tail -f "$LOG_FILE"
+}
+
 start_server() {
     if is_running; then
         PID=$(cat "$PID_FILE")
         echo "⚠️  로컬 웹서버가 이미 실행 중입니다. (PID: $PID)"
         echo "🌐 접속 URL: http://localhost:$PORT"
+        echo "📄 로그 파일: $LOG_FILE"
+        tail_log
         return 0
     fi
 
@@ -55,6 +71,8 @@ start_server() {
         if command -v open > /dev/null 2>&1; then
             open "http://localhost:$PORT"
         fi
+
+        tail_log
     else
         echo "❌ 서버 시작에 실패했습니다. 로그를 확인해 주세요:"
         cat "$LOG_FILE"
@@ -116,13 +134,17 @@ case "$1" in
         sleep 0.5
         start_server
         ;;
+    logs|tail)
+        tail_log
+        ;;
     *)
-        echo "📖 사용법: $0 {start|stop|status|restart}"
+        echo "📖 사용법: $0 {start|stop|status|restart|logs}"
         echo ""
-        echo "  • start   : 백그라운드 로컬 웹서버 시작 및 브라우저 열기 (http://localhost:$PORT)"
+        echo "  • start   : 로컬 웹서버 시작 + 브라우저 열기 + 실시간 로그 테일"
         echo "  • stop    : 실행 중인 로컬 웹서버 종료"
         echo "  • status  : 서버 실행 상태 및 PID 확인"
-        echo "  • restart : 로컬 웹서버 재시작"
+        echo "  • restart : 로컬 웹서버 재시작 + 실시간 로그 테일"
+        echo "  • logs    : 실행 중인 서버의 실시간 로그 확인 (Ctrl+C로 종료 가능)"
         exit 1
         ;;
 esac

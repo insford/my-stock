@@ -29,6 +29,7 @@ DB_PATH = os.path.join(CURRENT_DIR, "guide", "data", "market_history.db")
 def init_database(conn):
     """SQLite 테이블, 뷰 및 인덱스 초기화"""
     cursor = conn.cursor()
+    # 1. 일별 시장 가격 히스토리 테이블
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS market_history (
             date TEXT NOT NULL,          -- YYYY-MM-DD
@@ -43,7 +44,55 @@ def init_database(conn):
     # WHERE code = ? ORDER BY date ASC 쿼리를 위한 최적화 복합 인덱스
     cursor.execute("CREATE INDEX IF NOT EXISTS idx_code_date ON market_history(code, date)")
     
-    # 전일 대비 등락률(change_percent) 및 전일 종가(prev_price) 자동 계산 뷰
+    # 2. 계좌 상태 테이블
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS account_state (
+            account_id TEXT PRIMARY KEY,
+            account_name TEXT NOT NULL,
+            deposit_krw INTEGER NOT NULL,
+            min_trigger_gap REAL DEFAULT 8.0,
+            kospi_min_level REAL DEFAULT 6000.0,
+            kospi_max_level REAL DEFAULT 8500.0,
+            updated_at TEXT NOT NULL
+        )
+    """)
+
+    # 3. 자산별 보유 수량 테이블
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS account_holdings (
+            code TEXT PRIMARY KEY,
+            shares INTEGER NOT NULL,
+            target_ratio REAL DEFAULT 0.0,
+            updated_at TEXT NOT NULL
+        )
+    """)
+
+    # 4. 매매 거래 이력 테이블
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS trade_history (
+            trade_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            trade_date TEXT NOT NULL,
+            trade_type TEXT NOT NULL,
+            note TEXT,
+            kospi_point REAL,
+            samsung_shares INTEGER NOT NULL DEFAULT 0,
+            hynix_shares INTEGER NOT NULL DEFAULT 0,
+            cd_shares INTEGER NOT NULL DEFAULT 0,
+            sofr_shares INTEGER NOT NULL DEFAULT 0,
+            us30b_shares INTEGER NOT NULL DEFAULT 0,
+            gold_shares INTEGER NOT NULL DEFAULT 0,
+            snp500_shares INTEGER NOT NULL DEFAULT 0,
+            us10b_shares INTEGER NOT NULL DEFAULT 0,
+            fadu_shares INTEGER NOT NULL DEFAULT 0,
+            deposit_krw INTEGER NOT NULL DEFAULT 0,
+            total_eval_krw INTEGER DEFAULT 0,
+            raw_json TEXT,
+            created_at TEXT NOT NULL
+        )
+    """)
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_trade_date ON trade_history(trade_date)")
+
+    # 5. 전일 대비 등락률(change_percent) 및 전일 종가(prev_price) 자동 계산 뷰
     cursor.execute("""
         CREATE VIEW IF NOT EXISTS v_market_history AS
         SELECT 
@@ -56,6 +105,23 @@ def init_database(conn):
             ROUND((price - LAG(price, 1) OVER (PARTITION BY code ORDER BY date ASC)) / LAG(price, 1) OVER (PARTITION BY code ORDER BY date ASC) * 100, 2) AS change_percent,
             updated_at
         FROM market_history
+    """)
+
+    # 6. 실시간 계좌 평가 뷰
+    cursor.execute("""
+        CREATE VIEW IF NOT EXISTS v_account_valuation AS
+        SELECT 
+            h.code,
+            COALESCE(m.name, h.code) AS name,
+            h.shares,
+            m.price AS latest_price,
+            CAST(ROUND(h.shares * COALESCE(m.price, 0)) AS INTEGER) AS eval_krw,
+            m.date AS price_date,
+            h.updated_at AS holdings_updated_at
+        FROM account_holdings h
+        LEFT JOIN market_history m ON h.code = m.code
+        WHERE m.date = (SELECT MAX(date) FROM market_history WHERE code = h.code)
+           OR m.date IS NULL
     """)
     conn.commit()
 
@@ -173,6 +239,8 @@ def save_to_sqlite(records, mode="init"):
     # DB 단편화 정리 (VACUUM은 초기화/대규모 적재 시에만 실행하여 평일 바이너리 diff 최소화)
     if mode == "init":
         conn.execute("VACUUM")
+        conn.execute(f"PRAGMA user_version = {int(datetime.datetime.now().timestamp())}")
+    conn.commit()
     conn.close()
 
     db_size = os.path.getsize(DB_PATH)

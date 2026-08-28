@@ -110,26 +110,55 @@
       justify-content: space-between;
       align-items: center;
       background: rgba(255, 255, 255, 0.04);
-      padding: 0.6rem 1rem;
+      padding: 0.55rem 0.9rem;
       border-radius: 10px;
       font-size: 0.82rem;
       color: var(--text-sub);
       margin-bottom: 1.5rem;
       border: 1px solid var(--card-border);
+      gap: 0.6rem;
       flex-wrap: wrap;
-      gap: 0.5rem;
+    }
+
+    .refresh-info {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+    }
+
+    .refresh-info .info-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      white-space: nowrap;
+    }
+
+    .refresh-info .info-divider {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .refresh-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
     }
 
     .btn-refresh {
       background: rgba(56, 189, 248, 0.2);
       color: var(--accent-blue);
       border: 1px solid rgba(56, 189, 248, 0.4);
-      padding: 0.3rem 0.8rem;
-      border-radius: 6px;
+      padding: 0.35rem 0.85rem;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 0.8rem;
+      font-size: 0.82rem;
       font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
       transition: all 0.2s;
+      white-space: nowrap;
     }
 
     .btn-refresh:hover {
@@ -449,6 +478,38 @@
       }
     }
 
+    @media (max-width: 580px) {
+      .refresh-bar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.55rem 0.75rem;
+        gap: 0.5rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .refresh-info {
+        justify-content: space-between;
+        font-size: 0.76rem;
+        padding: 0 0.1rem;
+      }
+
+      .refresh-actions {
+        display: grid;
+        grid-template-columns: 1.15fr 1.05fr 1fr;
+        gap: 0.35rem;
+        width: 100%;
+      }
+
+      .refresh-actions .btn-action,
+      .refresh-actions .btn-secondary,
+      .refresh-actions .btn-refresh {
+        padding: 0.42rem 0.2rem;
+        font-size: 0.76rem;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+
     @media (max-width: 480px) {
       .header-title h1 {
         font-size: 1.3rem;
@@ -686,6 +747,331 @@
       }
     }
 
+    /* Modal & UI Controls */
+    .btn-action {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(168, 85, 247, 0.25));
+      color: #fff;
+      border: 1px solid rgba(56, 189, 248, 0.5);
+      padding: 0.35rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .btn-action:hover {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.45), rgba(168, 85, 247, 0.45));
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border: 1px solid var(--card-border);
+      padding: 0.35rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      padding: 0.35rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.35);
+    }
+
+    /* Modal Overlay & Card */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-card {
+      background: #161b22;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 580px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .modal-header h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      color: var(--text-sub);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 0.2rem 0.5rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      background: rgba(255, 255, 255, 0.02);
+      flex-wrap: wrap;
+    }
+
+    /* Form Controls */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .form-sub-label {
+      font-size: 0.75rem;
+      color: var(--text-sub);
+      font-weight: normal;
+    }
+
+    .form-control, .form-select {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.65rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    @media (max-width: 480px) {
+      .form-row {
+        grid-template-columns: 1fr;
+        gap: 0.65rem;
+      }
+    }
+
+    /* Trade Type Button Group */
+    .trade-type-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.4rem;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 0.3rem;
+      border-radius: 10px;
+      border: 1px solid var(--card-border);
+    }
+
+    .trade-type-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-sub);
+      padding: 0.5rem 0.2rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .trade-type-btn:hover {
+      color: #fff;
+    }
+
+    .trade-type-btn.active.buy {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #f87171;
+    }
+
+    .trade-type-btn.active.sell {
+      background: rgba(56, 189, 248, 0.25);
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+    }
+
+    .trade-type-btn.active.rebalance {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: rgba(168, 85, 247, 0.5);
+      color: #c084fc;
+    }
+
+    .trade-type-btn.active.cash {
+      background: rgba(34, 197, 94, 0.25);
+      border-color: rgba(34, 197, 94, 0.5);
+      color: #4ade80;
+    }
+
+    /* Live Trade Preview Card */
+    .trade-preview-card {
+      background: rgba(56, 189, 248, 0.06);
+      border: 1px dashed rgba(56, 189, 248, 0.35);
+      border-radius: 12px;
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.83rem;
+    }
+
+    .preview-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preview-val {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 380px;
+    }
+
+    .toast {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 0.9rem 1.2rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.88rem;
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast.success {
+      border-color: rgba(34, 197, 94, 0.5);
+      background: #0f231c;
+      color: #4ade80;
+    }
+
+    .toast.error {
+      border-color: rgba(239, 68, 68, 0.5);
+      background: #281215;
+      color: #f87171;
+    }
+
+    .toast.info {
+      border-color: rgba(56, 189, 248, 0.5);
+      background: #0e2439;
+      color: #38bdf8;
+    }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     footer {
       text-align: center;
       color: var(--text-sub);
@@ -717,8 +1103,28 @@
     </header>
 
     <div class="refresh-bar">
-      <div>
-        📊 Market Data Last Updated: <span id="lastUpdatedTime">조회 중...</span>
+      <div class="refresh-info">
+        <div class="info-item">
+          <span>📊 시세:</span> <span id="lastUpdatedTime">조회 중...</span>
+        </div>
+        <div class="info-divider">|</div>
+        <div class="info-item">
+          <span>🗄️ DB:</span> <span id="dbSourceStatus" style="color: var(--accent-blue);">로딩 중...</span>
+        </div>
+      </div>
+      <div class="refresh-actions">
+        <button class="btn-action" onclick="openTradeModal()" title="새 매매 내역 기록">
+          <span>➕</span> <span>매매 기록</span>
+        </button>
+        <button class="btn-secondary" onclick="openGithubSettingsModal()" title="GitHub 저장소 연동 설정">
+          <svg class="icon-github" viewBox="0 0 16 16" width="14" height="14" fill="currentColor" style="display:inline-block; vertical-align: -1px; flex-shrink: 0;">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          <span>연동 설정</span>
+        </button>
+        <button class="btn-refresh" onclick="fetchLiveMarketData()" title="실시간 시세 새로고침">
+          <span>🔄</span> <span>새로고침</span>
+        </button>
       </div>
     </div>
 
@@ -946,9 +1352,202 @@
     </div>
 
     <footer>
-      <p>Powered by Naver Stock Live API & GitHub Pages | Antigravity Trading System</p>
+      <p>Powered by Naver Stock Live API & SQLite WASM & GitHub Pages | Antigravity Trading System</p>
     </footer>
   </div>
+
+  <!-- Modal 1: GitHub Settings Modal -->
+  <div class="modal-overlay" id="githubSettingsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 style="display: flex; align-items: center; gap: 0.45rem;">
+          <svg class="icon-github" viewBox="0 0 16 16" width="18" height="18" fill="currentColor">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          <span>GitHub 연동 설정</span>
+        </h3>
+        <button class="modal-close" onclick="closeGithubSettingsModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">
+            <span>GitHub Personal Access Token (PAT)</span>
+            <span class="form-sub-label">repo 쓰기 권한 필요</span>
+          </label>
+          <div style="position: relative;">
+            <input type="password" id="ghPatInput" class="form-control" placeholder="ghp_xxxxxxxxxxxx 또는 github_pat_xxxx" autocomplete="off" style="padding-right: 2.5rem;">
+            <button type="button" onclick="togglePatVisibility()" style="position: absolute; right: 0.6rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-sub); cursor: pointer; font-size: 1rem;">👁️</button>
+          </div>
+          <div style="font-size: 0.76rem; color: var(--text-sub); line-height: 1.4; margin-top: 0.2rem;">
+            🔒 입력하신 토큰은 서버로 전송되지 않고 오직 <strong>본인 브라우저의 localStorage</strong>에만 안전하게 보관됩니다.
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">저장소 (Repository)</label>
+            <input type="text" id="ghRepoInput" class="form-control" value="insford/my-stock" placeholder="username/repo">
+          </div>
+          <div class="form-group">
+            <label class="form-label">브랜치 (Branch)</label>
+            <input type="text" id="ghBranchInput" class="form-control" value="main" placeholder="main">
+          </div>
+        </div>
+
+        <div id="ghTestStatus" style="font-size: 0.82rem; display: none; padding: 0.6rem 0.8rem; border-radius: 8px;"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="testGithubConnection()">
+          <span>🔍</span> 연결 테스트
+        </button>
+        <button class="btn-danger" onclick="clearGithubSettings()">
+          <span>🗑️</span> 삭제
+        </button>
+        <button class="btn-action" onclick="saveGithubSettings()">
+          <span>💾</span> 설정 저장
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Trade Input Modal -->
+  <div class="modal-overlay" id="tradeInputModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><span>➕</span> 매매 거래 기록 입력</h3>
+        <button class="modal-close" onclick="closeTradeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <!-- Trade Type Tabs -->
+        <div class="trade-type-nav">
+          <button class="trade-type-btn active buy" id="tabTypeBuy" onclick="setTradeType('BUY')">매수 (BUY)</button>
+          <button class="trade-type-btn sell" id="tabTypeSell" onclick="setTradeType('SELL')">매도 (SELL)</button>
+          <button class="trade-type-btn rebalance" id="tabTypeRebalance" onclick="setTradeType('REBALANCE')">리밸런싱</button>
+          <button class="trade-type-btn cash" id="tabTypeCash" onclick="setTradeType('CASH')">입출금</button>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">거래 일자</label>
+            <input type="date" id="tradeDateInput" class="form-control">
+          </div>
+          <div class="form-group" id="groupAssetSelect">
+            <label class="form-label">대상 종목</label>
+            <select id="tradeAssetSelect" class="form-select" onchange="onTradeAssetChange()">
+              <option value="samsung">삼성전자 (반도체)</option>
+              <option value="hynix">SK하이닉스 (반도체)</option>
+              <option value="cd">KODEX CD금리액티브 (원화 실탄)</option>
+              <option value="sofr">TIGER 미국달러SOFR (달러 실탄)</option>
+              <option value="us30b">ACE 미국30년국채액티브(H) (채권)</option>
+              <option value="gold">ACE KRX금현물 (금)</option>
+              <option value="snp500">TIGER 미국S&P500 (지수)</option>
+              <option value="us10b">KODEX 미국채10년액티브 (청산 대상 레거시)</option>
+              <option value="fadu">파두 (청산 대상 레거시)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- BUY / SELL Single Asset Inputs -->
+        <div id="sectionSingleTrade">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">체결 수량 (주)</label>
+              <input type="number" id="tradeSharesInput" class="form-control" placeholder="예: 20" min="1" step="1" oninput="onTradeInputChange()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                <span>체결 단가 (원)</span>
+                <span class="form-sub-label" id="tradeCurrentPriceHint">시세 자동세팅</span>
+              </label>
+              <input type="number" id="tradePriceInput" class="form-control" placeholder="예: 260500" oninput="onTradeInputChange()">
+            </div>
+          </div>
+          <div style="font-size: 0.8rem; color: var(--text-sub); text-align: right;" id="tradeAmountSummary">
+            체결 예상 금액: <strong style="color: #fff;" id="tradeTotalAmountVal">0</strong> 원
+          </div>
+        </div>
+
+        <!-- REBALANCE Multi Asset Inputs -->
+        <div id="sectionRebalanceTrade" style="display: none;">
+          <div style="font-size: 0.8rem; color: var(--text-sub); margin-bottom: 0.4rem;">
+            종목별 변동 수량을 입력하세요 (매수: 양수 +, 매도: 음수 -)
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; max-height: 180px; overflow-y: auto; padding: 0.3rem;">
+            <div class="form-group"><label class="form-label" style="font-size: 0.78rem;">삼성전자</label><input type="number" id="reb_samsung" class="form-control" placeholder="+20 또는 -20" step="1" oninput="onTradeInputChange()"></div>
+            <div class="form-group"><label class="form-label" style="font-size: 0.78rem;">SK하이닉스</label><input type="number" id="reb_hynix" class="form-control" placeholder="+5 또는 -5" step="1" oninput="onTradeInputChange()"></div>
+            <div class="form-group"><label class="form-label" style="font-size: 0.78rem;">KODEX CD금리</label><input type="number" id="reb_cd" class="form-control" placeholder="+10" step="1" oninput="onTradeInputChange()"></div>
+            <div class="form-group"><label class="form-label" style="font-size: 0.78rem;">TIGER SOFR</label><input type="number" id="reb_sofr" class="form-control" placeholder="+50" step="1" oninput="onTradeInputChange()"></div>
+            <div class="form-group"><label class="form-label" style="font-size: 0.78rem;">ACE 미국30년국채</label><input type="number" id="reb_us30b" class="form-control" placeholder="+100" step="1" oninput="onTradeInputChange()"></div>
+            <div class="form-group"><label class="form-label" style="font-size: 0.78rem;">ACE KRX금현물</label><input type="number" id="reb_gold" class="form-control" placeholder="+50" step="1" oninput="onTradeInputChange()"></div>
+            <div class="form-group" style="grid-column: 1 / -1;"><label class="form-label" style="font-size: 0.78rem;">TIGER S&P500</label><input type="number" id="reb_snp500" class="form-control" placeholder="+50" step="1" oninput="onTradeInputChange()"></div>
+          </div>
+        </div>
+
+        <!-- CASH Mode Inputs -->
+        <div id="sectionCashTrade" style="display: none;">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">구분</label>
+              <select id="cashTypeSelect" class="form-select" onchange="onTradeInputChange()">
+                <option value="DEPOSIT">예수금 입금 (+)</option>
+                <option value="WITHDRAW">예수금 출금 (-)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">입출금액 (원)</label>
+              <input type="number" id="cashAmountInput" class="form-control" placeholder="예: 10000000" oninput="onTradeInputChange()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Deposit & Note Section -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">
+              <span>매매 후 예수금(KRW)</span>
+              <span class="form-sub-label" id="depositAutoCalcLabel">자동 계산됨</span>
+            </label>
+            <input type="number" id="tradeDepositInput" class="form-control" placeholder="예: 35832238" oninput="updateTradePreview()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">매매 사유 / 메모</label>
+            <input type="text" id="tradeNoteInput" class="form-control" placeholder="예: 밴드 하단 분할 저가 매수">
+          </div>
+        </div>
+
+        <!-- Live Preview Box -->
+        <div class="trade-preview-card" id="tradePreviewCard">
+          <div class="preview-row">
+            <span>반도체 비중 변화 (프리뷰)</span>
+            <span class="preview-val" id="prevSemiRatio">--- ➔ ---</span>
+          </div>
+          <div class="preview-row">
+            <span>목표 비중 대비 격차</span>
+            <span class="preview-val" id="prevGapStatus">---</span>
+          </div>
+          <div class="preview-row">
+            <span>총 계좌 예상 평가액</span>
+            <span class="preview-val" id="prevTotalVal">---</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="saveTradeRecord('download')" title="수정된 SQLite DB 바이너리를 파일로 다운로드합니다">
+          <span>💾</span> DB 다운로드
+        </button>
+        <button class="btn-secondary" onclick="saveTradeRecord('local')" title="브라우저 메모리 상에서 즉시 반영하여 대시보드를 갱신합니다">
+          <span>🧪</span> 로컬 즉시 반영
+        </button>
+        <button class="btn-action" id="btnGithubCommit" onclick="saveTradeRecord('github')">
+          <span>🚀</span> GitHub에 커밋 & 푸시
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
 
   <script src="guide/data/portfolio_state.js"></script>
   <script src="guide/data/portfolio_state_history_2026.js"></script>
@@ -959,6 +1558,33 @@
     let myChart = null;
     let historyChart = null;
     let currentHistRange = '1M';
+    let marketSqliteDB = null;
+    let historyRenderToken = 0;
+    let dbLoadErrorMessage = null;
+    let currentTradeType = 'BUY';
+
+    let currentLivePrices = {
+      kospi: 6910.24,
+      samsung: 270000,
+      hynix: 1643000,
+      cd: 1074947,
+      sofr: 61275,
+      us30b: 7175,
+      gold: 27525,
+      snp500: 27345,
+      us10b: 11870,
+      fadu: 0
+    };
+
+    let accountInfo = {
+      account_id: 'main',
+      account_name: '국내주식 종합_주식 리밸런싱',
+      deposit_krw: 35832238,
+      min_trigger_gap: 8.0,
+      kospi_min_level: 6000.0,
+      kospi_max_level: 8500.0,
+      updated_at: '2026-08-24'
+    };
 
     let stateData = {
       samsung_shares: 556,
@@ -974,6 +1600,81 @@
       fadu_shares: 0
     };
 
+    let dynamicHistoryList = [];
+
+    const ASSET_NAMES = {
+      'samsung': '삼성전자',
+      'hynix': 'SK하이닉스',
+      'cd': 'KODEX CD금리액티브',
+      'sofr': 'TIGER 미국달러SOFR금리액티브',
+      'us30b': 'ACE 미국30년국채액티브(H)',
+      'gold': 'ACE KRX금현물',
+      'snp500': 'TIGER 미국S&P500',
+      'us10b': 'KODEX 미국채10년액티브 (구)',
+      'fadu': '파두'
+    };
+
+    // ==========================================
+    // Security & Encoding Utilities
+    // ==========================================
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function utf8ToBase64(str) {
+      const bytes = new TextEncoder().encode(str);
+      let binary = '';
+      const len = bytes.byteLength;
+      const chunkSize = 8192;
+      for (let i = 0; i < len; i += chunkSize) {
+        binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+      }
+      return btoa(binary);
+    }
+
+    function base64ToUtf8(b64) {
+      try {
+        const binary = atob(b64.replace(/\s/g, ''));
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return new TextDecoder().decode(bytes);
+      } catch (e) {
+        return decodeURIComponent(escape(atob(b64.replace(/\s/g, ''))));
+      }
+    }
+
+    // ==========================================
+    // Toast Notification Utility
+    // ==========================================
+    function showToast(message, type = 'info', duration = 4000) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      
+      const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+      toast.innerHTML = `<span>${icon}</span><div>${message}</div>`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(10px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, duration);
+    }
+
+    // ==========================================
+    // Tabs & Navigation
+    // ==========================================
     function switchTab(tabId) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
@@ -984,7 +1685,6 @@
       } else if (tabId === 'history') {
         document.getElementById('tabBtnHistory').classList.add('active');
         document.getElementById('tabContentHistory').classList.add('active');
-        // 탭이 화면에 표시된 후(display: block) 차트 렌더링 호출
         setTimeout(() => {
           renderHistoryTab(currentHistRange);
         }, 20);
@@ -998,7 +1698,238 @@
       renderHistoryTab(range);
     }
 
-    function loadPortfolioState() {
+    // ==========================================
+    // Strategy Logic
+    // ==========================================
+    function getTargetRatio(kospi) {
+      if (kospi >= 8500) return { ratio: 32.5, lvl: "L6" };
+      if (kospi >= 8000) return { ratio: 40.0, lvl: "L5" };
+      if (kospi >= 7500) return { ratio: 47.5, lvl: "L4" };
+      if (kospi >= 7000) return { ratio: 55.0, lvl: "L3" };
+      if (kospi >= 6500) return { ratio: 62.5, lvl: "L2" };
+      if (kospi >= 6000) return { ratio: 70.0, lvl: "L1" };
+      return { ratio: 77.5, lvl: "L0" };
+    }
+
+    // ==========================================
+    // SQLite WASM Loader & Data Engine (PRAGMA user_version Smart Cache)
+    // ==========================================
+    function formatUnixTimestamp(ts) {
+      if (!ts || ts === 0) return '초기';
+      const d = new Date(ts * 1000);
+      const now = new Date();
+      const isToday = d.toDateString() === now.toDateString();
+      if (isToday) {
+        return new Intl.DateTimeFormat('ko-KR', {
+          timeZone: 'Asia/Seoul',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        }).format(d);
+      }
+      return new Intl.DateTimeFormat('ko-KR', {
+        timeZone: 'Asia/Seoul',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(d);
+    }
+
+    async function getMarketHistoryDB() {
+      if (marketSqliteDB) return marketSqliteDB;
+      if (typeof initSqlJs !== 'function') {
+        dbLoadErrorMessage = "sql.js (WASM) 라이브러리를 로드할 수 없습니다. 네트워크 상태를 확인해 주세요.";
+        return null;
+      }
+      try {
+        const SQL = await initSqlJs({
+          locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/${file}`
+        });
+
+        // 1. Fetch remote DB from GitHub Pages
+        let serverDb = null;
+        let serverVer = 0;
+        let serverTradeMaxId = 0;
+        let serverTradeCount = 0;
+        try {
+          const res = await fetch('guide/data/market_history.db?v=' + Date.now());
+          if (res.ok) {
+            const buf = await res.arrayBuffer();
+            serverDb = new SQL.Database(new Uint8Array(buf));
+            const verRows = serverDb.exec("PRAGMA user_version");
+            if (verRows && verRows[0] && verRows[0].values) {
+              serverVer = verRows[0].values[0][0] || 0;
+            }
+            const tradeStat = serverDb.exec("SELECT COUNT(*), COALESCE(MAX(trade_id), 0) FROM trade_history");
+            if (tradeStat && tradeStat[0] && tradeStat[0].values) {
+              serverTradeCount = tradeStat[0].values[0][0] || 0;
+              serverTradeMaxId = tradeStat[0].values[0][1] || 0;
+            }
+          }
+        } catch (fetchErr) {
+          console.warn("⚠️ 원격 DB fetch 실패 (오프라인 또는 로컬):", fetchErr);
+        }
+
+        // 2. Check local backup cache in localStorage
+        const localVerStr = localStorage.getItem('mystock_local_db_version');
+        const localBase64 = localStorage.getItem('mystock_local_db_cache');
+        const localVer = localVerStr ? parseInt(localVerStr, 10) : 0;
+        let localDb = null;
+        let localTradeMaxId = 0;
+        let localTradeCount = 0;
+
+        if (localBase64) {
+          try {
+            const binaryStr = atob(localBase64);
+            const bytes = new Uint8Array(binaryStr.length);
+            for (let i = 0; i < binaryStr.length; i++) {
+              bytes[i] = binaryStr.charCodeAt(i);
+            }
+            localDb = new SQL.Database(bytes);
+            const tStat = localDb.exec("SELECT COUNT(*), COALESCE(MAX(trade_id), 0) FROM trade_history");
+            if (tStat && tStat[0] && tStat[0].values) {
+              localTradeCount = tStat[0].values[0][0] || 0;
+              localTradeMaxId = tStat[0].values[0][1] || 0;
+            }
+          } catch (localErr) {
+            console.error("로컬 DB 캐시 복원 실패:", localErr);
+          }
+        }
+
+        // 3. Smart Merge Decision: 로컬 매매 기록이 더 많거나 최신인 경우 로컬 매매 보존 & 서버 시세 병합
+        const statusElem = document.getElementById('dbSourceStatus');
+
+        const isLocalTradeNewer = localDb && (localTradeMaxId > serverTradeMaxId || localTradeCount > serverTradeCount || (localVer > serverVer && localTradeCount >= serverTradeCount));
+
+        if (isLocalTradeNewer) {
+          marketSqliteDB = localDb;
+          // 서버의 최신 시세(market_history)만 로컬 DB로 병합 (Upsert)
+          if (serverDb) {
+            try {
+              const stmt = serverDb.prepare("SELECT date, code, name, asset_type, price, updated_at FROM market_history");
+              while (stmt.step()) {
+                marketSqliteDB.run("INSERT OR REPLACE INTO market_history VALUES (?, ?, ?, ?, ?, ?)", stmt.get());
+              }
+              stmt.free();
+              serverDb.close();
+            } catch (mergeErr) {
+              console.warn("⚠️ 최신 시세 병합 실패:", mergeErr);
+            }
+          }
+
+          console.log(`🛡️ 로컬 매매 기록(최신 id=${localTradeMaxId}, v=${localVer})을 안전하게 보존하고 서버 최신 시세를 병합했습니다.`);
+          if (statusElem) {
+            statusElem.innerHTML = `<span title="GitHub Pages CDN 배포 진행 중 (로컬 매매 보존됨)">⏳ GitHub 배포 동기화 중 (${formatUnixTimestamp(localVer)})</span>`;
+            statusElem.style.color = "var(--accent-orange)";
+          }
+        } else if (serverDb) {
+          // 서버 DB가 최신이거나 같음
+          marketSqliteDB = serverDb;
+          if (localDb) localDb.close();
+          if (serverVer > 0) {
+            localStorage.setItem('mystock_local_db_version', serverVer.toString());
+          }
+
+          console.log(`🟢 GitHub 서버 최신 DB(v=${serverVer}, trade_id=${serverTradeMaxId})를 채택합니다.`);
+          if (statusElem) {
+            statusElem.innerHTML = `<span title="SQLite WASM DB 최신 연결">🟢 연결됨 (${formatUnixTimestamp(serverVer)})</span>`;
+            statusElem.style.color = "var(--accent-green)";
+          }
+        } else if (localDb) {
+          marketSqliteDB = localDb;
+          if (statusElem) {
+            statusElem.innerHTML = `<span title="오프라인 로컬 캐시 모드">⚡ 로컬 캐시 (${formatUnixTimestamp(localVer)})</span>`;
+            statusElem.style.color = "var(--accent-orange)";
+          }
+        } else {
+          throw new Error("서버 및 로컬 캐시에서 유효한 SQLite DB를 찾을 수 없습니다.");
+        }
+
+        dbLoadErrorMessage = null;
+        return marketSqliteDB;
+      } catch (err) {
+        console.warn("⚠️ SQLite-WASM DB 로드 실패, JS 폴백 사용:", err);
+        const statusElem = document.getElementById('dbSourceStatus');
+        if (statusElem) {
+          statusElem.innerText = "⚠️ 폴백 모드";
+          statusElem.style.color = "var(--accent-orange)";
+        }
+        if (window.location.protocol === 'file:') {
+          dbLoadErrorMessage = `로컬 환경(file://)에서는 브라우저 보안 정책상 SQLite 바이너리 파일(fetch)을 직접 읽을 수 없습니다.<br><br>
+            <strong>해결 방법:</strong><br>
+            터미널에서 <code style="background: rgba(0,0,0,0.5); padding: 0.2rem 0.5rem; border-radius: 4px; color: #38bdf8;">./server.sh start</code> 실행 후 
+            <code style="background: rgba(0,0,0,0.5); padding: 0.2rem 0.5rem; border-radius: 4px; color: #38bdf8;">http://localhost:8080</code> 으로 접속해 주세요.`;
+        } else {
+          dbLoadErrorMessage = `시장 데이터베이스(market_history.db) 로딩에 실패했습니다.<br>에러 원인: ${err.message}`;
+        }
+        return null;
+      }
+    }
+
+    function loadPortfolioDataFromDB(db) {
+      if (!db) {
+        // Fallback to global JS
+        loadPortfolioStateFromJS();
+        return;
+      }
+
+      try {
+        // 1. Load account_state
+        const accStmt = db.prepare("SELECT account_name, deposit_krw, min_trigger_gap, kospi_min_level, kospi_max_level, updated_at FROM account_state WHERE account_id = 'main'");
+        if (accStmt.step()) {
+          const [accName, dep, gap, kMin, kMax, upd] = accStmt.get();
+          accountInfo.account_name = accName;
+          accountInfo.deposit_krw = dep;
+          accountInfo.min_trigger_gap = gap || 8.0;
+          accountInfo.kospi_min_level = kMin || 6000.0;
+          accountInfo.kospi_max_level = kMax || 8500.0;
+          accountInfo.updated_at = upd;
+          stateData.deposit_krw = dep;
+        }
+        accStmt.free();
+
+        // 2. Load account_holdings
+        const holdStmt = db.prepare("SELECT code, shares FROM account_holdings");
+        while (holdStmt.step()) {
+          const [code, shares] = holdStmt.get();
+          if (code === 'samsung') stateData.samsung_shares = shares;
+          else if (code === 'hynix') stateData.hynix_shares = shares;
+          else if (code === 'cd') stateData.cd_shares = shares;
+          else if (code === 'sofr') stateData.sofr_shares = shares;
+          else if (code === 'us30b') stateData.us30b_shares = shares;
+          else if (code === 'gold') stateData.gold_shares = shares;
+          else if (code === 'snp500') stateData.snp500_shares = shares;
+          else if (code === 'us10b') stateData.us10b_shares = shares;
+          else if (code === 'fadu') stateData.fadu_shares = shares;
+        }
+        holdStmt.free();
+
+        // 3. Load trade_history
+        const histStmt = db.prepare("SELECT raw_json FROM trade_history ORDER BY trade_date ASC, trade_id ASC");
+        dynamicHistoryList = [];
+        while (histStmt.step()) {
+          const raw = histStmt.get()[0];
+          if (raw) {
+            try { dynamicHistoryList.push(JSON.parse(raw)); } catch(e) {}
+          }
+        }
+        histStmt.free();
+
+        if (dynamicHistoryList.length === 0 && window.PORTFOLIO_STATE_HISTORY_2026) {
+          dynamicHistoryList = window.PORTFOLIO_STATE_HISTORY_2026.slice();
+        }
+
+        console.log("✅ Portfolio state loaded from SQLite DB successfully!");
+      } catch (err) {
+        console.warn("DB Portfolio State load failed, fallback to JS:", err);
+        loadPortfolioStateFromJS();
+      }
+    }
+
+    function loadPortfolioStateFromJS() {
       const json = window.PORTFOLIO_STATE_DATA || null;
       if (json) {
         if (json.holdings) {
@@ -1017,55 +1948,40 @@
           stateData.fadu_shares = json.other_assets_detail.fadu_shares || 0;
         }
       }
+      if (window.PORTFOLIO_STATE_HISTORY_2026) {
+        dynamicHistoryList = window.PORTFOLIO_STATE_HISTORY_2026.slice();
+      }
     }
 
-    function getTargetRatio(kospi) {
-      if (kospi >= 8500) return { ratio: 32.5, lvl: "L6" };
-      if (kospi >= 8000) return { ratio: 40.0, lvl: "L5" };
-      if (kospi >= 7500) return { ratio: 47.5, lvl: "L4" };
-      if (kospi >= 7000) return { ratio: 55.0, lvl: "L3" };
-      if (kospi >= 6500) return { ratio: 62.5, lvl: "L2" };
-      if (kospi >= 6000) return { ratio: 70.0, lvl: "L1" };
-      return { ratio: 77.5, lvl: "L0" };
-    }
+    function initImmediateDashboard() {
+      // 1. Instant Load from memory global JS objects (0ms First Paint)
+      loadPortfolioStateFromJS();
 
-    function loadLiveMarketData() {
       if (window.LIVE_MARKET_DATA && window.LIVE_MARKET_DATA.prices) {
-        return {
-          prices: window.LIVE_MARKET_DATA.prices,
-          lastUpdated: window.LIVE_MARKET_DATA.last_updated
-        };
+        currentLivePrices = { ...currentLivePrices, ...window.LIVE_MARKET_DATA.prices };
       }
-      return null;
+
+      const lastUpdatedTimeStr = (window.LIVE_MARKET_DATA && window.LIVE_MARKET_DATA.last_updated) || "";
+      updateDashboard(currentLivePrices, lastUpdatedTimeStr);
     }
 
-    function fetchLiveMarketData() {
-      loadPortfolioState();
-      const localData = loadLiveMarketData();
+    async function fetchLiveMarketData() {
+      // 1. First Paint immediately with memory data (0ms Instant UI)
+      initImmediateDashboard();
 
-      let defaultPrices = {
-        kospi: 6910.24,
-        samsung: 270000,
-        hynix: 1643000,
-        cd: 1074947,
-        sofr: 61275,
-        us30b: 7175,
-        gold: 27525,
-        snp500: 27345,
-        us10b: 11870,
-        fadu: 0
-      };
-
-      let prices = { ...defaultPrices };
-      let lastUpdatedTimeStr = "";
-
-      if (localData && localData.prices) {
-        prices = { ...prices, ...localData.prices };
-        lastUpdatedTimeStr = localData.lastUpdated || "";
+      // 2. Progressive Asynchronous DB Hydration (Non-blocking)
+      try {
+        const db = await getMarketHistoryDB();
+        if (db) {
+          loadPortfolioDataFromDB(db);
+          const lastUpdatedTimeStr = (window.LIVE_MARKET_DATA && window.LIVE_MARKET_DATA.last_updated) || "";
+          updateDashboard(currentLivePrices, lastUpdatedTimeStr);
+        }
+        await renderHistoryTab(currentHistRange);
+      } catch (e) {
+        console.warn("Progressive DB hydration fallback:", e);
+        await renderHistoryTab(currentHistRange);
       }
-
-      updateDashboard(prices, lastUpdatedTimeStr);
-      renderHistoryTab(currentHistRange);
     }
 
     function updateDashboard(prices, lastUpdatedTimeStr = "") {
@@ -1159,10 +2075,11 @@
         if (activeLabel) activeLabel.innerText = `${targetObj.lvl} (목표 ${targetObj.ratio}%)`;
 
         // 4. Update Table (Desktop) & Cards (Mobile)
-        const semiTargetEach = (targetObj.ratio / 2).toFixed(2);
+        const samTargetPct = (targetObj.ratio * 0.55).toFixed(2);
+        const hynixTargetPct = (targetObj.ratio * 0.45).toFixed(2);
         const items = [
-          { name: 'SK하이닉스', group: 'semi', shares: stateData.hynix_shares, price: prices.hynix, val: hynixVal, targetWeightStr: `${semiTargetEach}%` },
-          { name: '삼성전자', group: 'semi', shares: stateData.samsung_shares, price: prices.samsung, val: samsungVal, targetWeightStr: `${semiTargetEach}%` },
+          { name: 'SK하이닉스', group: 'semi', shares: stateData.hynix_shares, price: prices.hynix, val: hynixVal, targetWeightStr: `${hynixTargetPct}%` },
+          { name: '삼성전자', group: 'semi', shares: stateData.samsung_shares, price: prices.samsung, val: samsungVal, targetWeightStr: `${samTargetPct}%` },
           { name: 'TIGER 미국S&P500', group: 'other', shares: stateData.snp500_shares, price: prices.snp500, val: snp500Val, targetWeightStr: `${(otherTargetTotalPct * 0.15).toFixed(2)}%` },
           { name: 'ACE KRX금현물', group: 'other', shares: stateData.gold_shares, price: prices.gold, val: goldVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
           { name: 'ACE 미국30년국채액티브(H)', group: 'other', shares: stateData.us30b_shares, price: prices.us30b, val: us30bVal, targetWeightStr: `${(otherTargetTotalPct * 0.20).toFixed(2)}%` },
@@ -1181,7 +2098,7 @@
         let tbody = '';
         let mCardsHtml = '';
         items.forEach(it => {
-          const ratio = (it.val / totalPortfolioVal * 100).toFixed(2);
+          const ratio = totalPortfolioVal > 0 ? (it.val / totalPortfolioVal * 100).toFixed(2) : '0.00';
           const tag = it.group === 'semi' ? '<span class="tag-semi">반도체</span>' : '<span class="tag-other">기타자산</span>';
 
           tbody += `<tr>
@@ -1239,24 +2156,32 @@
 
         updateDetailedDonutChart(chartItems);
 
-        if (lastUpdatedTimeStr) {
-          document.getElementById('lastUpdatedTime').innerText = `${lastUpdatedTimeStr} (live_market.js 연동)`;
-        } else {
-          document.getElementById('lastUpdatedTime').innerText = "기본 시세 사용 중";
+        const elTime = document.getElementById('lastUpdatedTime');
+        if (elTime) {
+          if (lastUpdatedTimeStr) {
+            const parts = lastUpdatedTimeStr.split(' ');
+            const todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+            if (parts.length > 1) {
+              if (parts[0] === todayStr) {
+                elTime.innerText = parts[1];
+              } else {
+                const dateShort = parts[0].slice(5).replace('-', '.');
+                elTime.innerText = `${dateShort} ${parts[1]}`;
+              }
+            } else {
+              elTime.innerText = lastUpdatedTimeStr;
+            }
+            elTime.title = `시세 기준 시각: ${lastUpdatedTimeStr}`;
+          } else {
+            elTime.innerText = "기본 시세";
+            elTime.title = "로컬 기본 시세 데이터";
+          }
         }
       } catch (err) {
         console.error("Dashboard update error:", err);
-        const list = document.getElementById('actionStepList');
-        if (list) {
-          list.innerHTML = `
-            <div class="action-step-box" style="grid-column: 1 / -1; color: var(--accent-red);">
-              ⚠️ 가이드 산출 중 오류가 발생했습니다: ${err.message}
-            </div>
-          `;
-        }
+        showToast(`대시보드 화면 갱신 중 오류가 발생했습니다: ${err.message}`, "error");
       }
     }
-
 
     function updateDetailedDonutChart(items) {
       const ctx = document.getElementById('portfolioChart').getContext('2d');
@@ -1295,44 +2220,8 @@
     }
 
     // ==========================================
-    // SQLite WASM Loader & Daily Asset History Engine
+    // Daily Asset History Engine (Timeline Chart)
     // ==========================================
-    let marketSqliteDB = null;
-    let historyRenderToken = 0;
-    let dbLoadErrorMessage = null;
-
-    async function getMarketHistoryDB() {
-      if (marketSqliteDB) return marketSqliteDB;
-      if (typeof initSqlJs !== 'function') {
-        dbLoadErrorMessage = "sql.js (WASM) 라이브러리를 로드할 수 없습니다. 네트워크 연결 또는 CDN 상태를 확인해 주세요.";
-        return null;
-      }
-      try {
-        const SQL = await initSqlJs({
-          locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/${file}`
-        });
-        const res = await fetch('guide/data/market_history.db');
-        if (!res.ok) throw new Error(`HTTP ${res.status} (${res.statusText || 'Fetch Failed'})`);
-        const buf = await res.arrayBuffer();
-        marketSqliteDB = new SQL.Database(new Uint8Array(buf));
-        dbLoadErrorMessage = null;
-        console.log("✅ SQLite-WASM market_history.db loaded successfully!");
-        return marketSqliteDB;
-      } catch (err) {
-        console.error("❌ SQLite-WASM DB load failed:", err);
-        if (window.location.protocol === 'file:') {
-          dbLoadErrorMessage = `로컬 환경(file://)에서는 브라우저 보안 정책상 SQLite 바이너리 파일(fetch)을 직접 읽을 수 없습니다.<br><br>
-            <strong>해결 방법:</strong><br>
-            터미널에서 <code style="background: rgba(0,0,0,0.5); padding: 0.2rem 0.5rem; border-radius: 4px; color: #38bdf8;">python3 -m http.server 8000</code> 실행 후 
-            <code style="background: rgba(0,0,0,0.5); padding: 0.2rem 0.5rem; border-radius: 4px; color: #38bdf8;">http://localhost:8000</code> 으로 접속해 주세요.`;
-        } else {
-          dbLoadErrorMessage = `시장 데이터베이스(market_history.db) 로딩에 실패했습니다.<br>에러 원인: ${err.message}`;
-        }
-        return null;
-      }
-    }
-
-    // 국내 시장 개장 여부를 판단할 때 참조하는 종목 코드 (하나라도 있으면 국내 데이터가 수집된 날로 간주)
     const DOMESTIC_MARKET_CODES = ['kospi', 'samsung', 'hynix', 'cd', 'sofr', 'us30b', 'gold', 'snp500', 'us10b', 'fadu'];
 
     function computeAssetBreakdown(item) {
@@ -1367,8 +2256,32 @@
 
     async function renderHistoryTab(range = '1M') {
       const myRenderToken = ++historyRenderToken;
-      const rawHistoryList = (window.PORTFOLIO_STATE_HISTORY_2026 || []).slice();
-      if (rawHistoryList.length === 0) return;
+      const rawHistoryList = (dynamicHistoryList && dynamicHistoryList.length > 0 ? dynamicHistoryList : (window.PORTFOLIO_STATE_HISTORY_2026 || [])).slice();
+      
+      const errorContainer = document.getElementById('histErrorContainer');
+      const chartContainer = document.getElementById('histChartContainer');
+      const errorDetailElem = document.getElementById('histErrorDetail');
+
+      if (rawHistoryList.length === 0) {
+        const tbody = document.getElementById('historyTableBody');
+        if (tbody) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 3rem 1rem; color: var(--text-sub);">
+                <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">📭</div>
+                <div style="font-weight: 600; font-size: 0.95rem;">조회 가능한 자산 히스토리 데이터가 없습니다.</div>
+                <div style="font-size: 0.8rem; margin-top: 0.3rem;">상단의 [매매 기록 입력] 버튼을 통해 첫 거래를 기록해 보세요.</div>
+              </td>
+            </tr>`;
+        }
+        document.getElementById('histInitTotal').innerText = "0 원";
+        document.getElementById('histLatestTotal').innerText = "0 원";
+        document.getElementById('histDepositTotal').innerText = "0 원";
+        document.getElementById('histTradeCount').innerText = "0 회";
+        document.getElementById('histRecordCount').innerText = "0건";
+        if (chartContainer) chartContainer.style.display = 'none';
+        return;
+      }
 
       rawHistoryList.sort((a, b) => new Date(a.date) - new Date(b.date));
       const firstHistDate = rawHistoryList[0].date;
@@ -1379,10 +2292,8 @@
 
       const db = await getMarketHistoryDB();
 
-      // 비동기 렌더링 경쟁 상태 방지
       if (myRenderToken !== historyRenderToken) return;
 
-      // DB 로딩 실패 시: fallback 없이 즉시 에러 UI 렌더링
       if (!db) {
         if (historyChart) {
           historyChart.destroy();
@@ -1396,7 +2307,6 @@
         }
         if (chartContainer) chartContainer.style.display = 'none';
 
-        // 요약 지표 리셋
         document.getElementById('histInitTotal').innerText = "---";
         document.getElementById('histLatestTotal').innerText = "---";
         document.getElementById('histDepositTotal').innerText = "---";
@@ -1405,14 +2315,12 @@
         return;
       }
 
-      // DB 로딩 성공 시: 에러 UI 숨기고 차트 컨테이너 표시
       if (errorContainer) errorContainer.style.display = 'none';
       if (chartContainer) chartContainer.style.display = 'block';
 
       let dailyTimeline = [];
 
       try {
-        // 1. Fetch all distinct dates from SQLite DB (오름차순)
         const dateStmt = db.prepare("SELECT DISTINCT date FROM market_history ORDER BY date ASC");
         const dbDates = [];
         while (dateStmt.step()) {
@@ -1420,7 +2328,6 @@
         }
         dateStmt.free();
 
-        // 2. Fetch all daily prices grouped by date
         const priceStmt = db.prepare("SELECT date, code, price FROM market_history ORDER BY date ASC");
         const pricesByDate = {};
         while (priceStmt.step()) {
@@ -1430,33 +2337,29 @@
         }
         priceStmt.free();
 
-        // 3. Build daily continuous timeline with Forward-Fill (실제 포트폴리오 히스토리 시작일 기준)
         let latestKnownPrices = {};
-
-        // 초기 상태 기준 가격 시드 설정
-        if (rawHistoryList[0].prices) {
+        if (rawHistoryList[0] && rawHistoryList[0].prices) {
           latestKnownPrices = { ...rawHistoryList[0].prices };
         }
 
-        dbDates.forEach(d => {
-          // 해당 날짜에 새 시세가 들어온 종목들을 누적 갱신 (Forward-Fill)
+        const allDateSet = new Set(dbDates);
+        rawHistoryList.forEach(item => {
+          if (item.date) allDateSet.add(item.date);
+        });
+        const mergedDates = Array.from(allDateSet).sort();
+
+        mergedDates.forEach(d => {
           if (pricesByDate[d]) {
             Object.assign(latestKnownPrices, pricesByDate[d]);
           }
 
-          // 실제 포트폴리오 기록이 시작된 날(firstHistDate) 이전 날짜는 타임라인에서 제외
           if (d < firstHistDate) return;
 
-          // 국내 시장이 열린 날(국내 관련 종목 중 하나라도 시세 존재)이거나 실제 매매가 발생한 날만 국내 계좌 타임라인에 포함
           const hasKrMarketData = pricesByDate[d] && DOMESTIC_MARKET_CODES.some(code => pricesByDate[d][code] !== undefined);
           const exactTrade = rawHistoryList.find(t => t.date === d);
 
-          if (!hasKrMarketData && !exactTrade) {
-            // 미국 시장만 열리고 국내는 휴장인 날은 국내 계좌 타임라인에서 스킵
-            return;
-          }
+          if (!hasKrMarketData && !exactTrade) return;
 
-          // Find the most recent portfolio holdings state prior to or on date 'd'
           let activeState = rawHistoryList[0];
           for (let i = rawHistoryList.length - 1; i >= 0; i--) {
             if (rawHistoryList[i].date <= d) {
@@ -1465,7 +2368,6 @@
             }
           }
 
-          // Forward-Fill이 적용된 안전한 가격 스냅샷 생성
           const daySnapshotPrices = { ...latestKnownPrices };
 
           dailyTimeline.push({
@@ -1485,49 +2387,55 @@
         }
         if (errorContainer) {
           errorContainer.style.display = 'block';
-          if (errorDetailElem) {
-            errorDetailElem.innerHTML = `데이터베이스 쿼리 실행 중 오류가 발생했습니다: ${dbErr.message}`;
-          }
+          if (errorDetailElem) errorDetailElem.innerHTML = `데이터베이스 쿼리 오류: ${dbErr.message}`;
         }
         if (chartContainer) chartContainer.style.display = 'none';
         return;
       }
 
-        if (dailyTimeline.length === 0) {
-          if (errorContainer) {
-            errorContainer.style.display = 'block';
-            if (errorDetailElem) {
-              errorDetailElem.innerHTML = "표시할 포트폴리오 히스토리 데이터가 없습니다.";
-            }
-          }
-          if (chartContainer) chartContainer.style.display = 'none';
-          return;
+      if (dailyTimeline.length === 0) {
+        const tbody = document.getElementById('historyTableBody');
+        if (tbody) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 3rem 1rem; color: var(--text-sub);">
+                <div style="font-size: 1.8rem; margin-bottom: 0.5rem;">📭</div>
+                <div style="font-weight: 600; font-size: 0.95rem;">조회 가능한 자산 히스토리 데이터가 없습니다.</div>
+                <div style="font-size: 0.8rem; margin-top: 0.3rem;">상단의 [매매 기록 입력] 버튼을 통해 첫 거래를 기록해 보세요.</div>
+              </td>
+            </tr>`;
         }
+        document.getElementById('histInitTotal').innerText = "0 원";
+        document.getElementById('histLatestTotal').innerText = "0 원";
+        document.getElementById('histDepositTotal').innerText = "0 원";
+        document.getElementById('histTradeCount').innerText = "0 회";
+        document.getElementById('histRecordCount').innerText = "0건";
+        if (chartContainer) chartContainer.style.display = 'none';
+        return;
+      }
 
-        const latestHistDateStr = dailyTimeline[dailyTimeline.length - 1].date;
-        const latestHistDateObj = new Date(latestHistDateStr);
+      const latestHistDateStr = dailyTimeline[dailyTimeline.length - 1].date;
+      const latestHistDateObj = new Date(latestHistDateStr);
 
-        let filteredList = dailyTimeline;
-        if (range === '1M') {
-          const cutoff = new Date(latestHistDateObj);
-          cutoff.setDate(cutoff.getDate() - 31);
-          filteredList = dailyTimeline.filter(item => new Date(item.date) >= cutoff);
-        } else if (range === '3M') {
-          const cutoff = new Date(latestHistDateObj);
-          cutoff.setDate(cutoff.getDate() - 93);
-          filteredList = dailyTimeline.filter(item => new Date(item.date) >= cutoff);
-        }
+      let filteredList = dailyTimeline;
+      if (range === '1M') {
+        const cutoff = new Date(latestHistDateObj);
+        cutoff.setDate(cutoff.getDate() - 31);
+        filteredList = dailyTimeline.filter(item => new Date(item.date) >= cutoff);
+      } else if (range === '3M') {
+        const cutoff = new Date(latestHistDateObj);
+        cutoff.setDate(cutoff.getDate() - 93);
+        filteredList = dailyTimeline.filter(item => new Date(item.date) >= cutoff);
+      }
 
-        if (filteredList.length === 0) filteredList = dailyTimeline;
+      if (filteredList.length === 0) filteredList = dailyTimeline;
 
-      // 상단 기간 필터(1개월/3개월)와 동일한 범위를 매매 내역 테이블에도 적용
       const rangeStartDate = filteredList.length > 0 ? filteredList[0].date : null;
       const tradeOnlyList = rawHistoryList
         .filter(item => range === 'ALL' || !rangeStartDate || item.date >= rangeStartDate)
         .slice()
         .reverse();
 
-      // Calculate asset values per record
       const fullDates = [];
       const displayLabels = [];
       const samVals = [];
@@ -1551,9 +2459,7 @@
         const { sam, hyn, cd, gld, us1, us3, sfr, snp, fdu, dep, tot } = computeAssetBreakdown(item);
 
         fullDates.push(item.date);
-        // X축 레이블은 이모지 없이 순수 날짜(MM-DD)로 표시하여 45도 회전 시 폰트 깨짐 방지
-        const shortDate = item.date.slice(5); // MM-DD
-        displayLabels.push(shortDate);
+        displayLabels.push(item.date.slice(5));
         tradeDayFlags.push(item.isTradeDay);
 
         samVals.push(sam);
@@ -1575,15 +2481,12 @@
         }
       });
 
-      // Update Summary Bar
       const initDateStr = filteredList.length > 0 ? filteredList[0].date : '';
       const latestDateStr = filteredList.length > 0 ? filteredList[filteredList.length - 1].date : '';
 
       const initLabelElem = document.getElementById('histInitLabel');
       if (initLabelElem && initDateStr) {
-        initLabelElem.innerText = (initDateStr === firstHistDate)
-          ? `최초 등록 총자산 (${initDateStr})`
-          : `기점 총자산 (${initDateStr})`;
+        initLabelElem.innerText = (initDateStr === firstHistDate) ? `최초 등록 총자산 (${initDateStr})` : `기점 총자산 (${initDateStr})`;
       }
 
       const latestLabelElem = document.getElementById('histLatestLabel');
@@ -1597,22 +2500,19 @@
       document.getElementById('histTradeCount').innerText = `${rawHistoryList.length - 1} 회`;
       document.getElementById('histRecordCount').innerText = `${filteredList.length}일 연속 데이터 (${tradeOnlyList.length}건 매매)`;
 
-      // Render Stacked Bar Chart with Crisp Vector Trade Markers
       const ctx = document.getElementById('assetHistoryStackedChart').getContext('2d');
       if (historyChart) historyChart.destroy();
 
       const isMobile = window.innerWidth <= 600;
 
-      // 매매일 상단에 선명한 벡터 깃발 핀을 직접 그리는 커스텀 플러그인 (스택 최상단 Y스케일 기반 정밀 렌더링)
       const tradeMarkerPlugin = {
         id: 'tradeMarkerPlugin',
         afterDatasetsDraw(chart) {
           try {
             const ctx = chart.ctx;
-            const xScale = chart.scales ? chart.scales.x : null;
             const yScale = chart.scales ? chart.scales.y : null;
             const meta0 = chart.getDatasetMeta(0);
-            if (!ctx || !xScale || !yScale || !meta0 || !meta0.data) return;
+            if (!ctx || !yScale || !meta0 || !meta0.data) return;
 
             ctx.save();
             tradeDayFlags.forEach((isTrade, index) => {
@@ -1620,7 +2520,6 @@
                 const xPos = meta0.data[index].x;
                 const yPos = yScale.getPixelForValue(totalVals[index]) - 4;
 
-                // 1. 빨간색 깃발 펄럭임 삼각형
                 ctx.fillStyle = '#ef4444';
                 ctx.beginPath();
                 ctx.moveTo(xPos, yPos - 11);
@@ -1629,7 +2528,6 @@
                 ctx.closePath();
                 ctx.fill();
 
-                // 2. 깃대 (화이트/연빨강 핀)
                 ctx.strokeStyle = '#fca5a5';
                 ctx.lineWidth = 1.5;
                 ctx.beginPath();
@@ -1637,7 +2535,6 @@
                 ctx.lineTo(xPos, yPos);
                 ctx.stroke();
 
-                // 3. 깃대 꼭대기 골드 포인트 팁
                 ctx.fillStyle = '#fbbf24';
                 ctx.beginPath();
                 ctx.arc(xPos, yPos - 13, 1.5, 0, Math.PI * 2);
@@ -1645,9 +2542,7 @@
               }
             });
             ctx.restore();
-          } catch (e) {
-            console.warn("tradeMarkerPlugin draw skipped:", e);
-          }
+          } catch (e) {}
         }
       };
 
@@ -1670,15 +2565,8 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          layout: {
-            padding: {
-              top: 22 // 상단 🚩 깃발 아이콘 여백
-            }
-          },
-          interaction: {
-            mode: 'index',
-            intersect: false
-          },
+          layout: { padding: { top: 22 } },
+          interaction: { mode: 'index', intersect: false },
           plugins: {
             legend: {
               position: 'top',
@@ -1696,7 +2584,6 @@
               borderColor: 'rgba(255, 255, 255, 0.1)',
               borderWidth: 1,
               padding: 12,
-              boxPadding: 4,
               callbacks: {
                 title: function(items) {
                   const idx = items[0].dataIndex;
@@ -1716,21 +2603,16 @@
                   const idx = context.dataIndex;
                   const tot = totalVals[idx];
                   const pct = tot > 0 ? (val / tot * 100).toFixed(1) : 0;
-                  
-                  // 전일 대비 증감률(%) 계산
                   let changeBadge = '';
                   if (idx > 0) {
                     const prevVal = context.dataset.data[idx - 1] || 0;
                     changeBadge = formatChangeBadge(val, prevVal);
                   }
-                  
                   return ` ${context.dataset.label}: ${(val / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 원 (${pct}%)${changeBadge}`;
                 },
                 footer: function(items) {
                   const idx = items[0].dataIndex;
                   const tot = totalVals[idx];
-                  
-                  // 총자산 전일 대비 증감률(%) 계산
                   let totalChangeBadge = '';
                   if (idx > 0) {
                     const prevTot = totalVals[idx - 1] || 0;
@@ -1745,13 +2627,7 @@
             x: {
               stacked: true,
               grid: { color: 'rgba(255, 255, 255, 0.05)' },
-              ticks: {
-                color: '#9ca3af',
-                font: { family: 'Inter', size: isMobile ? 9 : 11 },
-                maxRotation: 45,
-                autoSkip: true,
-                maxTicksLimit: isMobile ? 14 : 26
-              }
+              ticks: { color: '#9ca3af', font: { family: 'Inter', size: isMobile ? 9 : 11 }, maxRotation: 45, autoSkip: true }
             },
             y: {
               stacked: true,
@@ -1759,16 +2635,13 @@
               ticks: {
                 color: '#9ca3af',
                 font: { family: 'Inter', size: isMobile ? 10 : 11 },
-                callback: function(value) {
-                  return (value / 100000000).toFixed(1) + '억';
-                }
+                callback: value => (value / 100000000).toFixed(1) + '억'
               }
             }
           }
         }
       });
 
-      // Render History Table & Mobile Cards (매매가 발생했던 주요 일자 역순 정렬, 상단 기간 필터와 동일한 범위 적용)
       let tableRowsHtml = '';
       let mobileCardsHtml = '';
 
@@ -1778,13 +2651,12 @@
 
         const semiVal = sam + hyn;
         const otherStockVal = cd + gld + us1 + us3 + sfr + snp + fdu;
-
         const semiRatio = tot > 0 ? (semiVal / tot * 100).toFixed(1) : 0;
 
         tableRowsHtml += `
           <tr>
             <td><strong>${item.date}</strong></td>
-            <td style="max-width: 280px; font-size: 0.85rem; color: #e5e7eb;">${item.note || '-'}</td>
+            <td style="max-width: 280px; font-size: 0.85rem; color: #e5e7eb;">${escapeHtml(item.note) || '-'}</td>
             <td><span style="color: var(--accent-blue); font-weight: 600;">${(p.kospi || 0).toLocaleString()} pt</span></td>
             <td>
               <div>${(semiVal / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 원</div>
@@ -1810,7 +2682,7 @@
               <span class="m-hist-date">📅 ${item.date}</span>
               <span style="color: var(--accent-blue); font-size: 0.82rem; font-weight: 600;">KOSPI ${(p.kospi || 0).toLocaleString()} pt</span>
             </div>
-            <div class="m-hist-note">${item.note || '-'}</div>
+            <div class="m-hist-note">${escapeHtml(item.note) || '-'}</div>
             <div class="m-hist-breakdown">
               <div>
                 <span style="color: var(--text-sub);">반도체:</span> ${(semiVal / 10000).toLocaleString(undefined, { maximumFractionDigits: 0 })}만 (${semiRatio}%)
@@ -1834,11 +2706,660 @@
       document.getElementById('mobileHistoryCards').innerHTML = mobileCardsHtml;
     }
 
+    // ==========================================
+    // GitHub Settings Modal Logic
+    // ==========================================
+    function getGithubConfig() {
+      return {
+        token: localStorage.getItem('mystock_gh_pat') || '',
+        repo: localStorage.getItem('mystock_gh_repo') || 'insford/my-stock',
+        branch: localStorage.getItem('mystock_gh_branch') || 'main'
+      };
+    }
+
+    function openGithubSettingsModal() {
+      const cfg = getGithubConfig();
+      document.getElementById('ghPatInput').value = cfg.token;
+      document.getElementById('ghRepoInput').value = cfg.repo;
+      document.getElementById('ghBranchInput').value = cfg.branch;
+      document.getElementById('ghTestStatus').style.display = 'none';
+      document.getElementById('githubSettingsModal').classList.add('active');
+    }
+
+    function closeGithubSettingsModal() {
+      document.getElementById('githubSettingsModal').classList.remove('active');
+    }
+
+    function togglePatVisibility() {
+      const input = document.getElementById('ghPatInput');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function saveGithubSettings() {
+      const token = document.getElementById('ghPatInput').value.trim();
+      const repo = document.getElementById('ghRepoInput').value.trim() || 'insford/my-stock';
+      const branch = document.getElementById('ghBranchInput').value.trim() || 'main';
+
+      localStorage.setItem('mystock_gh_pat', token);
+      localStorage.setItem('mystock_gh_repo', repo);
+      localStorage.setItem('mystock_gh_branch', branch);
+
+      showToast("GitHub 연동 설정이 브라우저에 저장되었습니다.", "success");
+      closeGithubSettingsModal();
+    }
+
+    function clearGithubSettings() {
+      localStorage.removeItem('mystock_gh_pat');
+      document.getElementById('ghPatInput').value = '';
+      showToast("GitHub 토큰 설정이 삭제되었습니다.", "info");
+    }
+
+    async function testGithubConnection() {
+      const token = document.getElementById('ghPatInput').value.trim();
+      const repo = document.getElementById('ghRepoInput').value.trim() || 'insford/my-stock';
+      const statusElem = document.getElementById('ghTestStatus');
+      statusElem.style.display = 'block';
+
+      if (!token) {
+        statusElem.style.background = 'rgba(239, 68, 68, 0.15)';
+        statusElem.style.color = '#f87171';
+        statusElem.innerHTML = "❌ GitHub PAT 토큰을 입력해 주세요.";
+        return;
+      }
+
+      statusElem.style.background = 'rgba(56, 189, 248, 0.15)';
+      statusElem.style.color = '#38bdf8';
+      statusElem.innerHTML = "⏳ GitHub API 연결 테스트 중...";
+
+      try {
+        const res = await fetch(`https://api.github.com/repos/${repo}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.message || `HTTP ${res.status}`);
+        }
+
+        const data = await res.json();
+        const canPush = data.permissions && data.permissions.push;
+
+        if (canPush) {
+          statusElem.style.background = 'rgba(34, 197, 94, 0.15)';
+          statusElem.style.color = '#4ade80';
+          statusElem.innerHTML = `✅ 연결 성공! 저장소 <strong>${data.full_name}</strong>에 대한 푸시 권한이 확인되었습니다.`;
+        } else {
+          statusElem.style.background = 'rgba(234, 179, 8, 0.15)';
+          statusElem.style.color = '#facc15';
+          statusElem.innerHTML = `⚠️ 저장소 읽기는 성공했으나 푸시(쓰기) 권한이 없습니다. 토큰에 'repo' 권한이 있는지 확인하세요.`;
+        }
+      } catch (err) {
+        statusElem.style.background = 'rgba(239, 68, 68, 0.15)';
+        statusElem.style.color = '#f87171';
+        statusElem.innerHTML = `❌ 연결 실패: ${err.message}`;
+      }
+    }
+
+    // ==========================================
+    // Trade Input Modal Logic
+    // ==========================================
+    function isLiveMarketReady() {
+      return currentLivePrices && currentLivePrices.samsung > 0 && currentLivePrices.kospi > 0;
+    }
+
+    function openTradeModal() {
+      if (!isLiveMarketReady()) {
+        showToast("⏳ 실시간 시장 시세를 불러오는 중입니다. 잠시만 기다려 주세요...", "warning");
+        return;
+      }
+      const todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+      document.getElementById('tradeDateInput').value = todayStr;
+      document.getElementById('tradeSharesInput').value = '';
+      document.getElementById('tradeNoteInput').value = '';
+      
+      onTradeAssetChange();
+      setTradeType('BUY');
+      
+      document.getElementById('tradeDepositInput').value = stateData.deposit_krw;
+      updateTradePreview();
+
+      document.getElementById('tradeInputModal').classList.add('active');
+    }
+
+    function closeTradeModal() {
+      document.getElementById('tradeInputModal').classList.remove('active');
+    }
+
+    function setTradeType(type) {
+      currentTradeType = type;
+      document.querySelectorAll('.trade-type-btn').forEach(b => b.classList.remove('active'));
+
+      const singleSec = document.getElementById('sectionSingleTrade');
+      const rebSec = document.getElementById('sectionRebalanceTrade');
+      const cashSec = document.getElementById('sectionCashTrade');
+      const groupAsset = document.getElementById('groupAssetSelect');
+
+      if (type === 'BUY') {
+        document.getElementById('tabTypeBuy').classList.add('active');
+        singleSec.style.display = 'block';
+        rebSec.style.display = 'none';
+        cashSec.style.display = 'none';
+        groupAsset.style.display = 'flex';
+      } else if (type === 'SELL') {
+        document.getElementById('tabTypeSell').classList.add('active');
+        singleSec.style.display = 'block';
+        rebSec.style.display = 'none';
+        cashSec.style.display = 'none';
+        groupAsset.style.display = 'flex';
+      } else if (type === 'REBALANCE') {
+        document.getElementById('tabTypeRebalance').classList.add('active');
+        singleSec.style.display = 'none';
+        rebSec.style.display = 'block';
+        cashSec.style.display = 'none';
+        groupAsset.style.display = 'none';
+      } else if (type === 'CASH') {
+        document.getElementById('tabTypeCash').classList.add('active');
+        singleSec.style.display = 'none';
+        rebSec.style.display = 'none';
+        cashSec.style.display = 'block';
+        groupAsset.style.display = 'none';
+      }
+
+      onTradeInputChange();
+    }
+
+    function onTradeAssetChange() {
+      const code = document.getElementById('tradeAssetSelect').value;
+      const p = currentLivePrices[code] || 0;
+      document.getElementById('tradePriceInput').value = p;
+      document.getElementById('tradeCurrentPriceHint').innerText = `시세: ${p.toLocaleString()}원`;
+      onTradeInputChange();
+    }
+
+    function onTradeInputChange() {
+      const inputShares = parseFloat(document.getElementById('tradeSharesInput').value) || 0;
+      const price = parseFloat(document.getElementById('tradePriceInput').value) || 0;
+      const assetCode = document.getElementById('tradeAssetSelect').value;
+      const currentHolding = stateData[assetCode + '_shares'] || 0;
+
+      let actualShares = inputShares;
+      if (currentTradeType === 'SELL') {
+        actualShares = Math.min(inputShares, currentHolding);
+        if (inputShares > currentHolding && inputShares > 0) {
+          document.getElementById('tradeSharesInput').value = actualShares;
+          showToast(`보유 수량(${currentHolding}주)을 초과하여 최대 보유 수량으로 자동 조정되었습니다.`, 'warning');
+        }
+      }
+
+      const totAmount = actualShares * price;
+      document.getElementById('tradeTotalAmountVal').innerText = Math.round(totAmount).toLocaleString();
+
+      let autoDep = stateData.deposit_krw;
+      if (currentTradeType === 'BUY') {
+        autoDep = stateData.deposit_krw - totAmount;
+      } else if (currentTradeType === 'SELL') {
+        autoDep = stateData.deposit_krw + totAmount;
+      } else if (currentTradeType === 'CASH') {
+        const cashType = document.getElementById('cashTypeSelect').value;
+        const cashAmt = parseFloat(document.getElementById('cashAmountInput').value) || 0;
+        autoDep = cashType === 'DEPOSIT' ? stateData.deposit_krw + cashAmt : stateData.deposit_krw - cashAmt;
+      } else if (currentTradeType === 'REBALANCE') {
+        let netTradeCash = 0;
+        ['samsung', 'hynix', 'cd', 'sofr', 'us30b', 'gold', 'snp500', 'us10b', 'fadu'].forEach(c => {
+          const el = document.getElementById(`reb_${c}`);
+          let delta = el ? (parseInt(el.value, 10) || 0) : 0;
+          const curH = stateData[c + '_shares'] || 0;
+          if (delta < 0 && Math.abs(delta) > curH) {
+            delta = -curH;
+            if (el) el.value = delta;
+          }
+          netTradeCash += delta * (currentLivePrices[c] || 0);
+        });
+        autoDep = stateData.deposit_krw - netTradeCash;
+      }
+
+      document.getElementById('tradeDepositInput').value = Math.round(autoDep);
+      updateTradePreview();
+    }
+
+    function calculateSimulatedHoldings() {
+      const newHoldings = { ...stateData };
+      let newDeposit = parseFloat(document.getElementById('tradeDepositInput').value);
+      if (isNaN(newDeposit)) newDeposit = stateData.deposit_krw;
+
+      if (currentTradeType === 'BUY' || currentTradeType === 'SELL') {
+        const code = document.getElementById('tradeAssetSelect').value;
+        const shares = parseFloat(document.getElementById('tradeSharesInput').value) || 0;
+        const curH = stateData[code + '_shares'] || 0;
+        const actualShares = currentTradeType === 'SELL' ? Math.min(shares, curH) : shares;
+        const delta = currentTradeType === 'BUY' ? actualShares : -actualShares;
+
+        if (code === 'samsung') newHoldings.samsung_shares = Math.max(0, (newHoldings.samsung_shares || 0) + delta);
+        else if (code === 'hynix') newHoldings.hynix_shares = Math.max(0, (newHoldings.hynix_shares || 0) + delta);
+        else if (code === 'cd') newHoldings.cd_shares = Math.max(0, (newHoldings.cd_shares || 0) + delta);
+        else if (code === 'sofr') newHoldings.sofr_shares = Math.max(0, (newHoldings.sofr_shares || 0) + delta);
+        else if (code === 'us30b') newHoldings.us30b_shares = Math.max(0, (newHoldings.us30b_shares || 0) + delta);
+        else if (code === 'gold') newHoldings.gold_shares = Math.max(0, (newHoldings.gold_shares || 0) + delta);
+        else if (code === 'snp500') newHoldings.snp500_shares = Math.max(0, (newHoldings.snp500_shares || 0) + delta);
+        else if (code === 'us10b') newHoldings.us10b_shares = Math.max(0, (newHoldings.us10b_shares || 0) + delta);
+        else if (code === 'fadu') newHoldings.fadu_shares = Math.max(0, (newHoldings.fadu_shares || 0) + delta);
+      } else if (currentTradeType === 'REBALANCE') {
+        const getDelta = (id, curH) => {
+          const el = document.getElementById(id);
+          let d = el ? (parseInt(el.value, 10) || 0) : 0;
+          if (d < 0 && Math.abs(d) > curH) d = -curH;
+          return d;
+        };
+        newHoldings.samsung_shares = Math.max(0, (newHoldings.samsung_shares || 0) + getDelta('reb_samsung', stateData.samsung_shares || 0));
+        newHoldings.hynix_shares = Math.max(0, (newHoldings.hynix_shares || 0) + getDelta('reb_hynix', stateData.hynix_shares || 0));
+        newHoldings.cd_shares = Math.max(0, (newHoldings.cd_shares || 0) + getDelta('reb_cd', stateData.cd_shares || 0));
+        newHoldings.sofr_shares = Math.max(0, (newHoldings.sofr_shares || 0) + getDelta('reb_sofr', stateData.sofr_shares || 0));
+        newHoldings.us30b_shares = Math.max(0, (newHoldings.us30b_shares || 0) + getDelta('reb_us30b', stateData.us30b_shares || 0));
+        newHoldings.gold_shares = Math.max(0, (newHoldings.gold_shares || 0) + getDelta('reb_gold', stateData.gold_shares || 0));
+        newHoldings.snp500_shares = Math.max(0, (newHoldings.snp500_shares || 0) + getDelta('reb_snp500', stateData.snp500_shares || 0));
+      }
+
+      newHoldings.deposit_krw = newDeposit;
+      return newHoldings;
+    }
+
+    function updateTradePreview() {
+      const p = currentLivePrices;
+      const currSam = (p.samsung || 0) * (stateData.samsung_shares || 0);
+      const currHyn = (p.hynix || 0) * (stateData.hynix_shares || 0);
+      const currOther = (p.cd || 0) * (stateData.cd_shares || 0) + (p.sofr || 0) * (stateData.sofr_shares || 0) + 
+                        (p.us30b || 0) * (stateData.us30b_shares || 0) + (p.gold || 0) * (stateData.gold_shares || 0) + 
+                        (p.snp500 || 0) * (stateData.snp500_shares || 0) + 
+                        ((p.us10b || 0) * (stateData.us10b_shares || 0)) + 
+                        ((p.fadu || 0) * (stateData.fadu_shares || 0)) + 
+                        (stateData.deposit_krw || 0);
+      const currTot = currSam + currHyn + currOther;
+      const currSemiPct = currTot > 0 ? (currSam + currHyn) / currTot * 100 : 0;
+
+      const simH = calculateSimulatedHoldings();
+      const simSam = (p.samsung || 0) * (simH.samsung_shares || 0);
+      const simHyn = (p.hynix || 0) * (simH.hynix_shares || 0);
+      const simOther = (p.cd || 0) * (simH.cd_shares || 0) + (p.sofr || 0) * (simH.sofr_shares || 0) + 
+                       (p.us30b || 0) * (simH.us30b_shares || 0) + (p.gold || 0) * (simH.gold_shares || 0) + 
+                       (p.snp500 || 0) * (simH.snp500_shares || 0) + 
+                       ((p.us10b || 0) * (simH.us10b_shares || 0)) + 
+                       ((p.fadu || 0) * (simH.fadu_shares || 0)) + 
+                       (simH.deposit_krw || 0);
+      const simTot = simSam + simHyn + simOther;
+      const simSemiPct = simTot > 0 ? (simSam + simHyn) / simTot * 100 : 0;
+
+      const targetObj = getTargetRatio(p.kospi || 6910.24);
+      const simGap = simSemiPct - targetObj.ratio;
+      const isAlert = Math.abs(simGap) >= accountInfo.min_trigger_gap;
+
+      document.getElementById('prevSemiRatio').innerHTML = `
+        <span style="color:var(--text-sub);">${currSemiPct.toFixed(1)}%</span> ➔ <strong style="color:var(--accent-orange);">${simSemiPct.toFixed(1)}%</strong> (목표: ${targetObj.ratio.toFixed(1)}%)
+      `;
+
+      document.getElementById('prevGapStatus').innerHTML = `
+        <span style="color: ${isAlert ? '#f87171' : '#4ade80'};">${simGap > 0 ? '+' : ''}${simGap.toFixed(1)}%p (${isAlert ? '🚨 트리거 이탈' : '🟢 정상 범위'})</span>
+      `;
+
+      document.getElementById('prevTotalVal').innerHTML = `
+        <strong>${(simTot / 100000000).toFixed(2)} 억 원</strong> (예수금: ${(simH.deposit_krw / 10000).toLocaleString(undefined, {maximumFractionDigits:0})}만)
+      `;
+    }
+
+    async function saveTradeRecord(target = 'github') {
+      if (!isLiveMarketReady()) {
+        showToast("⏳ 실시간 시장 시세를 불러오는 중입니다. 잠시만 기다려 주세요...", "warning");
+        return;
+      }
+
+      const tradeDate = document.getElementById('tradeDateInput').value || new Date().toISOString().slice(0, 10);
+      let actualTradeType = currentTradeType;
+      if (currentTradeType === 'CASH') {
+        actualTradeType = document.getElementById('cashTypeSelect').value || 'DEPOSIT';
+      }
+
+      let note = document.getElementById('tradeNoteInput').value.trim();
+      if (!note) note = `${actualTradeType} 매매 집행`;
+
+      const simH = calculateSimulatedHoldings();
+      const p = currentLivePrices;
+
+      const semiTot = (simH.samsung_shares * p.samsung) + (simH.hynix_shares * p.hynix);
+      const otherTot = (simH.cd_shares * p.cd) + (simH.sofr_shares * p.sofr) + 
+                       (simH.us30b_shares * p.us30b) + (simH.gold_shares * p.gold) + 
+                       (simH.snp500_shares * p.snp500) + 
+                       ((simH.us10b_shares || 0) * (p.us10b || 0)) + 
+                       ((simH.fadu_shares || 0) * (p.fadu || 0));
+      const totalEval = Math.round(semiTot + otherTot + simH.deposit_krw);
+
+      const db = await getMarketHistoryDB();
+      if (!db) {
+        showToast("SQLite WASM DB가 활성화되지 않아 저장할 수 없습니다.", "error");
+        return;
+      }
+
+      // [롤백용 선제 백업: DB 수정 직전에 완벽히 캡처]
+      const prevAccountState = { ...stateData };
+      const prevDynamicHistory = dynamicHistoryList.slice();
+      const prevDbExport = db.export();
+      const prevLocalDbCache = localStorage.getItem('mystock_local_db_cache');
+      const prevLocalDbVer = localStorage.getItem('mystock_local_db_version');
+
+      // 1. Update WASM DB
+      const kstNow = new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" });
+      const rawSnapshot = {
+        date: tradeDate,
+        note: note,
+        prices: p,
+        holdings: {
+          samsung_shares: simH.samsung_shares,
+          hynix_shares: simH.hynix_shares,
+          deposit_krw: simH.deposit_krw,
+          other_assets_krw: Math.round(otherTot)
+        },
+        other_assets_detail: {
+          kodex_cd_shares: simH.cd_shares,
+          tiger_sofr_shares: simH.sofr_shares,
+          ace_us30b_shares: simH.us30b_shares,
+          ace_gold_shares: simH.gold_shares,
+          tiger_snp500_shares: simH.snp500_shares,
+          kodex_gold_shares: 0,
+          kodex_us10b_shares: simH.us10b_shares || 0,
+          kodex_snp500_shares: 0,
+          fadu_shares: simH.fadu_shares || 0
+        }
+      };
+
+      try {
+        db.run("UPDATE account_state SET deposit_krw = ?, updated_at = ? WHERE account_id = 'main'", [simH.deposit_krw, tradeDate]);
+
+        const holdingsList = [
+          ['samsung', simH.samsung_shares],
+          ['hynix', simH.hynix_shares],
+          ['cd', simH.cd_shares],
+          ['sofr', simH.sofr_shares],
+          ['us30b', simH.us30b_shares],
+          ['gold', simH.gold_shares],
+          ['snp500', simH.snp500_shares],
+          ['us10b', simH.us10b_shares || 0],
+          ['fadu', simH.fadu_shares || 0]
+        ];
+
+        holdingsList.forEach(([code, shares]) => {
+          db.run("INSERT OR REPLACE INTO account_holdings (code, shares, target_ratio, updated_at) VALUES (?, ?, 0.0, ?)", [code, shares, tradeDate]);
+        });
+
+        db.run(`INSERT INTO trade_history (
+          trade_date, trade_type, note, kospi_point,
+          samsung_shares, hynix_shares, cd_shares, sofr_shares,
+          us30b_shares, gold_shares, snp500_shares, us10b_shares,
+          fadu_shares, deposit_krw, total_eval_krw, raw_json, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+          tradeDate, actualTradeType, note, p.kospi || 0.0,
+          simH.samsung_shares, simH.hynix_shares, simH.cd_shares, simH.sofr_shares,
+          simH.us30b_shares, simH.gold_shares, simH.snp500_shares, simH.us10b_shares || 0,
+          simH.fadu_shares || 0, simH.deposit_krw, totalEval, JSON.stringify(rawSnapshot), kstNow
+        ]);
+
+        const nowTs = Math.floor(Date.now() / 1000);
+        db.run(`PRAGMA user_version = ${nowTs}`);
+
+        console.log(`✅ WASM DB prepared in-memory (PRAGMA user_version=${nowTs})`);
+      } catch (dbErr) {
+        console.error("Failed to prepare in-memory DB:", dbErr);
+        showToast(`WASM DB 준비 실패: ${dbErr.message}`, "error");
+        return;
+      }
+
+      if (target === 'download') {
+        // Memory state sync
+        Object.assign(stateData, simH);
+        accountInfo.deposit_krw = simH.deposit_krw;
+        accountInfo.updated_at = tradeDate;
+        dynamicHistoryList.push(rawSnapshot);
+
+        const binaryArray = db.export();
+        const blob = new Blob([binaryArray], { type: 'application/x-sqlite3' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'market_history.db';
+        a.click();
+        showToast("market_history.db 바이너리 파일이 다운로드되었습니다.", "success");
+        closeTradeModal();
+        updateDashboard(p);
+        renderHistoryTab(currentHistRange);
+        return;
+      }
+
+      if (target === 'local') {
+        // Memory state sync
+        Object.assign(stateData, simH);
+        accountInfo.deposit_krw = simH.deposit_krw;
+        accountInfo.updated_at = tradeDate;
+        dynamicHistoryList.push(rawSnapshot);
+
+        // Update local backup cache in localStorage
+        const binaryArray = db.export();
+        let binaryString = "";
+        const len = binaryArray.byteLength;
+        const chunkSize = 8192;
+        for (let i = 0; i < len; i += chunkSize) {
+          binaryString += String.fromCharCode.apply(null, binaryArray.subarray(i, i + chunkSize));
+        }
+        const nowTs = Math.floor(Date.now() / 1000);
+        localStorage.setItem('mystock_local_db_cache', btoa(binaryString));
+        localStorage.setItem('mystock_local_db_version', nowTs.toString());
+
+        const statusElem = document.getElementById('dbSourceStatus');
+        if (statusElem) {
+          statusElem.innerHTML = `<span title="로컬 메모리 수정본 적용됨">⚡ 로컬 캐시 (${formatUnixTimestamp(nowTs)})</span>`;
+          statusElem.style.color = "var(--accent-orange)";
+        }
+
+        showToast("브라우저 로컬 메모리에 즉시 반영되었습니다.", "success");
+        closeTradeModal();
+        updateDashboard(p);
+        renderHistoryTab(currentHistRange);
+        return;
+      }
+
+      // Target: GitHub Commit & Push
+      const ghCfg = getGithubConfig();
+      if (!ghCfg.token) {
+        showToast("GitHub PAT가 설정되지 않았습니다. 설정 모달에서 토큰을 입력해 주세요.", "error");
+        openGithubSettingsModal();
+        return;
+      }
+
+      const btn = document.getElementById('btnGithubCommit');
+      btn.disabled = true;
+      btn.innerHTML = "<span>⏳</span> GitHub에 푸시 중...";
+
+      try {
+        await pushAllFilesToGitHub(db, rawSnapshot, simH, tradeDate, actualTradeType, note, totalEval, ghCfg);
+
+        // [핵심] 원격 GitHub 4개 파일 푸시가 100% 성공한 후에만 로컬 상태 확정!
+        Object.assign(stateData, simH);
+        accountInfo.deposit_krw = simH.deposit_krw;
+        accountInfo.updated_at = tradeDate;
+        dynamicHistoryList.push(rawSnapshot);
+
+        const binaryArray = db.export();
+        let binaryString = "";
+        const len = binaryArray.byteLength;
+        const chunkSize = 8192;
+        for (let i = 0; i < len; i += chunkSize) {
+          binaryString += String.fromCharCode.apply(null, binaryArray.subarray(i, i + chunkSize));
+        }
+        const nowTs = Math.floor(Date.now() / 1000);
+        localStorage.setItem('mystock_local_db_cache', btoa(binaryString));
+        localStorage.setItem('mystock_local_db_version', nowTs.toString());
+
+        const statusElem = document.getElementById('dbSourceStatus');
+        if (statusElem) {
+          statusElem.innerHTML = `<span title="GitHub Pages 배포 진행 중 (로컬 수정본)">⏳ GitHub 배포 동기화 중 (${formatUnixTimestamp(nowTs)})</span>`;
+          statusElem.style.color = "var(--accent-orange)";
+        }
+
+        showToast("🎉 GitHub에 매매 내역, SQLite DB 및 매매일지가 성공적으로 커밋 & 푸시되었습니다!", "success");
+        closeTradeModal();
+        updateDashboard(p);
+        renderHistoryTab(currentHistRange);
+      } catch (ghErr) {
+        console.error("GitHub Push Error (롤백 실행):", ghErr);
+        // [롤백 복구]: 메모리 상태, WASM DB 및 localStorage 완전 롤백
+        Object.assign(stateData, prevAccountState);
+        dynamicHistoryList = prevDynamicHistory;
+        const SQL = await initSqlJs({ locateFile: f => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.12.0/${f}` });
+        marketSqliteDB = new SQL.Database(prevDbExport);
+
+        if (prevLocalDbCache) localStorage.setItem('mystock_local_db_cache', prevLocalDbCache);
+        else localStorage.removeItem('mystock_local_db_cache');
+        if (prevLocalDbVer) localStorage.setItem('mystock_local_db_version', prevLocalDbVer);
+        else localStorage.removeItem('mystock_local_db_version');
+
+        showToast(`GitHub 푸시 실패 (원상 롤백됨): ${ghErr.message}`, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = "<span>🚀</span> GitHub에 커밋 & 푸시";
+      }
+    }
+
+    async function pushAllFilesToGitHub(db, rawSnapshot, simH, tradeDate, tradeType, note, totalEval, ghCfg) {
+      const binaryArray = db.export();
+      
+      // Helper: Binary Uint8Array to base64
+      let binaryString = "";
+      const len = binaryArray.byteLength;
+      const chunkSize = 8192;
+      for (let i = 0; i < len; i += chunkSize) {
+        binaryString += String.fromCharCode.apply(null, binaryArray.subarray(i, i + chunkSize));
+      }
+      const dbBase64 = btoa(binaryString);
+
+      // 1. Commit market_history.db
+      await commitSingleFileToGitHub(
+        ghCfg,
+        'guide/data/market_history.db',
+        dbBase64,
+        `Record trade [${tradeDate}] ${tradeType}: ${note} (market_history.db)`,
+        true
+      );
+
+      // 2. Commit portfolio_state.js
+      const portfolioStateContent = "window.PORTFOLIO_STATE_DATA = " + JSON.stringify({
+        last_updated: tradeDate,
+        account_name: accountInfo.account_name,
+        holdings: {
+          samsung_shares: simH.samsung_shares,
+          hynix_shares: simH.hynix_shares,
+          deposit_krw: simH.deposit_krw,
+          other_assets_krw: (rawSnapshot.holdings ? rawSnapshot.holdings.other_assets_krw : 0)
+        },
+        other_assets_detail: rawSnapshot.other_assets_detail,
+        strategy_config: {
+          min_trigger_gap_percent: accountInfo.min_trigger_gap,
+          kospi_min_level: accountInfo.kospi_min_level,
+          kospi_max_level: accountInfo.kospi_max_level
+        }
+      }, null, 2) + ";\n";
+
+      await commitSingleFileToGitHub(
+        ghCfg,
+        'guide/data/portfolio_state.js',
+        utf8ToBase64(portfolioStateContent),
+        `Update portfolio_state.js for trade [${tradeDate}]`
+      );
+
+      // 3. Commit portfolio_state_history_2026.js (신규 스냅샷 포함하여 직렬화)
+      const updatedHistoryList = [...dynamicHistoryList, rawSnapshot];
+      const historyJsContent = "window.PORTFOLIO_STATE_HISTORY_2026 = " + JSON.stringify(updatedHistoryList, null, 2) + ";\n";
+      await commitSingleFileToGitHub(
+        ghCfg,
+        'guide/data/portfolio_state_history_2026.js',
+        utf8ToBase64(historyJsContent),
+        `Update portfolio_state_history_2026.js for trade [${tradeDate}]`
+      );
+
+      // 4. Commit guide/매매일지.md (append new record)
+      const mdUrl = `https://api.github.com/repos/${ghCfg.repo}/contents/guide/%EB%A7%A4%EB%A7%A4%EC%9D%BC%EC%A7%80.md?ref=${ghCfg.branch}`;
+      let prevMd = "";
+      const mdRes = await fetch(mdUrl, {
+        headers: {
+          'Authorization': `Bearer ${ghCfg.token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      if (mdRes.ok) {
+        const mdData = await mdRes.json();
+        if (mdData.content) {
+          prevMd = base64ToUtf8(mdData.content);
+        }
+      }
+
+      const newLogSection = `\n---\n\n## 📅 ${tradeDate} 리밸런싱 / 매매 실행\n\n* **매매 구분**: ${tradeType}\n* **매매 사유**: ${note}\n* **체결 당시 KOSPI**: ${(currentLivePrices.kospi || 0).toLocaleString()} pt\n* **매매 후 계좌 현황**:\n  * 삼성전자: **${simH.samsung_shares}주**\n  * SK하이닉스: **${simH.hynix_shares}주**\n  * KODEX CD금리: **${simH.cd_shares}주**\n  * TIGER SOFR: **${simH.sofr_shares}주**\n  * ACE 미국30년국채: **${simH.us30b_shares}주**\n  * ACE KRX금현물: **${simH.gold_shares}주**\n  * TIGER S&P500: **${simH.snp500_shares}주**\n  * 현금 예수금: **${simH.deposit_krw.toLocaleString()}원**\n  * 계좌 총 평가액: **${(totalEval / 100000000).toFixed(2)}억 원** (${totalEval.toLocaleString()}원)\n`;
+
+      const updatedMd = prevMd ? (prevMd + newLogSection) : (`# 📝 리밸런싱 매매 기록 일지\n${newLogSection}`);
+      await commitSingleFileToGitHub(
+        ghCfg,
+        'guide/매매일지.md',
+        utf8ToBase64(updatedMd),
+        `Update 매매일지.md for trade [${tradeDate}]`
+      );
+    }
+
+    async function commitSingleFileToGitHub(ghCfg, filePath, base64Content, commitMessage, isBinary = false) {
+      const encodedPath = encodeURI(filePath);
+      const getUrl = `https://api.github.com/repos/${ghCfg.repo}/contents/${encodedPath}?ref=${ghCfg.branch}`;
+      let sha = null;
+
+      try {
+        const getRes = await fetch(getUrl, {
+          headers: {
+            'Authorization': `Bearer ${ghCfg.token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+        if (getRes.ok) {
+          const getData = await getRes.json();
+          sha = getData.sha;
+        }
+      } catch (e) {}
+
+      const putUrl = `https://api.github.com/repos/${ghCfg.repo}/contents/${encodedPath}`;
+      const payload = {
+        message: commitMessage,
+        content: base64Content,
+        branch: ghCfg.branch
+      };
+      if (sha) payload.sha = sha;
+
+      const putRes = await fetch(putUrl, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${ghCfg.token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!putRes.ok) {
+        const errData = await putRes.json().catch(() => ({}));
+        throw new Error(errData.message || `HTTP ${putRes.status}`);
+      }
+    }
+
     if (window.location.protocol === 'file:') {
       const portalBtn = document.getElementById('portalHomeBtn');
       if (portalBtn) portalBtn.href = '../insford.github.io/index.html';
     }
 
+    // 0ms Synchronous Instant Paint
+    initImmediateDashboard();
+    // Background Non-blocking Hydration
     fetchLiveMarketData();
   </script>
 </body>
