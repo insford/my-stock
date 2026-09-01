@@ -1,9 +1,9 @@
 window.LIVE_MARKET_DATA = {
-  "last_updated": "2026-09-01 16:30:37",
+  "last_updated": "2026-09-01 22:16:55",
   "prices": {
     "kospi": 6835.8,
-    "samsung": 259500,
-    "hynix": 1685000,
+    "samsung": 255000,
+    "hynix": 1652000,
     "cd": 1073480,
     "sofr": 59515,
     "us30b": 7120,
