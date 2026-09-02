@@ -1109,7 +1109,7 @@
         </div>
         <div class="info-divider">|</div>
         <div class="info-item">
-          <span>🗄️ DB:</span> <span id="dbSourceStatus" style="color: var(--accent-blue);">로딩 중...</span>
+          <span>🗄️ 계좌DB:</span> <span id="dbSourceStatus" onclick="showDbVersionToast()" style="cursor: pointer; color: var(--accent-blue);" title="클릭 시 동기화 상세 정보 확인">로딩 중...</span>
         </div>
       </div>
       <div class="refresh-actions">
@@ -1715,8 +1715,10 @@
     // SQLite WASM Loader & Data Engine (PRAGMA user_version Smart Cache)
     // ==========================================
     function formatUnixTimestamp(ts) {
-      if (!ts || ts === 0) return '초기';
-      const d = new Date(ts * 1000);
+      const num = Number(ts);
+      if (!num || isNaN(num) || num <= 0) return '초기';
+      const d = new Date(num * 1000);
+      if (isNaN(d.getTime())) return '초기';
       const now = new Date();
       const isToday = d.toDateString() === now.toDateString();
       if (isToday) {
@@ -1736,6 +1738,15 @@
         minute: '2-digit',
         hour12: false
       }).format(d);
+    }
+
+    function showDbVersionToast() {
+      const ver = localStorage.getItem('mystock_local_db_version') || '0';
+      const verStr = formatUnixTimestamp(parseInt(ver, 10));
+      const timeStr = (window.LIVE_MARKET_DATA && window.LIVE_MARKET_DATA.last_updated) || '정상 연동';
+      if (typeof showToast === 'function') {
+        showToast(`💼 [동기화] 계좌 매매 버전: ${verStr} | 실시간 시세: ${timeStr}`, "info");
+      }
     }
 
     async function getMarketHistoryDB() {
@@ -1822,7 +1833,8 @@
 
           console.log(`🛡️ 로컬 매매 기록(최신 id=${localTradeMaxId}, v=${localVer})을 안전하게 보존하고 서버 최신 시세를 병합했습니다.`);
           if (statusElem) {
-            statusElem.innerHTML = `<span title="GitHub Pages CDN 배포 진행 중 (로컬 매매 보존됨)">⏳ GitHub 배포 동기화 중 (${formatUnixTimestamp(localVer)})</span>`;
+            const tooltip = `GitHub Pages CDN 배포 진행 중 (로컬 최신 매매 보존됨)\n• 로컬 매매 버전: ${formatUnixTimestamp(localVer)}\n• 서버 매매 버전: ${formatUnixTimestamp(serverVer)}\n• 탭/클릭 시 동기화 상세 정보가 표시됩니다.`;
+            statusElem.innerHTML = `<span title="${tooltip}">⏳ 배포 동기화 중 (매매: ${formatUnixTimestamp(localVer)})</span>`;
             statusElem.style.color = "var(--accent-orange)";
           }
         } else if (serverDb) {
@@ -1835,13 +1847,23 @@
 
           console.log(`🟢 GitHub 서버 최신 DB(v=${serverVer}, trade_id=${serverTradeMaxId})를 채택합니다.`);
           if (statusElem) {
-            statusElem.innerHTML = `<span title="SQLite WASM DB 최신 연결">🟢 연결됨 (${formatUnixTimestamp(serverVer)})</span>`;
+            let latestMarketUpdate = "";
+            try {
+              const mRes = marketSqliteDB.exec("SELECT MAX(updated_at) FROM market_history");
+              if (mRes && mRes[0] && mRes[0].values && mRes[0].values[0][0]) {
+                latestMarketUpdate = mRes[0].values[0][0];
+              }
+            } catch (mErr) {}
+
+            const tooltip = `SQLite WASM DB 최신 연결됨\n• 계좌 매매 버전: ${formatUnixTimestamp(serverVer)}\n• 최근 시세 수집: ${latestMarketUpdate || 'N/A'}\n• 탭/클릭 시 동기화 상세 정보가 표시됩니다.`;
+            statusElem.innerHTML = `<span title="${tooltip}">🟢 연결됨 (매매: ${formatUnixTimestamp(serverVer)})</span>`;
             statusElem.style.color = "var(--accent-green)";
           }
         } else if (localDb) {
           marketSqliteDB = localDb;
           if (statusElem) {
-            statusElem.innerHTML = `<span title="오프라인 로컬 캐시 모드">⚡ 로컬 캐시 (${formatUnixTimestamp(localVer)})</span>`;
+            const tooltip = `오프라인 로컬 캐시 모드\n• 로컬 매매 버전: ${formatUnixTimestamp(localVer)}\n• 탭/클릭 시 동기화 상세 정보가 표시됩니다.`;
+            statusElem.innerHTML = `<span title="${tooltip}">⚡ 로컬 캐시 (매매: ${formatUnixTimestamp(localVer)})</span>`;
             statusElem.style.color = "var(--accent-orange)";
           }
         } else {
@@ -3150,7 +3172,8 @@
 
         const statusElem = document.getElementById('dbSourceStatus');
         if (statusElem) {
-          statusElem.innerHTML = `<span title="로컬 메모리 수정본 적용됨">⚡ 로컬 캐시 (${formatUnixTimestamp(nowTs)})</span>`;
+          const tooltip = `오프라인 로컬 캐시 모드 (수정본 적용됨)\n• 로컬 매매 버전: ${formatUnixTimestamp(nowTs)}\n• 탭/클릭 시 동기화 상세 정보가 표시됩니다.`;
+          statusElem.innerHTML = `<span title="${tooltip}">⚡ 로컬 캐시 (매매: ${formatUnixTimestamp(nowTs)})</span>`;
           statusElem.style.color = "var(--accent-orange)";
         }
 
@@ -3195,7 +3218,8 @@
 
         const statusElem = document.getElementById('dbSourceStatus');
         if (statusElem) {
-          statusElem.innerHTML = `<span title="GitHub Pages 배포 진행 중 (로컬 수정본)">⏳ GitHub 배포 동기화 중 (${formatUnixTimestamp(nowTs)})</span>`;
+          const tooltip = `GitHub Pages 배포 진행 중 (로컬 최신 매매 보존됨)\n• 로컬 매매 버전: ${formatUnixTimestamp(nowTs)}\n• 배포 완료(~1-2분) 시 자동으로 '연결됨'으로 갱신됩니다.`;
+          statusElem.innerHTML = `<span title="${tooltip}">⏳ 배포 동기화 중 (매매: ${formatUnixTimestamp(nowTs)})</span>`;
           statusElem.style.color = "var(--accent-orange)";
         }
 
