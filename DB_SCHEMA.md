@@ -233,6 +233,14 @@ WHERE m.date = (SELECT MAX(date) FROM market_history WHERE code = h.code)
 | `snp500` | TIGER 미국S&P500 | `stock` | `360750` | `360750.KS` | 기타 자산 (미국 시장 지수 ETF 15%) |
 | `us10b` | KODEX 미국채10년액티브 | `stock` | `308620` | `308620.KS` | 과거 이력 호환용 레거시 자산 |
 | `fadu` | 파두 | `stock` | `440110` | `440110.KS` | 과거 이력 호환용 레거시 자산 |
+| `usdkrw` | 원/달러 환율 | `fx` | `FX_USDKRW` | `USDKRW=X` | 해외 계좌 환산 기준 환율 |
+| `tsla` | 테슬라 | `us_stock` | - | `TSLA` | 해외 포트폴리오 (자율주행·에너지) |
+| `spcx` | 스페이스X | `us_stock` | - | `SPCX` | 해외 포트폴리오 (우주항공·통신) |
+| `nvda` | 엔비디아 | `us_stock` | - | `NVDA` | 해외 포트폴리오 (AI 가속기) |
+| `googl` | 알파벳 Class A | `us_stock` | - | `GOOGL` | 해외 포트폴리오 (빅테크·AI플랫폼) |
+| `mu` | 마이크론 테크놀로지 | `us_stock` | - | `MU` | 해외 포트폴리오 (글로벌 메모리 반도체) |
+| `qqqm` | 인베스코 나스닥100 ETF | `us_stock` | - | `QQQM` | 해외 포트폴리오 (나스닥100 대표지수) |
+| `tltw` | 미국20년국채 바이라이트 ETF | `us_stock` | - | `TLTW` | 해외 포트폴리오 (미국채 월배당 인컴) |
 
 ---
 

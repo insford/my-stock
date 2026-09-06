@@ -74,9 +74,10 @@ my-stock/
     ├── 포트폴리오_2026-07-31.md              # 최초 포트폴리오 진단 및 구성 내역
     └── data/
         ├── market_history.db                # [자동 갱신] 일별 종가 SQLite 바이너리 DB (WASM 쿼리)
-        ├── portfolio_state.js               # [사용자 수정] 계좌 보유 주식 수량 데이터
-        ├── portfolio_state_history_2026.js  # [사용자 수정] 매매 집행 이력 스냅샷
-        └── live_market.js                  # [자동 갱신] 수집된 최신 실시간 시세 및 갱신 시각
+        ├── portfolio_state.js               # [사용자 관리] 국내 계좌 보유 주식 수량 데이터
+        ├── portfolio_state_us.js            # [사용자 관리] 해외 계좌 빅테크·ETF 보유 데이터
+        ├── portfolio_state_history_2026.js  # [사용자 관리] 국내 매매 집행 이력 스냅샷
+        └── live_market.js                  # [자동 갱신] 수집된 최신 실시간 시세 및 환율
 ```
 
 ---

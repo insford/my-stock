@@ -20,6 +20,15 @@ ITEMS = [
     # 과거 이력 호환용 종목
     ('us10b', '308620', '308620.KS', 'stock', 'KODEX 미국채10년액티브'),
     ('fadu', '440110', '440110.KS', 'stock', '파두'),
+    # 해외 자산 및 환율 (미국 빅테크·ETF)
+    ('usdkrw', None, 'USDKRW=X', 'fx', '원/달러 환율'),
+    ('tsla', None, 'TSLA', 'us_stock', '테슬라'),
+    ('spcx', None, 'SPCX', 'us_stock', '스페이스X'),
+    ('nvda', None, 'NVDA', 'us_stock', '엔비디아'),
+    ('googl', None, 'GOOGL', 'us_stock', '알파벳 Class A'),
+    ('mu', None, 'MU', 'us_stock', '마이크론'),
+    ('qqqm', None, 'QQQM', 'us_stock', '인베스코 나스닥100 ETF'),
+    ('tltw', None, 'TLTW', 'us_stock', '미국20년국채 바이라이트 ETF'),
 ]
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -135,7 +144,7 @@ def parse_price(val_str, itype):
         val = float(clean)
         if val <= 0:
             return None
-        return val if itype in ('index', 'foreign_index') else int(val)
+        return round(val, 2) if itype in ('index', 'foreign_index', 'us_stock', 'fx') else int(val)
     except (ValueError, TypeError):
         return None
 
@@ -145,6 +154,8 @@ def fetch_naver_history(code, itype, count=50):
     네이버 API를 통해 최근 count 거래일의 종가 히스토리 수집
     반환: { 'YYYY-MM-DD': price, ... }
     """
+    if not code:
+        return None
     try:
         if itype == 'foreign_index':
             url = f"https://api.stock.naver.com/index/{code}/price?pageSize={count}&page=1"
