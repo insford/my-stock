@@ -3,7 +3,7 @@ window.PORTFOLIO_STATE_HISTORY_2026 = [
     "date": "2026-07-31",
     "note": "최초 포트폴리오 현황 등록",
     "prices": {
-      "kospi": 6595.0,
+      "kospi": 6595,
       "samsung": 259000,
       "hynix": 1718000,
       "gold": 22960,
@@ -281,6 +281,48 @@ window.PORTFOLIO_STATE_HISTORY_2026 = [
       "hynix_shares": 87,
       "deposit_krw": 35832238,
       "other_assets_krw": 79380510
+    },
+    "other_assets_detail": {
+      "kodex_cd_shares": 18,
+      "tiger_sofr_shares": 261,
+      "ace_us30b_shares": 2228,
+      "ace_gold_shares": 581,
+      "tiger_snp500_shares": 438,
+      "kodex_gold_shares": 0,
+      "kodex_us10b_shares": 0,
+      "kodex_snp500_shares": 0,
+      "fadu_shares": 0
+    }
+  },
+  {
+    "date": "2026-09-07",
+    "note": "SELL 매매 집행",
+    "prices": {
+      "kospi": 6995.39,
+      "samsung": 269500,
+      "hynix": 1779000,
+      "cd": 1074030,
+      "sofr": 58255,
+      "us30b": 7145,
+      "gold": 26665,
+      "snp500": 25660,
+      "us10b": 11145,
+      "fadu": 0,
+      "usdkrw": 1343.79,
+      "tsla": 354.08,
+      "nvda": 230.36,
+      "spcx": 147.95,
+      "spacex": 147.95,
+      "googl": 338.46,
+      "mu": 1016.59,
+      "qqqm": 296.07,
+      "tltw": 21.21
+    },
+    "holdings": {
+      "samsung_shares": 531,
+      "hynix_shares": 87,
+      "deposit_krw": 42494738,
+      "other_assets_krw": 77187600
     },
     "other_assets_detail": {
       "kodex_cd_shares": 18,
