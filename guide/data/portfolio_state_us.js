@@ -1,8 +1,8 @@
 window.PORTFOLIO_STATE_US_DATA = {
-  "version": "2026-09-06_aug01_base_v2",
-  "last_updated": "2026-09-06",
+  "version": "2026-09-09_rebalance_v3",
+  "last_updated": "2026-09-09",
   "account_name": "해외주식 종합_빅테크·ETF",
-  "deposit_usd": 17.38,
+  "deposit_usd": 11.46,
   "holdings": [
     {
       "id": "qqqm",
@@ -31,9 +31,9 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "SPCX",
       "name": "스페이스X (SpaceX)",
       "category": "빅테크·우주항공",
-      "shares": 33,
-      "avg_price_usd": 108.37,
-      "avg_fx_rate": 1420.6,
+      "shares": 35,
+      "avg_price_usd": 110.95,
+      "avg_fx_rate": 1414.05,
       "is_unlisted": false,
       "price_key": "spcx"
     },
@@ -75,9 +75,9 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "TLTW",
       "name": "미국20년국채 바이라이트 ETF",
       "category": "미국국채·월분배인컴",
-      "shares": 1,
-      "avg_price_usd": 21.3,
-      "avg_fx_rate": 1420.6,
+      "shares": 5,
+      "avg_price_usd": 21.23,
+      "avg_fx_rate": 1413.97,
       "is_unlisted": false,
       "price_key": "tltw"
     }
@@ -159,6 +159,28 @@ window.PORTFOLIO_STATE_US_DATA = {
       "fx_rate": 1420.6,
       "amount_usd": 21.3,
       "note": "8월 1일 포트폴리오 편입 (TLTW 1주)"
+    },
+    {
+      "date": "2026-09-09",
+      "type": "BUY",
+      "ticker": "SPCX",
+      "name": "스페이스X",
+      "shares": 2,
+      "price_usd": 153.47,
+      "fx_rate": 1337.68,
+      "amount_usd": 306.94,
+      "note": "스페이스X 추가 매수 (2주)"
+    },
+    {
+      "date": "2026-09-09",
+      "type": "BUY",
+      "ticker": "TLTW",
+      "name": "미국20년국채 바이라이트 ETF",
+      "shares": 4,
+      "price_usd": 21.21,
+      "fx_rate": 1337.68,
+      "amount_usd": 84.84,
+      "note": "미국채 커버드콜 TLTW 추가 매수 (4주)"
     }
   ],
   "history": [
@@ -646,6 +668,24 @@ window.PORTFOLIO_STATE_US_DATA = {
         "nvda": 230.36,
         "tltw": 21.21,
         "deposit": 17.38
+      }
+    },
+    {
+      "date": "2026-09-09",
+      "total_usd": 30541.37,
+      "fx_rate": 1337.68,
+      "total_krw": 40854570,
+      "is_trade": true,
+      "note": "스페이스X(2주), TLTW(4주) 추가 매수 집행 및 시세 반영",
+      "breakdown": {
+        "qqqm": 11830.4,
+        "tsla": 6258.72,
+        "spcx": 5371.45,
+        "googl": 4737.04,
+        "mu": 2000.52,
+        "nvda": 225.73,
+        "tltw": 106.05,
+        "deposit": 11.46
       }
     }
   ]

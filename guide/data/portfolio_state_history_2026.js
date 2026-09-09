@@ -377,5 +377,47 @@ window.PORTFOLIO_STATE_HISTORY_2026 = [
       "kodex_snp500_shares": 0,
       "fadu_shares": 0
     }
+  },
+  {
+    "date": "2026-09-09",
+    "note": "기타 안전·헤지자산 대규모 추가 매수 (S&P500 195주, 금현물 302주, 미국30년국채 1,118주, SOFR 136주 매수)",
+    "prices": {
+      "kospi": 7051.64,
+      "samsung": 269500,
+      "hynix": 1856000,
+      "cd": 1074210,
+      "sofr": 58095,
+      "us30b": 7145,
+      "gold": 26590,
+      "snp500": 25460,
+      "us10b": 11090,
+      "fadu": 74400,
+      "usdkrw": 1337.68,
+      "tsla": 368.16,
+      "nvda": 225.73,
+      "spcx": 153.47,
+      "spacex": 153.47,
+      "googl": 338.36,
+      "mu": 1000.26,
+      "qqqm": 295.76,
+      "tltw": 21.21
+    },
+    "holdings": {
+      "samsung_shares": 531,
+      "hynix_shares": 82,
+      "deposit_krw": 22428532,
+      "other_assets_krw": 105901815
+    },
+    "other_assets_detail": {
+      "kodex_cd_shares": 18,
+      "tiger_sofr_shares": 397,
+      "ace_us30b_shares": 3346,
+      "ace_gold_shares": 883,
+      "tiger_snp500_shares": 633,
+      "kodex_gold_shares": 0,
+      "kodex_us10b_shares": 0,
+      "kodex_snp500_shares": 0,
+      "fadu_shares": 0
+    }
   }
 ];
