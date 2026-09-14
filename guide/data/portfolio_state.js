@@ -1,11 +1,11 @@
 window.PORTFOLIO_STATE_DATA = {
-  "last_updated": "2026-09-09",
+  "last_updated": "2026-09-14",
   "account_name": "국내주식 종합_주식 리밸런싱",
   "holdings": {
-    "samsung_shares": 531,
-    "hynix_shares": 82,
-    "deposit_krw": 22428532,
-    "other_assets_krw": 105901815
+    "samsung_shares": 551,
+    "hynix_shares": 85,
+    "deposit_krw": 12425169,
+    "other_assets_krw": 105513415
   },
   "other_assets_detail": {
     "kodex_cd_shares": 18,
@@ -19,7 +19,7 @@ window.PORTFOLIO_STATE_DATA = {
     "fadu_shares": 0
   },
   "strategy_config": {
-    "min_trigger_gap_percent": 8,
+    "min_trigger_gap_percent": 8.0,
     "kospi_min_level": 6000,
     "kospi_max_level": 8500
   }
