@@ -1,6 +1,6 @@
 window.PORTFOLIO_STATE_US_DATA = {
   "version": "2026-09-09_rebalance_v3",
-  "last_updated": "2026-09-09",
+  "last_updated": "2026-09-25",
   "account_name": "해외주식 종합_빅테크·ETF",
   "deposit_usd": 11.46,
   "holdings": [
@@ -685,6 +685,222 @@ window.PORTFOLIO_STATE_US_DATA = {
         "mu": 2000.52,
         "nvda": 225.73,
         "tltw": 106.05,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-10",
+      "total_usd": 29984.11,
+      "fx_rate": 1348.17,
+      "total_krw": 40423678,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1348.2원)",
+      "breakdown": {
+        "qqqm": 11672.0,
+        "tsla": 6180.52,
+        "spcx": 5186.3,
+        "googl": 4656.4,
+        "mu": 1954.82,
+        "nvda": 218.36,
+        "tltw": 104.25,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-11",
+      "total_usd": 30304.05,
+      "fx_rate": 1341.05,
+      "total_krw": 40639246,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1341.0원)",
+      "breakdown": {
+        "qqqm": 11775.6,
+        "tsla": 6212.48,
+        "spcx": 5292.35,
+        "googl": 4739.0,
+        "mu": 1950.52,
+        "nvda": 218.29,
+        "tltw": 104.35,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-14",
+      "total_usd": 30034.88,
+      "fx_rate": 1345.61,
+      "total_krw": 40415235,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1345.6원)",
+      "breakdown": {
+        "qqqm": 11680.8,
+        "tsla": 6102.49,
+        "spcx": 5185.25,
+        "googl": 4891.46,
+        "mu": 1848.06,
+        "nvda": 210.96,
+        "tltw": 104.4,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-15",
+      "total_usd": 29700.26,
+      "fx_rate": 1363.57,
+      "total_krw": 40498384,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1363.6원)",
+      "breakdown": {
+        "qqqm": 11603.6,
+        "tsla": 6061.86,
+        "spcx": 5022.15,
+        "googl": 4829.72,
+        "mu": 1855.2,
+        "nvda": 212.17,
+        "tltw": 104.1,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-16",
+      "total_usd": 29959.2,
+      "fx_rate": 1376.6,
+      "total_krw": 41241835,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1376.6원)",
+      "breakdown": {
+        "qqqm": 11608.0,
+        "tsla": 6087.36,
+        "spcx": 5280.8,
+        "googl": 4800.18,
+        "mu": 1853.1,
+        "nvda": 213.9,
+        "tltw": 104.4,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-17",
+      "total_usd": 30605.62,
+      "fx_rate": 1379.53,
+      "total_krw": 42221371,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1379.5원)",
+      "breakdown": {
+        "qqqm": 11808.0,
+        "tsla": 6225.4,
+        "spcx": 5418.35,
+        "googl": 4862.62,
+        "mu": 1955.0,
+        "nvda": 219.34,
+        "tltw": 105.45,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-18",
+      "total_usd": 30677.78,
+      "fx_rate": 1385.95,
+      "total_krw": 42517869,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1386.0원)",
+      "breakdown": {
+        "qqqm": 11876.4,
+        "tsla": 6192.59,
+        "spcx": 5344.85,
+        "googl": 4893.56,
+        "mu": 2031.6,
+        "nvda": 222.27,
+        "tltw": 105.05,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-21",
+      "total_usd": 31307.59,
+      "fx_rate": 1373.68,
+      "total_krw": 43006610,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1373.7원)",
+      "breakdown": {
+        "qqqm": 12210.8,
+        "tsla": 6380.1,
+        "spcx": 5314.75,
+        "googl": 4969.58,
+        "mu": 2087.92,
+        "nvda": 227.38,
+        "tltw": 105.6,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-22",
+      "total_usd": 31622.24,
+      "fx_rate": 1350.36,
+      "total_krw": 42701408,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1350.4원)",
+      "breakdown": {
+        "qqqm": 12311.2,
+        "tsla": 6441.3,
+        "spcx": 5415.2,
+        "googl": 4916.24,
+        "mu": 2192.32,
+        "nvda": 228.87,
+        "tltw": 105.65,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-23",
+      "total_usd": 31074.99,
+      "fx_rate": 1362.5,
+      "total_krw": 42339674,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1362.5원)",
+      "breakdown": {
+        "qqqm": 12205.6,
+        "tsla": 6462.04,
+        "spcx": 5192.6,
+        "googl": 4729.62,
+        "mu": 2143.76,
+        "nvda": 225.51,
+        "tltw": 104.4,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-24",
+      "total_usd": 31105.07,
+      "fx_rate": 1367.36,
+      "total_krw": 42531829,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1367.4원)",
+      "breakdown": {
+        "qqqm": 12205.6,
+        "tsla": 6424.98,
+        "spcx": 5181.05,
+        "googl": 4793.04,
+        "mu": 2161.06,
+        "nvda": 224.58,
+        "tltw": 103.3,
+        "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-09-25",
+      "total_usd": 31110.39,
+      "fx_rate": 1355.28,
+      "total_krw": 42163289,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1355.3원)",
+      "breakdown": {
+        "qqqm": 12261.6,
+        "tsla": 6325.87,
+        "spcx": 5203.8,
+        "googl": 4814.88,
+        "mu": 2164.56,
+        "nvda": 225.07,
+        "tltw": 103.15,
         "deposit": 11.46
       }
     }

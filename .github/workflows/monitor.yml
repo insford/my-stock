@@ -38,8 +38,11 @@ jobs:
       - name: Run Market History DB Updater
         run: python update_history.py --update
 
+      - name: Run Overseas Portfolio History Updater
+        run: python update_us_portfolio_history.py
+
       - name: Commit and Push Updated Data
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Auto-update live market prices & history sqlite db [skip ci]"
-          file_pattern: "guide/data/live_market.js guide/data/market_history.db"
+          file_pattern: "guide/data/live_market.js guide/data/market_history.db guide/data/portfolio_state_us.js"
