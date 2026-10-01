@@ -503,5 +503,47 @@ window.PORTFOLIO_STATE_HISTORY_2026 = [
       "kodex_snp500_shares": 0,
       "fadu_shares": 0
     }
+  },
+  {
+    "date": "2026-10-01",
+    "note": "ACE KRX금현물 및 ACE 미국30년국채 추가 매수 (14차 매매 집행)",
+    "prices": {
+      "snp500_index": 7651.54,
+      "cd": 1073675.0,
+      "fadu": 89200.0,
+      "gold": 25655.0,
+      "googl": 343.53,
+      "hynix": 1828000.0,
+      "kospi": 6971.35,
+      "mu": 1034.45,
+      "nvda": 230.35,
+      "qqqm": 304.56,
+      "samsung": 274500.0,
+      "snp500": 25965.0,
+      "sofr": 59185.0,
+      "spcx": 152.1,
+      "tltw": 20.15,
+      "tsla": 356.2,
+      "us10b": 10985.0,
+      "us30b": 6780.0,
+      "usdkrw": 1361.18
+    },
+    "holdings": {
+      "samsung_shares": 516,
+      "hynix_shares": 80,
+      "deposit_krw": 16297647,
+      "other_assets_krw": 119568475
+    },
+    "other_assets_detail": {
+      "kodex_cd_shares": 18,
+      "tiger_sofr_shares": 397,
+      "ace_us30b_shares": 4820,
+      "ace_gold_shares": 1077,
+      "tiger_snp500_shares": 633,
+      "kodex_gold_shares": 0,
+      "kodex_us10b_shares": 0,
+      "kodex_snp500_shares": 0,
+      "fadu_shares": 0
+    }
   }
 ];
