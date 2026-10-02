@@ -1,5 +1,5 @@
 window.LIVE_MARKET_DATA = {
-  "last_updated": "2026-10-02 23:22:39",
+  "last_updated": "2026-10-02 23:23:22",
   "prices": {
     "kospi": 7003.74,
     "samsung": 276000,
@@ -10,14 +10,14 @@ window.LIVE_MARKET_DATA = {
     "gold": 25515,
     "snp500": 25780,
     "us10b": 10965,
-    "usdkrw": 1344.28,
-    "tsla": 372.98,
-    "nvda": 237.22,
-    "spcx": 157.04,
-    "spacex": 157.04,
-    "googl": 344.57,
-    "mu": 1094.29,
-    "qqqm": 310.34,
-    "tltw": 20.18
+    "usdkrw": 1343.94,
+    "tsla": 373.2,
+    "nvda": 237.47,
+    "spcx": 156.87,
+    "spacex": 156.87,
+    "googl": 344.48,
+    "mu": 1095.57,
+    "qqqm": 310.45,
+    "tltw": 20.17
   }
 };
