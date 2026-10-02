@@ -1,8 +1,8 @@
 window.PORTFOLIO_STATE_US_DATA = {
   "version": "2026-09-09_rebalance_v3",
-  "last_updated": "2026-10-01",
+  "last_updated": "2026-10-02",
   "account_name": "해외주식 종합_빅테크·ETF",
-  "deposit_usd": 11.46,
+  "deposit_usd": 3.95,
   "holdings": [
     {
       "id": "qqqm",
@@ -42,9 +42,9 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "GOOGL",
       "name": "알파벳 Class A (Google)",
       "category": "빅테크·AI플랫폼",
-      "shares": 14,
-      "avg_price_usd": 356.13,
-      "avg_fx_rate": 1420.6,
+      "shares": 15,
+      "avg_price_usd": 355.38,
+      "avg_fx_rate": 1415.65,
       "is_unlisted": false,
       "price_key": "googl"
     },
@@ -75,9 +75,9 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "TLTW",
       "name": "미국20년국채 바이라이트 ETF",
       "category": "미국국채·월분배인컴",
-      "shares": 5,
-      "avg_price_usd": 21.23,
-      "avg_fx_rate": 1413.97,
+      "shares": 7,
+      "avg_price_usd": 20.93,
+      "avg_fx_rate": 1394.73,
       "is_unlisted": false,
       "price_key": "tltw"
     }
@@ -181,6 +181,28 @@ window.PORTFOLIO_STATE_US_DATA = {
       "fx_rate": 1337.68,
       "amount_usd": 84.84,
       "note": "미국채 커버드콜 TLTW 추가 매수 (4주)"
+    },
+    {
+      "date": "2026-10-02",
+      "type": "BUY",
+      "ticker": "GOOGL",
+      "name": "알파벳 Class A",
+      "shares": 1,
+      "price_usd": 344.85,
+      "fx_rate": 1344.08,
+      "amount_usd": 344.85,
+      "note": "알파벳 Class A (구글) 추가 매수 (1주, 14주 ➔ 15주)"
+    },
+    {
+      "date": "2026-10-02",
+      "type": "BUY",
+      "ticker": "TLTW",
+      "name": "미국20년국채 바이라이트 ETF",
+      "shares": 2,
+      "price_usd": 20.18,
+      "fx_rate": 1344.08,
+      "amount_usd": 40.36,
+      "note": "미국채 커버드콜 TLTW 추가 매수 (2주, 5주 ➔ 7주)"
     }
   ],
   "history": [
@@ -974,6 +996,24 @@ window.PORTFOLIO_STATE_US_DATA = {
         "nvda": 230.41,
         "tltw": 100.8,
         "deposit": 11.46
+      }
+    },
+    {
+      "date": "2026-10-02",
+      "total_usd": 31998.37,
+      "fx_rate": 1344.08,
+      "total_krw": 43008369,
+      "is_trade": true,
+      "note": "해외 포트폴리오 추가 매수 (구글 1주, TLTW 2주) 및 잔여 예수금 $3.95 반영",
+      "breakdown": {
+        "qqqm": 12415.2,
+        "tsla": 6335.9,
+        "spcx": 5503.4,
+        "googl": 5172.75,
+        "mu": 2188.9,
+        "nvda": 237.01,
+        "tltw": 141.26,
+        "deposit": 3.95
       }
     }
   ]
