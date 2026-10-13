@@ -1501,7 +1501,7 @@
           <div>
             <span>자산변화그래프 (일별 평가액 추이)</span>
             <div style="font-size: 0.8rem; color: var(--text-sub); margin-top: 0.2rem; font-weight: 400;">
-              일자별 보유 종목 평가가치 Stacked 막대그래프 (🚩: 매매 집행일)
+              일자별 보유 종목 평가가치 Stacked 막대 & 코스피 지수 오버레이 (우측 축: KOSPI pt, 🚩: 매매 집행일)
             </div>
           </div>
           <div class="time-filter-group">
@@ -4149,7 +4149,7 @@
       const ctx = document.getElementById('assetHistoryStackedChart').getContext('2d');
       if (historyChart) historyChart.destroy();
 
-      const isMobile = window.innerWidth <= 600;
+      const isMobile = window.innerWidth <= 768;
 
       const tradeMarkerPlugin = {
         id: 'tradeMarkerPlugin',
@@ -4192,35 +4192,64 @@
         }
       };
 
+      // Overlay Line: 코스피 지수 추이 (우측 y1 축, 해외계좌 환율 오버레이 스타일과 동일)
+      const validKospi = kospiVals.filter(v => v > 0);
+      const minKospi = validKospi.length > 0 ? Math.min(...validKospi) : 5000;
+      const maxKospi = validKospi.length > 0 ? Math.max(...validKospi) : 8000;
+      const kospiSpan = Math.max(100, maxKospi - minKospi);
+      const y1Min = Math.floor((minKospi - kospiSpan * 0.35) / 50) * 50;
+      const y1Max = Math.ceil((maxKospi + kospiSpan * 0.35) / 50) * 50;
+
+      const kospiLineDataset = {
+        type: 'line',
+        label: isMobile ? '코스피(pt)' : '코스피 지수 (pt)',
+        fullLabel: '코스피 지수 (KOSPI pt)',
+        data: kospiVals,
+        yAxisID: 'y1',
+        borderColor: '#f43f5e',
+        backgroundColor: 'rgba(244, 63, 94, 0.06)',
+        borderWidth: isMobile ? 1.5 : 2,
+        borderDash: [3, 2],
+        pointBackgroundColor: '#f43f5e',
+        pointBorderColor: '#0f172a',
+        pointBorderWidth: 1,
+        pointRadius: isMobile ? 1.5 : 3,
+        pointHoverRadius: 5,
+        tension: 0.25,
+        order: 1
+      };
+
+      const barDatasets = [
+        { type: 'bar', label: 'SK하이닉스', data: hynixVals, backgroundColor: '#f97316', borderRadius: 2, yAxisID: 'y', order: 2 },
+        { type: 'bar', label: '삼성전자', data: samVals, backgroundColor: '#fb923c', borderRadius: 2, yAxisID: 'y', order: 2 },
+        { type: 'bar', label: '채권/파킹(CD·미국채)', data: bondVals, backgroundColor: '#6366f1', borderRadius: 2, yAxisID: 'y', order: 2 },
+        { type: 'bar', label: '금(Gold)', data: goldVals, backgroundColor: '#eab308', borderRadius: 2, yAxisID: 'y', order: 2 },
+        { type: 'bar', label: 'SOFR', data: sofrVals, backgroundColor: '#0284c7', borderRadius: 2, yAxisID: 'y', order: 2 },
+        { type: 'bar', label: 'S&P500', data: snpVals, backgroundColor: '#38bdf8', borderRadius: 2, yAxisID: 'y', order: 2 },
+        { type: 'bar', label: '파두', data: faduVals, backgroundColor: '#f43f5e', borderRadius: 2, yAxisID: 'y', order: 2 },
+        { type: 'bar', label: '예수금', data: depositVals, backgroundColor: '#10b981', borderRadius: 4, yAxisID: 'y', order: 2 }
+      ];
+
       historyChart = new Chart(ctx, {
         type: 'bar',
         data: {
           labels: displayLabels,
-          datasets: [
-            { label: 'SK하이닉스', data: hynixVals, backgroundColor: '#f97316', borderRadius: 2 },
-            { label: '삼성전자', data: samVals, backgroundColor: '#fb923c', borderRadius: 2 },
-            { label: '채권/파킹(CD·미국채)', data: bondVals, backgroundColor: '#6366f1', borderRadius: 2 },
-            { label: '금(Gold)', data: goldVals, backgroundColor: '#eab308', borderRadius: 2 },
-            { label: 'SOFR', data: sofrVals, backgroundColor: '#0284c7', borderRadius: 2 },
-            { label: 'S&P500', data: snpVals, backgroundColor: '#38bdf8', borderRadius: 2 },
-            { label: '파두', data: faduVals, backgroundColor: '#f43f5e', borderRadius: 2 },
-            { label: '예수금', data: depositVals, backgroundColor: '#10b981', borderRadius: 4 }
-          ]
+          datasets: [...barDatasets, kospiLineDataset]
         },
         plugins: [tradeMarkerPlugin],
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          layout: { padding: { top: 22 } },
+          layout: { padding: { top: 22, right: isMobile ? 4 : 14, left: 4 } },
           interaction: { mode: 'index', intersect: false },
           plugins: {
             legend: {
               position: 'top',
               labels: {
                 color: '#9ca3af',
-                font: { family: 'Inter', size: isMobile ? 9 : 11 },
-                boxWidth: isMobile ? 10 : 12,
-                padding: isMobile ? 6 : 10
+                font: { family: 'Inter', size: isMobile ? 8 : 11 },
+                boxWidth: isMobile ? 8 : 12,
+                padding: isMobile ? 4 : 8
               }
             },
             tooltip: {
@@ -4247,6 +4276,17 @@
                   const val = context.raw || 0;
                   if (val === 0) return null;
                   const idx = context.dataIndex;
+                  const fullLbl = context.dataset.fullLabel || context.dataset.label;
+
+                  if (context.dataset.yAxisID === 'y1') {
+                    let kChangeBadge = '';
+                    if (idx > 0) {
+                      const prevVal = context.dataset.data[idx - 1] || 0;
+                      kChangeBadge = formatChangeBadge(val, prevVal);
+                    }
+                    return ` 📈 ${fullLbl}: ${val.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} pt${kChangeBadge}`;
+                  }
+
                   const tot = totalVals[idx];
                   const pct = tot > 0 ? (val / tot * 100).toFixed(1) : 0;
                   let changeBadge = '';
@@ -4276,12 +4316,37 @@
               ticks: { color: '#9ca3af', font: { family: 'Inter', size: isMobile ? 9 : 11 }, maxRotation: 45, autoSkip: true }
             },
             y: {
+              position: 'left',
               stacked: true,
               grid: { color: 'rgba(255, 255, 255, 0.05)' },
               ticks: {
                 color: '#9ca3af',
                 font: { family: 'Inter', size: isMobile ? 10 : 11 },
                 callback: value => (value / 100000000).toFixed(1) + '억'
+              }
+            },
+            y1: {
+              position: 'right',
+              stacked: false,
+              grid: {
+                drawOnChartArea: false
+              },
+              min: y1Min,
+              max: y1Max,
+              ticks: {
+                color: '#f43f5e',
+                font: { family: 'Inter', size: isMobile ? 8 : 10 },
+                maxTicksLimit: isMobile ? 4 : 6,
+                callback: function(val) {
+                  return isMobile ? Number(val).toLocaleString() : Number(val).toLocaleString() + ' pt';
+                }
+              },
+              title: {
+                display: !isMobile,
+                text: '코스피 (KOSPI pt)',
+                color: '#f43f5e',
+                font: { family: 'Inter', size: 10, weight: 'bold' },
+                padding: { bottom: 4 }
               }
             }
           }
