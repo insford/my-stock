@@ -1507,6 +1507,7 @@
           <div class="time-filter-group">
             <button class="time-filter-btn active" onclick="filterHistory('1M', this)">최근 1개월</button>
             <button class="time-filter-btn" onclick="filterHistory('3M', this)">최근 3개월</button>
+            <button class="time-filter-btn" onclick="filterHistory('6M', this)">최근 6개월</button>
           </div>
         </div>
 
@@ -3310,7 +3311,7 @@
 
     function filterHistory(range, btnElement) {
       currentHistRange = range;
-      document.querySelectorAll('.time-filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#tabContentHistory .time-filter-btn').forEach(b => b.classList.remove('active'));
       if (btnElement) btnElement.classList.add('active');
       renderHistoryTab(range);
     }
@@ -4071,6 +4072,10 @@
       } else if (range === '3M') {
         const cutoff = new Date(latestHistDateObj);
         cutoff.setDate(cutoff.getDate() - 93);
+        filteredList = dailyTimeline.filter(item => new Date(item.date) >= cutoff);
+      } else if (range === '6M') {
+        const cutoff = new Date(latestHistDateObj);
+        cutoff.setDate(cutoff.getDate() - 186);
         filteredList = dailyTimeline.filter(item => new Date(item.date) >= cutoff);
       }
 
