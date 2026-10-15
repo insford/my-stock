@@ -1,18 +1,18 @@
 window.PORTFOLIO_STATE_DATA = {
-  "last_updated": "2026-10-13",
+  "last_updated": "2026-10-15",
   "account_name": "국내주식 종합_주식 리밸런싱",
   "holdings": {
-    "samsung_shares": 546,
-    "hynix_shares": 85,
-    "deposit_krw": 2340738,
-    "other_assets_krw": 119342650
+    "samsung_shares": 615,
+    "hynix_shares": 93,
+    "deposit_krw": 6013182,
+    "other_assets_krw": 91404610
   },
   "other_assets_detail": {
     "kodex_cd_shares": 18,
-    "tiger_sofr_shares": 397,
-    "ace_us30b_shares": 4820,
-    "ace_gold_shares": 1077,
-    "tiger_snp500_shares": 633,
+    "tiger_sofr_shares": 347,
+    "ace_us30b_shares": 2942,
+    "ace_gold_shares": 837,
+    "tiger_snp500_shares": 400,
     "kodex_gold_shares": 0,
     "kodex_us10b_shares": 0,
     "kodex_snp500_shares": 0,

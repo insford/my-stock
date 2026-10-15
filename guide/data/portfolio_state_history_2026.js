@@ -587,5 +587,38 @@ window.PORTFOLIO_STATE_HISTORY_2026 = [
       "kodex_snp500_shares": 0,
       "fadu_shares": 0
     }
+  },
+  {
+    "date": "2026-10-15",
+    "note": "반도체 추가 매수 및 기타자산 대규모 매도 (16차 매매 집행)",
+    "prices": {
+      "kospi": 6035.35,
+      "samsung": 233500.0,
+      "hynix": 1456000.0,
+      "cd": 1074525.0,
+      "sofr": 58655.0,
+      "us30b": 6850.0,
+      "gold": 25275.0,
+      "snp500": 26030.0,
+      "us10b": 10945.0,
+      "usdkrw": 1341.98
+    },
+    "holdings": {
+      "samsung_shares": 615,
+      "hynix_shares": 93,
+      "deposit_krw": 6013182,
+      "other_assets_krw": 91404610
+    },
+    "other_assets_detail": {
+      "kodex_cd_shares": 18,
+      "tiger_sofr_shares": 347,
+      "ace_us30b_shares": 2942,
+      "ace_gold_shares": 837,
+      "tiger_snp500_shares": 400,
+      "kodex_gold_shares": 0,
+      "kodex_us10b_shares": 0,
+      "kodex_snp500_shares": 0,
+      "fadu_shares": 0
+    }
   }
 ];
