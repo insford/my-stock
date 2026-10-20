@@ -620,5 +620,38 @@ window.PORTFOLIO_STATE_HISTORY_2026 = [
       "kodex_snp500_shares": 0,
       "fadu_shares": 0
     }
+  },
+  {
+    "date": "2026-10-20",
+    "note": "삼성전자 및 SK하이닉스 추가 저가 매수 (17차 매매 집행)",
+    "prices": {
+      "kospi": 5552.74,
+      "samsung": 209500.0,
+      "hynix": 1205000.0,
+      "cd": 1075190.0,
+      "sofr": 58000.0,
+      "us30b": 6975.0,
+      "gold": 24520.0,
+      "snp500": 25385.0,
+      "us10b": 10860.0,
+      "usdkrw": 1327.02
+    },
+    "holdings": {
+      "samsung_shares": 632,
+      "hynix_shares": 95,
+      "deposit_krw": 51493,
+      "other_assets_krw": 90687010
+    },
+    "other_assets_detail": {
+      "kodex_cd_shares": 18,
+      "tiger_sofr_shares": 347,
+      "ace_us30b_shares": 2942,
+      "ace_gold_shares": 837,
+      "tiger_snp500_shares": 400,
+      "kodex_gold_shares": 0,
+      "kodex_us10b_shares": 0,
+      "kodex_snp500_shares": 0,
+      "fadu_shares": 0
+    }
   }
 ];
