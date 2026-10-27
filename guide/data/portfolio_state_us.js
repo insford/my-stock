@@ -1,6 +1,6 @@
 window.PORTFOLIO_STATE_US_DATA = {
   "version": "2026-09-09_rebalance_v3",
-  "last_updated": "2026-10-26",
+  "last_updated": "2026-10-27",
   "account_name": "해외주식 종합_빅테크·ETF",
   "deposit_usd": 3.95,
   "holdings": [
@@ -1301,6 +1301,24 @@ window.PORTFOLIO_STATE_US_DATA = {
         "mu": 1811.0,
         "nvda": 215.46,
         "tltw": 147.14,
+        "deposit": 3.95
+      }
+    },
+    {
+      "date": "2026-10-27",
+      "total_usd": 31063.13,
+      "fx_rate": 1326.69,
+      "total_krw": 41211144,
+      "is_trade": false,
+      "note": "일별 종가 반영 (환율: 1326.7원)",
+      "breakdown": {
+        "qqqm": 11881.6,
+        "tsla": 6907.95,
+        "spcx": 5240.55,
+        "googl": 4806.75,
+        "mu": 1856.44,
+        "nvda": 218.68,
+        "tltw": 147.21,
         "deposit": 3.95
       }
     }
