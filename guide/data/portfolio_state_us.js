@@ -1,8 +1,8 @@
 window.PORTFOLIO_STATE_US_DATA = {
   "version": "2026-09-09_rebalance_v3",
-  "last_updated": "2026-11-05",
+  "last_updated": "2026-11-06",
   "account_name": "해외주식 종합_빅테크·ETF",
-  "deposit_usd": 3.95,
+  "deposit_usd": 3.06,
   "holdings": [
     {
       "id": "qqqm",
@@ -31,7 +31,7 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "SPCX",
       "name": "스페이스X (SpaceX)",
       "category": "빅테크·우주항공",
-      "shares": 35,
+      "shares": 36,
       "avg_price_usd": 110.95,
       "avg_fx_rate": 1414.05,
       "is_unlisted": false,
@@ -42,7 +42,7 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "GOOGL",
       "name": "알파벳 Class A (Google)",
       "category": "빅테크·AI플랫폼",
-      "shares": 15,
+      "shares": 20,
       "avg_price_usd": 355.38,
       "avg_fx_rate": 1415.65,
       "is_unlisted": false,
@@ -75,7 +75,7 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "TLTW",
       "name": "미국20년국채 바이라이트 ETF",
       "category": "미국국채·월분배인컴",
-      "shares": 7,
+      "shares": 9,
       "avg_price_usd": 20.93,
       "avg_fx_rate": 1394.73,
       "is_unlisted": false,
@@ -203,6 +203,39 @@ window.PORTFOLIO_STATE_US_DATA = {
       "fx_rate": 1344.08,
       "amount_usd": 40.36,
       "note": "미국채 커버드콜 TLTW 추가 매수 (2주, 5주 ➔ 7주)"
+    },
+    {
+      "date": "2026-11-03",
+      "type": "BUY",
+      "ticker": "GOOGL",
+      "name": "알파벳 Class A",
+      "shares": 5,
+      "price_usd": 278.73,
+      "fx_rate": 1344.09,
+      "amount_usd": 1393.65,
+      "note": "알파벳 Class A (구글) 추가 매수 (5주, 15주 ➔ 20주, 참고가 역산)"
+    },
+    {
+      "date": "2026-11-03",
+      "type": "BUY",
+      "ticker": "SPCX",
+      "name": "스페이스X",
+      "shares": 1,
+      "price_usd": 141.01,
+      "fx_rate": 1344.09,
+      "amount_usd": 141.01,
+      "note": "스페이스X 추가 매수 (1주, 35주 ➔ 36주, 참고가 역산)"
+    },
+    {
+      "date": "2026-11-03",
+      "type": "BUY",
+      "ticker": "TLTW",
+      "name": "미국20년국채 바이라이트 ETF",
+      "shares": 2,
+      "price_usd": 20.81,
+      "fx_rate": 1344.09,
+      "amount_usd": 41.62,
+      "note": "미국채 커버드콜 TLTW 추가 매수 (2주, 7주 ➔ 9주, 참고가 역산)"
     }
   ],
   "history": [
@@ -1446,6 +1479,24 @@ window.PORTFOLIO_STATE_US_DATA = {
         "nvda": 183.2,
         "tltw": 146.72,
         "deposit": 3.95
+      }
+    },
+    {
+      "date": "2026-11-06",
+      "total_usd": 28304.35,
+      "fx_rate": 1361.18,
+      "total_krw": 38527315,
+      "is_trade": true,
+      "note": "2026-11-03 매수(구글 5주, 스페이스X 1주, TLTW 2주) 반영 및 당일 시세 갱신",
+      "breakdown": {
+        "qqqm": 10674.0,
+        "tsla": 5842.73,
+        "spcx": 4450.32,
+        "googl": 5651.4,
+        "mu": 1312.78,
+        "nvda": 181.6,
+        "tltw": 188.46,
+        "deposit": 3.06
       }
     }
   ]
