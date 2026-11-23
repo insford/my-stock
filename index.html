@@ -110,6 +110,17 @@
       box-shadow: 0 0 10px #f87171;
     }
 
+    .status-badge.warning {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.3);
+      color: #fbbf24;
+    }
+
+    .status-badge.warning .dot {
+      background-color: #fbbf24;
+      box-shadow: 0 0 10px #fbbf24;
+    }
+
     .refresh-bar {
       display: flex;
       justify-content: space-between;
@@ -3340,6 +3351,61 @@
     }
 
     // ==========================================
+    // Deep-Crisis Safety Overrides (AGENTS.md §6.3, 2026-11-23 신설)
+    // ==========================================
+    const LEVEL_ORDER = { L0: 0, L1: 1, L2: 2, L3: 3, L4: 4, L5: 5, L6: 6, L7: 7, L8: 8 };
+    const LEVEL_COOLDOWN_STORAGE_KEY = "mystock_level_transition_v1";
+    // §6.3는 L0~L2(KOSPI < 5,500, 심층 위기 구간)에서만 적용되는 안전장치입니다.
+    const DEEP_CRISIS_LEVELS = ["L0", "L1", "L2"];
+
+    // 모든 날짜 계산은 한국 거래소 기준(KST)으로 고정합니다. new Date().toISOString()은 UTC 기준이라
+    // KST 00:00~09:00 사이에는 날짜가 하루 어긋나므로 사용하지 않습니다.
+    function getKstDateStr(d = new Date()) {
+      return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+    }
+
+    function addBusinessDays(dateStr, days) {
+      // 순수 달력 날짜 연산이므로 타임존 왕복 변환을 피하기 위해 UTC 정오로 고정해 계산합니다.
+      const d = new Date(dateStr + "T12:00:00Z");
+      let added = 0;
+      while (added < days) {
+        d.setUTCDate(d.getUTCDate() + 1);
+        const dow = d.getUTCDay();
+        if (dow !== 0 && dow !== 6) added++;
+      }
+      return d.toISOString().slice(0, 10);
+    }
+
+    // §6.3-2. 레벨 전환 쿨다운: 레벨이 하향 전환된 날로부터 3영업일간 해당 트리거 매매 집행을 보류.
+    // 주의: 브라우저별 localStorage에만 저장되는 개인 기기 단위 상태로, 여러 기기에서 볼 경우 쿨다운 시점이 기기마다 다를 수 있습니다.
+    function updateLevelCooldownState(currentLvl) {
+      const todayStr = getKstDateStr();
+      let stored = null;
+      try { stored = JSON.parse(localStorage.getItem(LEVEL_COOLDOWN_STORAGE_KEY) || "null"); } catch (e) { stored = null; }
+
+      if (!stored || typeof stored.level !== "string") {
+        try { localStorage.setItem(LEVEL_COOLDOWN_STORAGE_KEY, JSON.stringify({ level: currentLvl, cooldownUntil: null })); } catch (e) {}
+        return { active: false, until: null };
+      }
+
+      if (stored.level === currentLvl) {
+        const active = !!stored.cooldownUntil && todayStr < stored.cooldownUntil;
+        return { active, until: active ? stored.cooldownUntil : null };
+      }
+
+      // 레벨이 바뀜: 하향 전환(위기 심화 방향)일 때만 3영업일 쿨다운 신규 발동
+      const prevOrder = LEVEL_ORDER[stored.level];
+      const curOrder = LEVEL_ORDER[currentLvl];
+      let cooldownUntil = null;
+      if (prevOrder !== undefined && curOrder !== undefined && curOrder < prevOrder) {
+        cooldownUntil = addBusinessDays(todayStr, 3);
+      }
+      try { localStorage.setItem(LEVEL_COOLDOWN_STORAGE_KEY, JSON.stringify({ level: currentLvl, cooldownUntil })); } catch (e) {}
+      const active = !!cooldownUntil && todayStr < cooldownUntil;
+      return { active, until: active ? cooldownUntil : null };
+    }
+
+    // ==========================================
     // SQLite WASM Loader & Data Engine (PRAGMA user_version Smart Cache)
     // ==========================================
     function formatUnixTimestamp(ts) {
@@ -3572,6 +3638,23 @@
           dynamicHistoryList = window.PORTFOLIO_STATE_HISTORY_2026.slice();
         }
 
+        // 4. Load latest KOSPI daily change_percent (AGENTS.md §6.3 급락 서킷브레이커 판정용)
+        // 오늘(KST) 종가 데이터가 아니면(수집 지연/실패 등) 서킷브레이커가 과거 급락률로 오작동하므로 null 처리합니다.
+        window.kospiDailyChangePercent = null;
+        try {
+          const kospiChgStmt = db.prepare("SELECT date, change_percent FROM v_market_history WHERE code = 'kospi' ORDER BY date DESC LIMIT 1");
+          if (kospiChgStmt.step()) {
+            const [rowDate, chg] = kospiChgStmt.get();
+            if (rowDate === getKstDateStr() && chg !== null && chg !== undefined) {
+              window.kospiDailyChangePercent = chg;
+            }
+          }
+          kospiChgStmt.free();
+        } catch (e) {
+          console.warn("KOSPI daily change_percent load failed:", e);
+          window.kospiDailyChangePercent = null;
+        }
+
         console.log("✅ Portfolio state loaded from SQLite DB successfully!");
       } catch (err) {
         console.warn("DB Portfolio State load failed, fallback to JS:", err);
@@ -3685,7 +3768,51 @@
         const desc = document.getElementById('actionGuideDesc');
         const list = document.getElementById('actionStepList');
 
-        if (absGap >= 8.0) {
+        // §6.3 Deep-Crisis Safety Overrides — L0~L2(KOSPI < 5,500) 구간에서만 §6.1/§6.2 연산보다 우선 적용
+        const inDeepCrisisZone = DEEP_CRISIS_LEVELS.includes(targetObj.lvl);
+
+        const realBufferVal = cdVal + sofrVal + goldVal;
+        const realBufferPct = totalPortfolioVal > 0 ? (realBufferVal / totalPortfolioVal) * 100 : 0;
+        const bufferFloorActive = inDeepCrisisZone && gap < 0 && realBufferPct < 20.0;
+
+        const kospiChg = window.kospiDailyChangePercent;
+        const circuitBreakerActive = inDeepCrisisZone && (kospiChg !== null && kospiChg !== undefined && kospiChg <= -5.0);
+
+        const cooldown = updateLevelCooldownState(targetObj.lvl);
+        const cooldownActiveInZone = inDeepCrisisZone && cooldown.active;
+
+        if (circuitBreakerActive) {
+          badge.className = "status-badge warning";
+          badgeText.innerText = `⏸️ 급락 서킷브레이커 발동 (전일대비 ${kospiChg.toFixed(1)}%)`;
+
+          card.style.borderColor = "rgba(245, 158, 11, 0.4)";
+          title.innerHTML = `⏸️ §6.3 급락 서킷브레이커 — 오늘 트리거 신호 일시 정지`;
+          desc.innerHTML = `KOSPI가 전일 대비 <strong>${kospiChg.toFixed(1)}%</strong> 급락(-5.0% 초과)하여, 반도체 비중 격차(<strong>${gap.toFixed(1)}%p</strong>)와 무관하게 오늘은 리밸런싱 신호를 발생시키지 않습니다. 다음 거래일 종가로 재평가합니다.`;
+          list.innerHTML = `
+            <div class="action-step-box"><div>오늘은 매매 집행 보류 — 익일 종가 기준 재평가 (AGENTS.md §6.3-3)</div></div>
+          `;
+        } else if (absGap >= 8.0 && gap < 0 && bufferFloorActive) {
+          badge.className = "status-badge warning";
+          badgeText.innerText = `🛡️ 버퍼 플로어 오버라이드 (안전자산 버퍼 ${realBufferPct.toFixed(1)}% < 20%)`;
+
+          card.style.borderColor = "rgba(245, 158, 11, 0.4)";
+          title.innerHTML = `🛡️ §6.3 버퍼 플로어 오버라이드 — 반도체 매수 보류, 버퍼 복원 우선`;
+          desc.innerHTML = `반도체 비중 격차는 <strong>${absGap.toFixed(1)}%p</strong>로 매수 트리거 조건을 충족하지만, 진짜 안전자산 버퍼(CD금리+SOFR+금현물)가 <strong>${realBufferPct.toFixed(1)}%</strong>로 최소 기준(20%) 미달입니다. 반도체 신규 매수보다 <strong>버퍼 자산 복원을 우선</strong> 실행하세요.`;
+          list.innerHTML = `
+            <div class="action-step-box"><div>1. 예수금/현금을 <strong>KODEX CD금리, TIGER SOFR, ACE KRX금현물</strong>로 우선 배분해 버퍼 20% 이상 복원</div></div>
+            <div class="action-step-box"><div>2. 버퍼 20% 회복 후 반도체 저가 매수 재개 (AGENTS.md §6.3-1)</div></div>
+          `;
+        } else if (absGap >= 8.0 && cooldownActiveInZone) {
+          badge.className = "status-badge warning";
+          badgeText.innerText = `⏳ 레벨 전환 쿨다운 중 (~${cooldown.until})`;
+
+          card.style.borderColor = "rgba(245, 158, 11, 0.4)";
+          title.innerHTML = `⏳ §6.3 레벨 전환 쿨다운 — 신규 트리거 매매 보류`;
+          desc.innerHTML = `${targetObj.lvl} 구간으로 하향 전환되며 트리거(격차 <strong>${gap.toFixed(1)}%p</strong>)가 발동했지만, 패닉성 추격매매 방지를 위해 <strong>${cooldown.until}까지 3영업일 쿨다운</strong>을 적용합니다. 그 이후 격차가 유지되면 매매를 집행하세요.`;
+          list.innerHTML = `
+            <div class="action-step-box"><div>쿨다운 종료(${cooldown.until}) 이후 격차가 ±8%p 이상 유지되면 매매 집행 (AGENTS.md §6.3-2)</div></div>
+          `;
+        } else if (absGap >= 8.0) {
           badge.className = "status-badge alert";
           badgeText.innerText = `🚨 리밸런싱 필요 (격차 ${gap.toFixed(1)}%p >= 8%p)`;
 
