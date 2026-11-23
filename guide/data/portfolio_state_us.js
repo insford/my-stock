@@ -1,8 +1,8 @@
 window.PORTFOLIO_STATE_US_DATA = {
   "version": "2026-09-09_rebalance_v3",
-  "last_updated": "2026-11-20",
+  "last_updated": "2026-11-23",
   "account_name": "해외주식 종합_빅테크·ETF",
-  "deposit_usd": 3.06,
+  "deposit_usd": 0.74,
   "holdings": [
     {
       "id": "qqqm",
@@ -53,7 +53,7 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "MU",
       "name": "마이크론 (Micron)",
       "category": "글로벌반도체·메모리",
-      "shares": 2,
+      "shares": 1,
       "avg_price_usd": 823.03,
       "avg_fx_rate": 1420.6,
       "is_unlisted": false,
@@ -80,6 +80,17 @@ window.PORTFOLIO_STATE_US_DATA = {
       "avg_fx_rate": 1394.73,
       "is_unlisted": false,
       "price_key": "tltw"
+    },
+    {
+      "id": "anthropic",
+      "ticker": "ANTHROPIC",
+      "name": "앤트로픽 (Anthropic)",
+      "category": "AI·비상장(Private)",
+      "shares": 7,
+      "avg_price_usd": 85.26,
+      "avg_fx_rate": 1346.75,
+      "is_unlisted": true,
+      "price_key": null
     }
   ],
   "trade_history": [
@@ -236,6 +247,28 @@ window.PORTFOLIO_STATE_US_DATA = {
       "fx_rate": 1344.09,
       "amount_usd": 41.62,
       "note": "미국채 커버드콜 TLTW 추가 매수 (2주, 7주 ➔ 9주, 참고가 역산)"
+    },
+    {
+      "date": "2026-11-23",
+      "type": "SELL",
+      "ticker": "MU",
+      "name": "마이크론",
+      "shares": 1,
+      "price_usd": 594.51,
+      "fx_rate": 1346.75,
+      "amount_usd": 594.51,
+      "note": "마이크론 1주 매도 (2주 ➔ 1주, 참고가 역산)"
+    },
+    {
+      "date": "2026-11-23",
+      "type": "BUY",
+      "ticker": "ANTHROPIC",
+      "name": "앤트로픽",
+      "shares": 7,
+      "price_usd": 85.26,
+      "fx_rate": 1346.75,
+      "amount_usd": 596.82,
+      "note": "앤트로픽(비상장) 7주 신규 편입 (마이크론 매도대금 기반 참고가 역산, 공식 시세 피드 없음)"
     }
   ],
   "history": [
@@ -1677,6 +1710,25 @@ window.PORTFOLIO_STATE_US_DATA = {
         "nvda": 137.13,
         "tltw": 188.01,
         "deposit": 3.06
+      }
+    },
+    {
+      "date": "2026-11-23",
+      "total_usd": 27340.35,
+      "fx_rate": 1346.75,
+      "total_krw": 36820616,
+      "is_trade": true,
+      "note": "마이크론 1주 매도, 앤트로픽(비상장) 7주 신규 매수 반영",
+      "breakdown": {
+        "qqqm": 10049.2,
+        "tsla": 5878.94,
+        "spcx": 4600.44,
+        "googl": 5305.8,
+        "mu": 594.51,
+        "nvda": 125.53,
+        "tltw": 188.37,
+        "anthropic": 596.82,
+        "deposit": 0.74
       }
     }
   ]
