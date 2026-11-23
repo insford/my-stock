@@ -201,19 +201,23 @@ Chronological array `window.PORTFOLIO_STATE_HISTORY_2026` of past execution date
 
 ## 6. Core Business Logic & Algorithms
 
-### 6.1. KOSPI Dynamic Matrix (Level L0 ~ L6)
+### 6.1. KOSPI Dynamic Matrix (Level L0 ~ L8)
+
+> **개정 이력 (2026-11-23)**: 2026년 11월 KOSPI가 6,000 미만 구간을 한 달 만에 약 -22%(6,035→4,708) 관통하는 것이 실측되어, 기존 `<6,000` 단일 L0 구간의 해상도 부족이 확인됨. 팀 교차검증(퀀트 송민혁/리스크 윤서진/반도체 정다은) 결과에 따라 **5,000 미만 구간을 L0~L2로 추가 세분화**하고, 최대 반도체 목표 비중은 리스크팀 권고를 받아들여 **기존 77.5%를 그대로 유지(상향 없음)**하기로 결정. 대신 §6.3의 3대 안전장치를 신설하여 심층 위기 구간의 추가 리스크를 매트릭스 숫자가 아닌 운영 규칙으로 통제함.
 
 The strategy shifts weights between Semiconductor giants (Samsung + SK Hynix) and Other Assets based on KOSPI index levels:
 
 | Level | KOSPI Range | Market Regime | Semiconductor Target | Other Assets Target | Key Action |
 | :---: | :--- | :---: | :---: | :---: | :--- |
-| **L6** | $\ge 8,500$ | Overheated Top | **32.5%** | **67.5%** | Lock in gains; secure maximum defensive buffer & cash |
-| **L5** | $8,000 \sim 8,500$ | Upper Bull | **40.0%** | **60.0%** | Partial profit taking (execute only when gap $\ge 8\%p$) |
-| **L4** | $7,500 \sim 8,000$ | Moderate Upper | **47.5%** | **52.5%** | Gradual upward adjustment |
-| **L3** | $7,000 \sim 7,500$ | Neutral / Pivot | **55.0%** | **45.0%** | Baseline equilibrium (minimize trading) |
-| **L2** | $6,500 \sim 7,000$ | Lower Bounce | **62.5%** | **37.5%** | Sell other assets $\rightarrow$ accumulate semiconductors |
-| **L1** | $6,000 \sim 6,500$ | Undervalued | **70.0%** | **30.0%** | Aggressive low-cost semiconductor accumulation |
-| **L0** | $< 6,000$ | Crisis Bottom | **77.5%** | **22.5%** | Maximum allocation to core semiconductors |
+| **L8** | $\ge 8,000$ | Overheated Top | **32.5%** | **67.5%** | Lock in gains; secure maximum defensive buffer & cash |
+| **L7** | $7,500 \sim 8,000$ | Upper Bull | **40.0%** | **60.0%** | Partial profit taking (execute only when gap $\ge 8\%p$) |
+| **L6** | $7,000 \sim 7,500$ | Moderate Upper | **47.5%** | **52.5%** | Gradual upward adjustment |
+| **L5** | $6,500 \sim 7,000$ | Neutral / Pivot | **55.0%** | **45.0%** | Baseline equilibrium (minimize trading) |
+| **L4** | $6,000 \sim 6,500$ | Lower Bounce | **62.5%** | **37.5%** | Sell other assets $\rightarrow$ accumulate semiconductors |
+| **L3** | $5,500 \sim 6,000$ | Undervalued | **70.0%** | **30.0%** | Aggressive low-cost semiconductor accumulation |
+| **L2** | $5,000 \sim 5,500$ | Deep Value | **77.5%** | **22.5%** | Maximum allocation reached (cap) |
+| **L1** | $4,500 \sim 5,000$ | Crisis Zone | **77.5%** (capped) | **22.5%** | Maintain cap; see §6.3 Buffer Floor Override |
+| **L0** | $< 4,500$ | Extreme Crisis Bottom | **77.5%** (capped) | **22.5%** | Maintain cap; see §6.3 Buffer Floor Override |
 
 ### 6.2. Trigger-Relaxed Rebalancing Rule ($\pm 8.0\%p$)
 
@@ -239,6 +243,18 @@ The strategy shifts weights between Semiconductor giants (Samsung + SK Hynix) an
      * ACE 미국30년국채액티브(H) (`453850`): **20%** (US Long bond monthly dividend)
      * ACE KRX금현물 (`411060`): **20%** (Physical gold hedge)
      * TIGER 미국S&P500 (`360750`): **15%** (US Broad market growth)
+
+### 6.3. Deep-Crisis Safety Overrides (신설 2026-11-23, 리스크팀 윤서진 권고 반영)
+
+L0~L2 구간(KOSPI < 5,500, 반도체 목표 77.5% 캡 도달 구간)에서는 아래 3개 운영 규칙이 §6.1/§6.2의 매트릭스·트리거 연산보다 **우선 적용**됩니다. 2026-11-23 "패닉셀" 사례(트리거 신호와 반대 방향으로 반도체를 대량 매도한 사건) 재발 방지를 위해 신설되었습니다.
+
+1. **버퍼 플로어 오버라이드 (Buffer Floor Override)**:
+   * "진짜 안전자산 버퍼" = (KODEX CD금리액티브 + TIGER 미국달러SOFR금리액티브 + ACE KRX금현물) ÷ Total Account Value
+   * 이 버퍼가 **20% 미만**이면, §6.1 매트릭스가 지시하는 반도체 목표 비중과 무관하게 **반도체 신규 매수를 보류**하고 버퍼 자산(CD/SOFR/금현물) 복원을 우선 실행합니다.
+2. **레벨 전환 쿨다운 (Level Transition Cooldown)**:
+   * KOSPI가 레벨 경계를 하향 통과(예: L3→L2)하여 트리거가 새로 발동하더라도, **발동일로부터 3영업일간은 해당 신호에 따른 매매를 집행하지 않습니다.** 단기 패닉성 추격매도/매수를 방지하기 위함입니다.
+3. **급락 서킷브레이커 (Crash Circuit Breaker)**:
+   * 당일 KOSPI 종가 기준 전일 대비 **-5.0% 초과 급락**이 발생한 날에는, §6.2의 리밸런싱 트리거 신호 발생을 그날 하루 **일시 정지**합니다. 다음 거래일 종가로 재평가합니다.
 
 ---
 
