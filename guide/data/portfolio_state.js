@@ -20,7 +20,7 @@ window.PORTFOLIO_STATE_DATA = {
   },
   "strategy_config": {
     "min_trigger_gap_percent": 8.0,
-    "kospi_min_level": 6000,
-    "kospi_max_level": 8500
+    "kospi_min_level": 4500,
+    "kospi_max_level": 8000
   }
 };

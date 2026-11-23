@@ -1310,7 +1310,7 @@
           </a>
         </div>
         <h1 id="mainHeaderTitle">국내주식 실시간 포트폴리오 리밸런싱 대시보드</h1>
-        <p id="mainHeaderSub">KOSPI 6,000 ~ 8,500 룰 기반 네이버 증권 API 실시간 시세 연동</p>
+        <p id="mainHeaderSub">KOSPI 4,500 ~ 8,000 룰 기반 네이버 증권 API 실시간 시세 연동</p>
       </div>
       <div class="status-badge" id="statusBadge">
         <span class="dot"></span>
@@ -1413,37 +1413,45 @@
       <!-- Level Gauge -->
       <div class="panel-card" style="margin-bottom: 0;">
         <div class="panel-header">
-          <span>6,000 ~ 8,500 지수 레벨 매트릭스</span>
+          <span>4,500 ~ 8,000 지수 레벨 매트릭스</span>
           <span style="font-size: 0.8rem; color: var(--accent-blue);" id="activeLevelLabel">L2 (현재)</span>
         </div>
         <div class="level-list" id="levelList">
-          <div class="level-item" id="lvl-L6">
-            <span>L6 (8,500 이상) - 상단 과열</span>
+          <div class="level-item" id="lvl-L8">
+            <span>L8 (8,000 이상) - 상단 과열</span>
             <span class="level-badge">목표 32.5%</span>
           </div>
-          <div class="level-item" id="lvl-L5">
-            <span>L5 (8,000 ~ 8,500) - 과열 진입</span>
+          <div class="level-item" id="lvl-L7">
+            <span>L7 (7,500 ~ 8,000) - 과열 진입</span>
             <span class="level-badge">목표 40%</span>
           </div>
-          <div class="level-item" id="lvl-L4">
-            <span>L4 (7,500 ~ 8,000) - 상단 적정</span>
+          <div class="level-item" id="lvl-L6">
+            <span>L6 (7,000 ~ 7,500) - 상단 적정</span>
             <span class="level-badge">목표 47.5%</span>
           </div>
-          <div class="level-item" id="lvl-L3">
-            <span>L3 (7,000 ~ 7,500) - 중립 구간</span>
+          <div class="level-item" id="lvl-L5">
+            <span>L5 (6,500 ~ 7,000) - 중립 구간</span>
             <span class="level-badge">목표 55%</span>
           </div>
-          <div class="level-item" id="lvl-L2">
-            <span>L2 (6,500 ~ 7,000) - 하단 밴드</span>
+          <div class="level-item" id="lvl-L4">
+            <span>L4 (6,000 ~ 6,500) - 하단 밴드</span>
             <span class="level-badge">목표 62.5%</span>
           </div>
-          <div class="level-item" id="lvl-L1">
-            <span>L1 (6,000 ~ 6,500) - 저평가</span>
+          <div class="level-item" id="lvl-L3">
+            <span>L3 (5,500 ~ 6,000) - 저평가</span>
             <span class="level-badge">목표 70%</span>
           </div>
-          <div class="level-item" id="lvl-L0">
-            <span>L0 (6,000 미만) - 공포 바닥</span>
+          <div class="level-item" id="lvl-L2">
+            <span>L2 (5,000 ~ 5,500) - 심층가치</span>
             <span class="level-badge">목표 77.5%</span>
+          </div>
+          <div class="level-item" id="lvl-L1">
+            <span>L1 (4,500 ~ 5,000) - 위기 구간</span>
+            <span class="level-badge">목표 77.5% (캡)</span>
+          </div>
+          <div class="level-item" id="lvl-L0">
+            <span>L0 (4,500 미만) - 극단적 바닥</span>
+            <span class="level-badge">목표 77.5% (캡)</span>
           </div>
         </div>
       </div>
@@ -2124,8 +2132,8 @@
       account_name: '국내주식 종합_주식 리밸런싱',
       deposit_krw: 35832238,
       min_trigger_gap: 8.0,
-      kospi_min_level: 6000.0,
-      kospi_max_level: 8500.0,
+      kospi_min_level: 4500.0,
+      kospi_max_level: 8000.0,
       updated_at: '2026-08-24'
     };
 
@@ -2243,7 +2251,7 @@
         if (viewKR) viewKR.style.display = 'block';
         if (viewUS) viewUS.style.display = 'none';
         if (headerTitle) headerTitle.innerText = "국내주식 실시간 포트폴리오 리밸런싱 대시보드";
-        if (headerSub) headerSub.innerText = "KOSPI 6,000 ~ 8,500 룰 기반 네이버 증권 API 실시간 시세 연동";
+        if (headerSub) headerSub.innerText = "KOSPI 4,500 ~ 8,000 룰 기반 네이버 증권 API 실시간 시세 연동";
         updateDashboard(currentLivePrices, (window.LIVE_MARKET_DATA && window.LIVE_MARKET_DATA.last_updated) || "");
         requestAnimationFrame(() => {
           if (myChart) myChart.resize();
@@ -3320,12 +3328,14 @@
     // Strategy Logic
     // ==========================================
     function getTargetRatio(kospi) {
-      if (kospi >= 8500) return { ratio: 32.5, lvl: "L6" };
-      if (kospi >= 8000) return { ratio: 40.0, lvl: "L5" };
-      if (kospi >= 7500) return { ratio: 47.5, lvl: "L4" };
-      if (kospi >= 7000) return { ratio: 55.0, lvl: "L3" };
-      if (kospi >= 6500) return { ratio: 62.5, lvl: "L2" };
-      if (kospi >= 6000) return { ratio: 70.0, lvl: "L1" };
+      if (kospi >= 8000) return { ratio: 32.5, lvl: "L8" };
+      if (kospi >= 7500) return { ratio: 40.0, lvl: "L7" };
+      if (kospi >= 7000) return { ratio: 47.5, lvl: "L6" };
+      if (kospi >= 6500) return { ratio: 55.0, lvl: "L5" };
+      if (kospi >= 6000) return { ratio: 62.5, lvl: "L4" };
+      if (kospi >= 5500) return { ratio: 70.0, lvl: "L3" };
+      if (kospi >= 5000) return { ratio: 77.5, lvl: "L2" };
+      if (kospi >= 4500) return { ratio: 77.5, lvl: "L1" };
       return { ratio: 77.5, lvl: "L0" };
     }
 
@@ -3524,8 +3534,8 @@
           accountInfo.account_name = accName;
           accountInfo.deposit_krw = dep;
           accountInfo.min_trigger_gap = gap || 8.0;
-          accountInfo.kospi_min_level = kMin || 6000.0;
-          accountInfo.kospi_max_level = kMax || 8500.0;
+          accountInfo.kospi_min_level = kMin || 4500.0;
+          accountInfo.kospi_max_level = kMax || 8000.0;
           accountInfo.updated_at = upd;
           stateData.deposit_krw = dep;
         }
@@ -3718,7 +3728,7 @@
         const activeEl = document.getElementById(`lvl-${targetObj.lvl}`);
         if (activeEl) activeEl.classList.add('active');
 
-        const activeLevelRatio = ((prices.kospi - 6000) / (8500 - 6000)) * 100;
+        const activeLevelRatio = ((prices.kospi - 4500) / (8000 - 4500)) * 100;
         const clampedRatio = Math.max(0, Math.min(100, activeLevelRatio));
         const marker = document.getElementById('kospiProgressMarker');
         if (marker) marker.style.left = `${clampedRatio}%`;
