@@ -1,5 +1,5 @@
 window.LIVE_MARKET_DATA = {
-  "last_updated": "2026-11-23 22:43:20",
+  "last_updated": "2026-11-23 22:46:20",
   "prices": {
     "kospi": 4708.54,
     "samsung": 180600,
@@ -10,7 +10,7 @@ window.LIVE_MARKET_DATA = {
     "gold": 21810,
     "snp500": 23585,
     "us10b": 11160,
-    "usdkrw": 1347.58,
+    "usdkrw": 1347.9,
     "tsla": 345.82,
     "nvda": 125.53,
     "spcx": 127.79,
