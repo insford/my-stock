@@ -1,8 +1,8 @@
 window.PORTFOLIO_STATE_US_DATA = {
   "version": "2026-09-09_rebalance_v3",
-  "last_updated": "2026-11-23",
+  "last_updated": "2026-11-27",
   "account_name": "해외주식 종합_빅테크·ETF",
-  "deposit_usd": 0.74,
+  "deposit_usd": 15.21,
   "holdings": [
     {
       "id": "qqqm",
@@ -31,7 +31,7 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "SPCX",
       "name": "스페이스X (SpaceX)",
       "category": "빅테크·우주항공",
-      "shares": 36,
+      "shares": 40,
       "avg_price_usd": 110.95,
       "avg_fx_rate": 1414.05,
       "is_unlisted": false,
@@ -75,7 +75,7 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "TLTW",
       "name": "미국20년국채 바이라이트 ETF",
       "category": "미국국채·월분배인컴",
-      "shares": 9,
+      "shares": 12,
       "avg_price_usd": 20.93,
       "avg_fx_rate": 1394.73,
       "is_unlisted": false,
@@ -86,7 +86,7 @@ window.PORTFOLIO_STATE_US_DATA = {
       "ticker": "ANTHROPIC",
       "name": "앤트로픽 (Anthropic)",
       "category": "AI·비상장(Private)",
-      "shares": 7,
+      "shares": 26,
       "avg_price_usd": 85.26,
       "avg_fx_rate": 1346.75,
       "is_unlisted": true,
@@ -269,6 +269,39 @@ window.PORTFOLIO_STATE_US_DATA = {
       "fx_rate": 1346.75,
       "amount_usd": 596.82,
       "note": "앤트로픽(비상장) 7주 신규 편입 (마이크론 매도대금 기반 참고가 역산, 공식 시세 피드 없음)"
+    },
+    {
+      "date": "2026-11-27",
+      "type": "BUY",
+      "ticker": "ANTHROPIC",
+      "name": "앤트로픽",
+      "shares": 19,
+      "price_usd": 85.26,
+      "fx_rate": 1347.9,
+      "amount_usd": 1619.94,
+      "note": "앤트로픽(비상장) 추가 매수 (7주 ➔ 26주, 공식 시세 피드 없어 기존 평균단가 참고가로 역산 기록)"
+    },
+    {
+      "date": "2026-11-27",
+      "type": "BUY",
+      "ticker": "SPCX",
+      "name": "스페이스X",
+      "shares": 4,
+      "price_usd": 127.79,
+      "fx_rate": 1347.9,
+      "amount_usd": 511.16,
+      "note": "스페이스X 추가 매수 (36주 ➔ 40주, 참고가 역산)"
+    },
+    {
+      "date": "2026-11-27",
+      "type": "BUY",
+      "ticker": "TLTW",
+      "name": "미국20년국채 바이라이트 ETF",
+      "shares": 3,
+      "price_usd": 20.93,
+      "fx_rate": 1347.9,
+      "amount_usd": 62.79,
+      "note": "미국채 커버드콜 TLTW 추가 매수 (9주 ➔ 12주, 참고가 역산)"
     }
   ],
   "history": [
@@ -1729,6 +1762,25 @@ window.PORTFOLIO_STATE_US_DATA = {
         "tltw": 188.37,
         "anthropic": 596.82,
         "deposit": 0.74
+      }
+    },
+    {
+      "date": "2026-11-27",
+      "total_usd": 29548.71,
+      "fx_rate": 1347.9,
+      "total_krw": 39828706,
+      "is_trade": true,
+      "note": "앤트로픽(19주), 스페이스X(4주), TLTW(3주) 추가 매수 반영",
+      "breakdown": {
+        "qqqm": 10049.2,
+        "tsla": 5878.94,
+        "spcx": 5111.6,
+        "googl": 5305.8,
+        "mu": 594.51,
+        "nvda": 125.53,
+        "tltw": 251.16,
+        "anthropic": 2216.76,
+        "deposit": 15.21
       }
     }
   ]
